@@ -1,0 +1,1965 @@
+class CfgPatches
+{
+	class SausageCo_DimanClothing
+	{
+		units[]=
+		{
+			"DimanHelmet",
+			"DimanBag",
+			"DimanJacket",
+			"DimanPants",
+			"DimanBoots",
+			"DimanGloves"
+		};
+		weapons[]={};
+		requiredVersion=0.1;
+		requiredAddons[]=
+		{
+			"DZ_Characters"
+		};
+	};
+};
+class CfgVehicles
+{
+	class Clothing_Base;
+	class Clothing: Clothing_Base
+	{
+	};
+	class Switchable_Base;
+	class NBCGloves_ColorBase: Clothing
+	{
+		hiddenSelections[]=
+		{
+			"camoGround",
+			"camoMale",
+			"camoFemale",
+			"personality"
+		};
+	};
+	class NBCHoodBase: Clothing
+	{
+		hiddenSelections[]=
+		{
+			"camoGround",
+			"camoMale",
+			"camoFemale"
+		};
+	};
+	class GasMask: Clothing
+	{
+		hiddenSelections[]=
+		{
+			"camoGround",
+			"camoMale",
+			"camoFemale"
+		};
+	};
+	class NBCPantsBase: Clothing
+	{
+		hiddenSelections[]=
+		{
+			"camoGround",
+			"camoMale",
+			"camoFemale"
+		};
+	};
+	class NBCBootsBase: Clothing
+	{
+		hiddenSelections[]=
+		{
+			"camoGround",
+			"camoMale",
+			"camoFemale"
+		};
+	};
+	class NBCJacketBase: Clothing
+	{
+		hiddenSelections[]=
+		{
+			"camoGround",
+			"camoMale",
+			"camoFemale"
+		};
+	};
+	class DryBag_ColorBase: Clothing
+	{
+		hiddenSelections[]=
+		{
+			"camoGround",
+			"camoMale",
+			"camoFemale"
+		};
+		hiddenSelectionsTextures[]=
+		{
+			"\dz\characters\backpacks\data\drybag_co.paa",
+			"\dz\characters\backpacks\data\drybag_co.paa",
+			"\dz\characters\backpacks\data\drybag_co.paa"
+		};
+	};
+	// CROSS OVER
+	class FireWeed_DryBag: DryBag_ColorBase //1024
+	{
+		displayName="";
+		descriptionShort="";
+		scope=2;
+		itemsCargoSize[]={10,30};
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire1024.paa",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire1024.paa",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire1024.paa"
+		};
+	};
+	class FireWeed_JacketNBC: NBCJacketBase // 2048*1024
+	{
+		displayName="";
+		descriptionShort="";
+		scope=2;
+		visibilityModifier=0.69999999;
+		itemsCargoSize[]={10,20};
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire2x1.paa",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire2x1.paa",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire2x1.paa"
+		};
+	};
+	class FireWeed_BootsNBC: NBCBootsBase // 512
+	{
+		displayName="";
+		descriptionShort="";
+		scope=2;
+		visibilityModifier=0.69999999;
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire512.paa",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire512.paa",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire512.paa"
+		};
+	};
+	class FireWeed_PantsNBC: NBCPantsBase //1024
+	{
+		displayName="";
+		descriptionShort="";
+		scope=2;
+		visibilityModifier=0.69999999;
+		itemsCargoSize[]={10,20};
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire1024.paa",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire1024.paa",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire1024.paa"
+		};
+	};
+	class FireWeed_GasMaskNBC: GasMask //2048
+	{
+		displayName="";
+		descriptionShort="";
+		scope=2;
+		hiddenSelections[]=
+		{
+			"camoGround",
+			"camoMale",
+			"camoFemale"
+		};
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire2048.paa",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire2048.paa",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire2048.paa"
+		};
+		class ClothingTypes
+		{
+			male="\DZ\characters\masks\GasMask_m.p3d";
+			female="\DZ\characters\masks\GasMask_f.p3d";
+		};
+		
+	};
+	class FireWeed_HoodNBC: NBCHoodBase //1024
+	{
+		displayName="";
+		descriptionShort="";
+		scope=2;
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire1024.paa",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire1024.paa",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire1024.paa"
+		};
+	};
+	class FireWeed_GlovesNBC: NBCGloves_ColorBase // 512
+	{
+		displayName="";
+		descriptionShort="";
+		scope=2;
+		visibilityModifier=0.80000001;
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire512.paa",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire512.paa",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\fire512.paa"
+		};
+	};
+	class Inventory_Base;
+	class CarWheel: Inventory_Base{};
+	class CarDoor: Inventory_Base{};
+	class Car;
+	class CarScript: Car
+	{
+		rotationFlags=64;
+		storageCategory=4;
+		insideSoundCoef=0.89999998;
+		fuelCapacity=50;
+		brakeFluidCapacity=1;
+		oilCapacity=4;
+		coolantCapacity=6;
+		brakeFluidLeakDebit[]={0,0};
+		oilLeakDebit[]={0,0};
+		coolantLeakDebit[]={0,0};
+		brakeFluidForceCoef[]={0,1,1,1};
+		damageFromOil[]={0,0,1,0};
+		damageFromCoolant[]={0,0,1,0};
+		engineBeltSlot="EngineBelt";
+		batterySlot="CarBattery";
+		electricPowerResName="power";
+		electricConsumptionIgnition=3001;
+		electricConsumptionEngine=0;
+		electricConsumptionLights=0;
+		electricOutputEngine=5;
+		selectionDashboard="light_dashboard";
+		selectionLightFrontL="light_left";
+		selectionLightFrontR="light_right";
+		selectionBrakeLights="light_break";
+		class Crew
+		{
+			class Driver
+			{
+				actionSel="seat_driver";
+				proxyPos="crewDriver";
+				getInPos="pos_driver";
+				getInDir="pos_driver_dir";
+				isDriver=1;
+			};
+			class CoDriver
+			{
+				actionSel="seat_coDriver";
+				proxyPos="crewCoDriver";
+				getInPos="pos_coDriver";
+				getInDir="pos_coDriver_dir";
+			};
+		};
+		class SimulationModule
+		{
+			class Axles
+			{
+				class Front
+				{
+					class Wheels
+					{
+						class Left
+						{
+							inventorySlot="";
+							animTurn="turnfrontleft";
+							animRotation="wheelfrontleft";
+							animDamper="damperfrontleft";
+							wheelHub="wheel_1_1_damper_land";
+						};
+						class Right
+						{
+							inventorySlot="";
+							animTurn="turnfrontright";
+							animRotation="wheelfrontright";
+							animDamper="damperfrontright";
+							wheelHub="wheel_2_1_damper_land";
+						};
+					};
+				};
+				class Rear
+				{
+					class Wheels
+					{
+						class Left
+						{
+							inventorySlot="";
+							animTurn="turnbackleft";
+							animRotation="wheelbackleft";
+							animDamper="damperbackleft";
+							wheelHub="wheel_1_2_damper_land";
+						};
+						class Right
+						{
+							inventorySlot="";
+							animTurn="turnbackright";
+							animRotation="wheelbackright";
+							animDamper="damperbackright";
+							wheelHub="wheel_2_2_damper_land";
+						};
+					};
+				};
+			};
+		};
+		attachments[]=
+		{
+			"CarBattery",
+			"Reflector_1_1",
+			"Reflector_2_1"
+		};
+		hiddenSelections[]=
+		{
+			""
+		};
+		hiddenSelectionsTextures[]=
+		{
+			""
+		};
+		hiddenSelectionsMaterials[]=
+		{
+			""
+		};
+		class AnimationSources
+		{
+			class DoorsDriver
+			{
+				source="user";
+				initPhase=0;
+				animPeriod=0.5;
+			};
+			class DoorsCoDriver: DoorsDriver
+			{
+			};
+			class DoorsHood: DoorsDriver
+			{
+			};
+			class DoorsTrunk: DoorsDriver
+			{
+			};
+			class HideDestroyed_1_1
+			{
+				source="user";
+				initPhase=0;
+				animPeriod=0.001;
+			};
+			class HideDestroyed_1_2
+			{
+				source="user";
+				initPhase=0;
+				animPeriod=0.001;
+			};
+			class HideDestroyed_2_1
+			{
+				source="user";
+				initPhase=0;
+				animPeriod=0.001;
+			};
+			class HideDestroyed_2_2
+			{
+				source="user";
+				initPhase=0;
+				animPeriod=0.001;
+			};
+			class AnimHitWheel_1_1
+			{
+				source="Hit";
+				hitpoint="HitWheel_1_1";
+				raw=1;
+			};
+			class AnimHitWheel_1_2: AnimHitWheel_1_1
+			{
+				hitpoint="HitWheel_1_2";
+			};
+			class AnimHitWheel_2_1: AnimHitWheel_1_1
+			{
+				hitpoint="HitWheel_2_1";
+			};
+			class AnimHitWheel_2_2: AnimHitWheel_1_1
+			{
+				hitpoint="HitWheel_2_2";
+			};
+			class HitDoorsHood: AnimHitWheel_1_1
+			{
+				hitpoint="HitDoorsHood";
+			};
+			class HitDoorsTrunk: AnimHitWheel_1_1
+			{
+				hitpoint="HitDoorsTrunk";
+			};
+			class HitDoorsDrivers: AnimHitWheel_1_1
+			{
+				hitpoint="HitDoorsDriver";
+			};
+			class HitDoorsCoDrivers: AnimHitWheel_1_1
+			{
+				hitpoint="HitDoorsCoDriver";
+			};
+			class HitDoorsCargo: AnimHitWheel_1_1
+			{
+				hitpoint="HitDoorsCargo";
+			};
+		};
+	};
+	class OffroadHatchback: CarScript{};
+	class HatchbackDoors_Driver: CarDoor{};
+	class HatchbackDoors_CoDriver: HatchbackDoors_Driver
+	{
+		displayName="$STR_HatchbackDoors_CoDriver0";
+		descriptionShort="$STR_HatchbackDoors_CoDriver1";
+		model="\DZ\vehicles\wheeled\OffroadHatchback\proxy\nivaDoors_coDriver.p3d";
+		inventorySlot[]=
+		{
+			"NivaCoDriverDoors"
+		};
+		rotationFlags=4;
+	};
+	class HatchbackHood: CarDoor{};
+	class HatchbackTrunk: CarDoor{};
+	class FireWeed_OffroadDriverDoor: HatchbackDoors_Driver
+	{
+		hiddenSelectionsMaterials[]=
+		{
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFfrontdoor.rvmat";
+		};
+	};
+	class FireWeed_OffroadCoDriverDoor: HatchbackDoors_CoDriver
+	{
+		hiddenSelectionsMaterials[]=
+		{
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFfrontdoor.rvmat";
+		};
+	};
+	class FireWeed_HatchbackHood: HatchbackHood
+	{
+		hiddenSelectionsMaterials[]=
+		{
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFhood.rvmat";
+		};
+	};
+	class FireWeed_HatchbackTrunk: HatchbackTrunk
+	{
+		hiddenSelectionsMaterials[]=
+		{
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFtrunk.rvmat";
+		};	
+	};
+	
+	class FireWeed_OffroadHatchback: OffroadHatchback
+	{
+		scope=2;
+		displayName="Diman OffroadHatchback";
+		model="\dz\vehicles\wheeled\OffroadHatchback\OffroadHatchback.p3d";
+		attachments[]=
+		{
+			"Knife",
+			"Melee",
+			"Pistol",
+			"shoulder1",
+			"shoulder2",
+			"Headgear",
+			"Mask",
+			"Eyewear",
+			"Gloves",
+			"Body",
+			"Armband",
+			"Vest",
+			"Back",
+			"Hips",
+			"Legs",
+			"Feet",
+			"CarBattery",
+			"Reflector_1_1",
+			"Reflector_2_1",
+			"CarRadiator",
+			"SparkPlug",
+			"NivaDriverDoors",
+			"NivaCoDriverDoors",
+			"NivaHood",
+			"NivaTrunk",
+			"NivaWheel_1_1",
+			"NivaWheel_1_2",
+			"NivaWheel_2_1",
+			"NivaWheel_2_2",
+			"NivaWheel_Spare_1"
+		};
+		hiddenSelections[]=
+		{
+			"light_left",
+			"light_right",
+			"light_brake_1_2",
+			"light_brake_2_2",
+			"light_reverse_1_2",
+			"light_reverse_2_2",
+			"light_1_2",
+			"light_2_2",
+			"light_dashboard",
+			"dmgZone_chassis",
+			"dmgZone_front",
+			"dmgZone_back",
+			"dmgZone_roof",
+			"dmgZone_fender_1_1",
+			"dmgZone_fender_1_2",
+			"dmgZone_fender_2_1",
+			"dmgZone_fender_2_2"
+		};
+		hiddenSelectionsTextures[]=
+		{
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.paa"
+		};
+		hiddenSelectionsMaterials[]=
+		{
+			"dz\vehicles\wheeled\offroadhatchback\data\offroadhatchback_lights.rvmat",
+			"dz\vehicles\wheeled\offroadhatchback\data\offroadhatchback_lights.rvmat",
+			"dz\vehicles\wheeled\offroadhatchback\data\offroadhatchback_lights.rvmat",
+			"dz\vehicles\wheeled\offroadhatchback\data\offroadhatchback_lights.rvmat",
+			"dz\vehicles\wheeled\offroadhatchback\data\offroadhatchback_lights.rvmat",
+			"dz\vehicles\wheeled\offroadhatchback\data\offroadhatchback_lights.rvmat",
+			"dz\vehicles\wheeled\offroadhatchback\data\offroadhatchback_lights.rvmat",
+			"dz\vehicles\wheeled\offroadhatchback\data\offroadhatchback_lights.rvmat",
+			"dz\vehicles\wheeled\offroadhatchback\data\offroadhatchback_lights.rvmat",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat",
+			"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+		};
+		dashboardMatOn="dz\vehicles\wheeled\offroadhatchback\data\niva_dashboard_light.rvmat";
+		dashboardMatOff="dz\vehicles\wheeled\offroadhatchback\data\niva_dashboard.rvmat";
+		frontReflectorMatOn="dz\vehicles\wheeled\offroadhatchback\data\niva_lights.rvmat";
+		frontReflectorMatOff="dz\vehicles\wheeled\offroadhatchback\data\green\niva_body.rvmat";
+		brakeReflectorMatOn="dz\vehicles\wheeled\offroadhatchback\data\offroadhatchback_lights_e.rvmat";
+		brakeReflectorMatOff="dz\vehicles\wheeled\offroadhatchback\data\offroadhatchback_lights.rvmat";
+		ReverseReflectorMatOn="dz\vehicles\wheeled\offroadhatchback\data\offroadhatchback_lights_e.rvmat";
+		ReverseReflectorMatOff="dz\vehicles\wheeled\offroadhatchback\data\offroadhatchback_lights.rvmat";
+		TailReflectorMatOn="dz\vehicles\wheeled\offroadhatchback\data\OffroadHatchback_lights_e.rvmat";
+		TailReflectorMatOff="dz\vehicles\wheeled\offroadhatchback\data\OffroadHatchback_lights.rvmat";
+		fuelCapacity=142;
+		fuelConsumption=21;
+		class Crew: Crew
+		{
+			class Driver: Driver
+			{
+			};
+			class CoDriver: CoDriver
+			{
+			};
+			class Cargo1
+			{
+				actionSel="seat_cargo1";
+				proxyPos="crewCargo1";
+				getInPos="pos_driver";
+				getInDir="pos_driver_dir";
+			};
+			class Cargo2
+			{
+				actionSel="seat_cargo2";
+				proxyPos="crewCargo2";
+				getInPos="pos_coDriver";
+				getInDir="pos_coDriver_dir";
+			};
+		};
+		class SimulationModule: SimulationModule
+		{
+			drive="DRIVE_AWD";
+			airDragFrontTotal=0.995;
+			class Steering
+			{
+				increaseSpeed[]={0,45,60,23,100,12};
+				decreaseSpeed[]={0,80,60,40,90,20};
+				centeringSpeed[]={0,0,15,25,60,40,100,60};
+			};
+			class Throttle
+			{
+				reactionTime=1;
+				defaultThrust=0.85000002;
+				gentleThrust=0.69999999;
+				turboCoef=4;
+				gentleCoef=0.75;
+			};
+			braking[]={0,0.1,1,0.80000001,2.5,0.89999998,3,1};
+			class Engine
+			{
+				inertia=0.45000001;
+				torqueMax=264;
+				torqueRpm=6400;
+				powerMax=283.700001;
+				powerRpm=8400;
+				rpmIdle=1850;
+				rpmMin=1900;
+				rpmClutch=2350;
+				rpmRedline=8900;
+				rpmMax=9000;
+			};
+			class Gearbox
+			{
+				reverse=3.526;
+				ratios[]={3.6670001,2.0999999,1.3609999,1};
+				timeToUncoupleClutch=0.30000001;
+				timeToCoupleClutch=0.44999999;
+				maxClutchTorque=260;
+			};
+			class Axles: Axles
+			{
+				class Front: Front
+				{
+					maxSteeringAngle=30;
+					finalRatio=4.0999999;
+					brakeBias=0.60000002;
+					brakeForce=9000;
+					wheelHubMass=5;
+					wheelHubRadius=0.15000001;
+					class Suspension
+					{
+						swayBar=1700;
+						stiffness=40000;
+						compression=2100;
+						damping=7500;
+						travelMaxUp=0.088200003;
+						travelMaxDown=0.083300002;
+					};
+					class Wheels: Wheels
+					{
+						class Left: Left
+						{
+							animDamper="damper_1_1";
+							inventorySlot="NivaWheel_1_1";
+						};
+						class Right: Right
+						{
+							animDamper="damper_2_1";
+							inventorySlot="NivaWheel_2_1";
+						};
+					};
+				};
+				class Rear: Rear
+				{
+					maxSteeringAngle=0;
+					finalRatio=4.0999999;
+					brakeBias=0.40000001;
+					brakeForce=8800;
+					wheelHubMass=5;
+					wheelHubRadius=0.15000001;
+					class Suspension
+					{
+						swayBar=1800;
+						stiffness=40000;
+						compression=2200;
+						damping=7600;
+						travelMaxUp=0.1587;
+						travelMaxDown=0.1059;
+					};
+					class Wheels: Wheels
+					{
+						class Left: Left
+						{
+							animDamper="damper_1_2";
+							inventorySlot="NivaWheel_1_2";
+						};
+						class Right: Right
+						{
+							animDamper="damper_2_2";
+							inventorySlot="NivaWheel_2_2";
+						};
+					};
+				};
+			};
+		};
+		class Cargo
+		{
+			itemsCargoSize[]={10,60};
+			allowOwnedCargoManipulation=1;
+			openable=0;
+		};
+		class AnimationSources: AnimationSources
+		{
+			class SeatDriver
+			{
+				source="user";
+				initPhase=0;
+				animPeriod=0.80000001;
+			};
+			class SeatCoDriver
+			{
+				source="user";
+				initPhase=0;
+				animPeriod=0.80000001;
+			};
+			class damper_1_1
+			{
+				source="user";
+				initPhase=0.48570001;
+				animPeriod=1;
+			};
+			class damper_2_1: damper_1_1
+			{
+			};
+			class damper_1_2
+			{
+				source="user";
+				initPhase=0.40020001;
+				animPeriod=1;
+			};
+			class damper_2_2: damper_1_2
+			{
+			};
+		};
+		class DamageSystem
+		{
+			class GlobalHealth
+			{
+				class Health
+				{
+					hitpoints=1000;
+					healthLevels[]=
+					{
+						
+						{
+							1,
+							{}
+						},
+						
+						{
+							0.69999999,
+							{}
+						},
+						
+						{
+							0.5,
+							{}
+						},
+						
+						{
+							0.30000001,
+							{}
+						},
+						
+						{
+							0,
+							{}
+						}
+					};
+				};
+			};
+			class DamageZones
+			{
+				class Chassis
+				{
+					fatalInjuryCoef=-1;
+					componentNames[]=
+					{
+						"dmgZone_chassis"
+					};
+					class Health
+					{
+						hitpoints=3000;
+						transferToGlobalCoef=0;
+					};
+					inventorySlots[]={};
+				};
+				class Front
+				{
+					fatalInjuryCoef=-1;
+					memoryPoints[]=
+					{
+						"dmgZone_front"
+					};
+					componentNames[]=
+					{
+						"dmgZone_front"
+					};
+					class Health
+					{
+						hitpoints=1200;
+						transferToGlobalCoef=0;
+						healthLevels[]=
+						{
+							
+							{
+								1,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0.69999999,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0.5,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0.30000001,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							}
+						};
+					};
+					transferToZonesNames[]=
+					{
+						"Fender_1_1",
+						"Fender_2_1",
+						"Engine"
+					};
+					transferToZonesCoefs[]={0.30000001,0.30000001,0.40000001};
+					inventorySlots[]=
+					{
+						"NivaHood",
+						"CarRadiator",
+						"NivaWheel_1_1",
+						"NivaWheel_2_1"
+					};
+					inventorySlotsCoefs[]={0.69999999,0.5,0.40000001,0.40000001};
+				};
+				class Reflector_1_1
+				{
+					fatalInjuryCoef=-1;
+					componentNames[]=
+					{
+						"dmgZone_lights_1_1"
+					};
+					memoryPoints[]=
+					{
+						"dmgZone_lights_1_1"
+					};
+					class Health
+					{
+						hitpoints=10;
+						transferToGlobalCoef=0;
+						healthLevels[]=
+						{
+							
+							{
+								1,
+								
+								{
+									"dz\vehicles\wheeled\offroadhatchback\data\headlights_glass.rvmat"
+								}
+							},
+							
+							{
+								0.69999999,
+								{}
+							},
+							
+							{
+								0.5,
+								
+								{
+									"dz\vehicles\wheeled\offroadhatchback\data\glass_i_damage.rvmat"
+								}
+							},
+							
+							{
+								0.30000001,
+								{}
+							},
+							
+							{
+								0,
+								
+								{
+									"dz\vehicles\wheeled\offroadhatchback\data\glass_i_destruct.rvmat"
+								}
+							}
+						};
+					};
+					transferToZonesNames[]=
+					{
+						"Front",
+						"Fender_1_1"
+					};
+					transferToZonesCoefs[]={1,1};
+					inventorySlots[]=
+					{
+						"Reflector_1_1",
+						"NivaWheel_1_1"
+					};
+					inventorySlotsCoefs[]={1,0.30000001};
+				};
+				class Reflector_2_1: Reflector_1_1
+				{
+					memoryPoints[]=
+					{
+						"dmgZone_lights_2_1"
+					};
+					componentNames[]=
+					{
+						"dmgZone_lights_2_1"
+					};
+					transferToZonesNames[]=
+					{
+						"Front",
+						"Fender_2_1"
+					};
+					inventorySlots[]=
+					{
+						"Reflector_2_1",
+						"NivaWheel_2_1"
+					};
+				};
+				class Back
+				{
+					fatalInjuryCoef=-1;
+					memoryPoints[]=
+					{
+						"dmgZone_back"
+					};
+					componentNames[]=
+					{
+						"dmgZone_back"
+					};
+					class Health
+					{
+						hitpoints=1500;
+						transferToGlobalCoef=0;
+						healthLevels[]=
+						{
+							
+							{
+								1,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0.69999999,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0.5,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0.30000001,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							}
+						};
+					};
+					transferToZonesNames[]=
+					{
+						"Fender_1_2",
+						"Fender_2_2",
+						"WindowLR",
+						"WindowRR"
+					};
+					transferToZonesCoefs[]={0.30000001,0.30000001,0.1,0.1};
+					inventorySlots[]=
+					{
+						"NivaTrunk",
+						"NivaWheel_1_2",
+						"NivaWheel_2_2"
+					};
+					inventorySlotsCoefs[]={0.60000002,0.40000001,0.40000001};
+				};
+				class Roof
+				{
+					fatalInjuryCoef=-1;
+					componentNames[]=
+					{
+						"dmgZone_roof"
+					};
+					memoryPoints[]=
+					{
+						"dmgZone_roof"
+					};
+					class Health
+					{
+						hitpoints=700;
+						transferToGlobalCoef=0;
+						healthLevels[]=
+						{
+							
+							{
+								1,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0.69999999,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0.5,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0.30000001,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							}
+						};
+					};
+					inventorySlotsCoefs[]={};
+					inventorySlots[]={};
+				};
+				class Fender_1_1
+				{
+					fatalInjuryCoef=-1;
+					componentNames[]=
+					{
+						"dmgZone_fender_1_1"
+					};
+					memoryPoints[]=
+					{
+						"dmgZone_fender_1_1"
+					};
+					class Health
+					{
+						hitpoints=1200;
+						transferToGlobalCoef=0;
+						healthLevels[]=
+						{
+							
+							{
+								1,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0.69999999,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0.5,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0.30000001,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							},
+							
+							{
+								0,
+								
+								{
+									"SausageCo\storage\Clothes\DimanObjects\FireWeedCam\data\dimanOFFCar.rvmat"
+								}
+							}
+						};
+					};
+					transferToZonesNames[]=
+					{
+						"Front",
+						"Reflector_1_1",
+						"Engine"
+					};
+					transferToZonesCoefs[]={0.30000001,0.60000002,0.2};
+					inventorySlots[]=
+					{
+						"NivaHood",
+						"NivaWheel_1_1",
+						"NivaDriverDoors"
+					};
+					inventorySlotsCoefs[]={0.5,0.69999999,0.30000001};
+				};
+				class Fender_2_1: Fender_1_1
+				{
+					memoryPoints[]=
+					{
+						"dmgZone_fender_2_1"
+					};
+					componentNames[]=
+					{
+						"dmgZone_fender_2_1"
+					};
+					transferToZonesNames[]=
+					{
+						"Front",
+						"Reflector_2_1",
+						"Engine"
+					};
+					transferToZonesCoefs[]={0.30000001,0.60000002,0.2};
+					inventorySlots[]=
+					{
+						"NivaHood",
+						"NivaWheel_2_1",
+						"NivaCoDriverDoors"
+					};
+					inventorySlotsCoefs[]={0.5,0.69999999,0.30000001};
+				};
+				class Fender_1_2: Fender_1_1
+				{
+					memoryPoints[]=
+					{
+						"dmgZone_fender_1_2"
+					};
+					componentNames[]=
+					{
+						"dmgZone_fender_1_2"
+					};
+					transferToZonesNames[]=
+					{
+						"Back",
+						"FuelTank",
+						"WindowLR"
+					};
+					transferToZonesCoefs[]={0.30000001,0.69999999,0.69999999};
+					inventorySlots[]=
+					{
+						"NivaTrunk",
+						"NivaWheel_1_2",
+						"NivaDriverDoors"
+					};
+					inventorySlotsCoefs[]={0.5,0.69999999,0.30000001};
+				};
+				class Fender_2_2: Fender_1_1
+				{
+					memoryPoints[]=
+					{
+						"dmgZone_fender_2_2"
+					};
+					componentNames[]=
+					{
+						"dmgZone_fender_2_2"
+					};
+					transferToZonesNames[]=
+					{
+						"Back",
+						"FuelTank",
+						"WindowRR"
+					};
+					transferToZonesCoefs[]={0.30000001,0.69999999,0.69999999};
+					inventorySlots[]=
+					{
+						"NivaTrunk",
+						"NivaWheel_2_2",
+						"NivaCoDriverDoors"
+					};
+					inventorySlotsCoefs[]={0.5,0.69999999,0.30000001};
+				};
+				class WindowFront
+				{
+					fatalInjuryCoef=-1;
+					memoryPoints[]=
+					{
+						"dmgZone_windowFront"
+					};
+					componentNames[]=
+					{
+						"dmgZone_windowFront"
+					};
+					class Health
+					{
+						hitpoints=120;
+						transferToGlobalCoef=0;
+						healthLevels[]=
+						{
+							
+							{
+								1,
+								
+								{
+									"dz\vehicles\wheeled\offroadhatchback\data\niva_glass.rvmat"
+								}
+							},
+							
+							{
+								0.69999999,
+								{}
+							},
+							
+							{
+								0.5,
+								
+								{
+									"dz\vehicles\wheeled\offroadhatchback\data\niva_glass_damage.rvmat"
+								}
+							},
+							
+							{
+								0.30000001,
+								
+								{
+									"dz\vehicles\wheeled\offroadhatchback\data\niva_glass_destruct.rvmat"
+								}
+							},
+							
+							{
+								0,
+								"hidden"
+							}
+						};
+					};
+					inventorySlots[]={};
+					inventorySlotsCoefs[]={};
+				};
+				class WindowLR
+				{
+					fatalInjuryCoef=-1;
+					memoryPoints[]=
+					{
+						"dmgZone_windowLeft"
+					};
+					componentNames[]=
+					{
+						"dmgZone_windowLeft"
+					};
+					class Health
+					{
+						hitpoints=150;
+						transferToGlobalCoef=0;
+						healthLevels[]=
+						{
+							
+							{
+								1,
+								
+								{
+									"dz\vehicles\wheeled\offroadhatchback\data\niva_glass.rvmat"
+								}
+							},
+							
+							{
+								0.69999999,
+								{}
+							},
+							
+							{
+								0.5,
+								
+								{
+									"dz\vehicles\wheeled\offroadhatchback\data\niva_glass_damage.rvmat"
+								}
+							},
+							
+							{
+								0.30000001,
+								
+								{
+									"dz\vehicles\wheeled\offroadhatchback\data\niva_glass_destruct.rvmat"
+								}
+							},
+							
+							{
+								0,
+								"hidden"
+							}
+						};
+					};
+					inventorySlots[]={};
+					inventorySlotsCoefs[]={};
+				};
+				class WindowRR: WindowLR
+				{
+					memoryPoints[]=
+					{
+						"dmgZone_windowRight"
+					};
+					componentNames[]=
+					{
+						"dmgZone_windowRight"
+					};
+				};
+				class Engine
+				{
+					fatalInjuryCoef=0.001;
+					memoryPoints[]=
+					{
+						"dmgZone_engine"
+					};
+					componentNames[]=
+					{
+						"dmgZone_engine"
+					};
+					class Health
+					{
+						hitpoints=1000;
+						transferToGlobalCoef=1;
+						healthLevels[]=
+						{
+							
+							{
+								1,
+								
+								{
+									"dz\vehicles\wheeled\offroadhatchback\data\engine_niva.rvmat"
+								}
+							},
+							
+							{
+								0.69999999,
+								
+								{
+									"dz\vehicles\wheeled\offroadhatchback\data\engine_niva.rvmat"
+								}
+							},
+							
+							{
+								0.5,
+								
+								{
+									"dz\vehicles\wheeled\offroadhatchback\data\engine_niva_damage.rvmat"
+								}
+							},
+							
+							{
+								0.30000001,
+								
+								{
+									"dz\vehicles\wheeled\offroadhatchback\data\engine_niva_damage.rvmat"
+								}
+							},
+							
+							{
+								0,
+								
+								{
+									"dz\vehicles\wheeled\offroadhatchback\data\engine_niva_destruct.rvmat"
+								}
+							}
+						};
+					};
+					inventorySlots[]=
+					{
+						"CarBattery",
+						"SparkPlug"
+					};
+					inventorySlotsCoefs[]={0.2,0.2};
+				};
+				class FuelTank
+				{
+					fatalInjuryCoef=-1;
+					componentNames[]=
+					{
+						"dmgZone_fuelTank"
+					};
+					class Health
+					{
+						hitpoints=500;
+						transferToGlobalCoef=0;
+						healthLevels[]=
+						{
+							
+							{
+								1,
+								{}
+							},
+							
+							{
+								0.69999999,
+								{}
+							},
+							
+							{
+								0.5,
+								{}
+							},
+							
+							{
+								0.30000001,
+								{}
+							},
+							
+							{
+								0,
+								{}
+							}
+						};
+					};
+					inventorySlots[]={};
+					inventorySlotsCoefs[]={};
+				};
+			};
+		};
+		class ObstacleGenerator
+		{
+			carve=1;
+			timeToStationary=5;
+			moveThreshold=0.5;
+			class Shapes
+			{
+				class Cylindric
+				{
+					class Cyl1
+					{
+						radius=1;
+						height=1.5;
+						center[]={0,0,0.69999999};
+					};
+					class Cyl3
+					{
+						radius=1;
+						height=1.5;
+						center[]={0,0,-0.69999999};
+					};
+				};
+			};
+		};
+		class GUIInventoryAttachmentsProps
+		{
+			class Weapons_Storage
+			{
+				name="Weapons Storage";
+				description="";
+				attachmentSlots[]=
+				{
+					"Knife",
+					"Melee",
+					"Pistol",
+					"shoulder1",
+					"shoulder2"
+				};
+				icon="Shoulder";
+			};
+			class Gear_Storge
+			{
+				name="Gear Storage";
+				description="";
+				attachmentSlots[]=
+				{
+					"Headgear",
+					"Mask",
+					"Eyewear",
+					"Gloves",
+					"Body",
+					"Armband",
+					"Vest",
+					"Back",
+					"Hips",
+					"Legs",
+					"Feet"
+				};
+				icon="Body";
+			};
+			class Engine
+			{
+				name="$STR_attachment_Engine0";
+				description="";
+				icon="cat_vehicle_engine";
+				attachmentSlots[]=
+				{
+					"CarBattery",
+					"CarRadiator",
+					"SparkPlug"
+				};
+			};
+			class Body
+			{
+				name="$STR_attachment_Body0";
+				description="";
+				icon="cat_vehicle_body";
+				attachmentSlots[]=
+				{
+					"Reflector_1_1",
+					"Reflector_2_1",
+					"NivaHood",
+					"NivaTrunk",
+					"NivaDriverDoors",
+					"NivaCoDriverDoors",
+					"NivaWheel_Spare_1"
+				};
+			};
+			class Chassis
+			{
+				name="$STR_attachment_Chassis0";
+				description="";
+				icon="cat_vehicle_chassis";
+				attachmentSlots[]=
+				{
+					"NivaWheel_1_1",
+					"NivaWheel_1_2",
+					"NivaWheel_2_1",
+					"NivaWheel_2_2"
+				};
+			};
+		};
+	};
+};
+class CfgMagazines
+{
+	class DefaultMagazine;
+	class Magazine_Base: DefaultMagazine{};
+	class Mag_VSS_10Rnd: Magazine_Base{};
+	class DMag_VSS_10Rnd: Mag_VSS_10Rnd
+	{
+		displayName="10Rnd DMag";
+		descriptionShort="A Special DMag made for the DimanVSS. Loads 9x39";
+		count=10;
+		ammo="Bullet_9x39";
+		ammoItems[]=
+		{
+			"Ammo_9x39",
+			"Ammo_9x39AP"
+		};
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\storage\clothes\DimanObjects\FireWeedCam\data\fire2048.paa"
+		};
+	};
+	class DMag_VSS_30Rnd: DMag_VSS_10Rnd
+	{
+		displayName="30Rnd DMag";
+		count=30;
+	};
+	class DMag_VSS_60Rnd: DMag_VSS_10Rnd
+	{
+		displayName="60Rnd DMag";
+		count=60;
+	};
+};
+class Mode_Safe;
+class Mode_SemiAuto;
+class Mode_Burst;
+class Mode_FullAuto;
+class OpticsInfoRifle;
+class cfgWeapons
+{
+	class Rifle_Base;
+	class VSS_Base: Rifle_Base
+	{
+		scope=0;
+		weight=2600;
+		absorbency=0;
+		repairableWithKits[]={1};
+		repairCosts[]={25};
+		PPDOFProperties[]={1,0.5,50,150,4,10};
+		WeaponLength=0.77999997;
+		barrelArmor=2.4000001;
+		chamberSize=1;
+		chamberedRound="";
+		chamberableFrom[]=
+		{
+			"Ammo_9x39",
+			"Ammo_9x39AP"
+		};
+		magazines[]=
+		{
+			"Mag_VSS_10Rnd",
+			"Mag_VAL_20Rnd"
+		};
+		magazineSwitchTime=0.38;
+		ejectType=1;
+		recoilModifier[]={1,1,1};
+		swayModifier[]={2.2,2.2,1.2};
+		simpleHiddenSelections[]=
+		{
+			"hide_barrel"
+		};
+		drySound[]=
+		{
+			"dz\sounds\weapons\firearms\SKS\SKS_dry",
+			0.5,
+			1,
+			20
+		};
+		reloadMagazineSound[]=
+		{
+			"dz\sounds\weapons\firearms\AK74\ak74_reload",
+			0.80000001,
+			1,
+			20
+		};
+		reloadAction="ReloadVSS";
+		hiddenSelections[]=
+		{
+			"camo"
+		};
+		modes[]=
+		{
+			"FullAuto",
+			"SemiAuto"
+		};
+		class SemiAuto: Mode_SemiAuto
+		{
+			soundSetShot[]=
+			{
+				"VSS_Vintorez_Shot_SoundSet",
+				"VSS_Vintorez_Tail_SoundSet",
+				"VSS_Vintorez_InteriorTail_SoundSet"
+			};
+			begin1[]=
+			{
+				"dz\sounds\weapons\firearms\AK101\AkSilenced",
+				1,
+				1,
+				100
+			};
+			begin2[]=
+			{
+				"dz\sounds\weapons\firearms\AK101\AkSilenced",
+				1,
+				1,
+				100
+			};
+			begin3[]=
+			{
+				"dz\sounds\weapons\firearms\AK101\AkSilenced",
+				1,
+				1,
+				100
+			};
+			soundBegin[]=
+			{
+				"begin1",
+				0.33333001,
+				"begin2",
+				0.33333001,
+				"begin2",
+				0.33333001
+			};
+			reloadTime=0.125;
+			recoil="recoil_VSS";
+			recoilProne="recoil_VSS_prone";
+			dispersion=0.0020000001;
+			magazineSlot="magazine";
+			beginSilenced_Pro[]=
+			{
+				"dz\sounds\weapons\firearms\AK101\akSilenced",
+				0.30000001,
+				1,
+				75
+			};
+			beginSilenced_HomeMade[]=
+			{
+				"dz\sounds\weapons\firearms\AK101\akSilenced",
+				0.30000001,
+				1,
+				100
+			};
+			soundBeginExt[]=
+			{
+				
+				{
+					"beginSilenced_Pro",
+					1
+				},
+				
+				{
+					"beginSilenced_HomeMade",
+					1
+				}
+			};
+		};
+		class FullAuto: Mode_FullAuto
+		{
+			soundSetShot[]=
+			{
+				"VSS_Vintorez_Shot_SoundSet",
+				"VSS_Vintorez_Tail_SoundSet",
+				"VSS_Vintorez_InteriorTail_SoundSet"
+			};
+			begin1[]=
+			{
+				"dz\sounds\weapons\firearms\AK101\AkSilenced",
+				1,
+				1,
+				100
+			};
+			begin2[]=
+			{
+				"dz\sounds\weapons\firearms\AK101\AkSilenced",
+				1,
+				1,
+				100
+			};
+			begin3[]=
+			{
+				"dz\sounds\weapons\firearms\AK101\AkSilenced",
+				1,
+				1,
+				100
+			};
+			soundBegin[]=
+			{
+				"begin1",
+				0.33333001,
+				"begin2",
+				0.33333001,
+				"begin2",
+				0.33333001
+			};
+			reloadTime=0.075000003;
+			recoil="recoil_VSS";
+			recoilProne="recoil_VSS_prone";
+			dispersion=0.0020000001;
+			magazineSlot="magazine";
+			beginSilenced_Pro[]=
+			{
+				"dz\sounds\weapons\firearms\AK101\akSilenced",
+				0.30000001,
+				1,
+				75
+			};
+			beginSilenced_HomeMade[]=
+			{
+				"dz\sounds\weapons\firearms\AK101\akSilenced",
+				0.30000001,
+				1,
+				100
+			};
+			soundBeginExt[]=
+			{
+				
+				{
+					"beginSilenced_Pro",
+					1
+				},
+				
+				{
+					"beginSilenced_HomeMade",
+					1
+				}
+			};
+		};
+		class NoiseShoot
+		{
+			strength=5;
+			type="sound";
+		};
+		class OpticsInfo: OpticsInfoRifle
+		{
+			discreteDistance[]={100,200,300,400};
+			discreteDistanceInitIndex=0;
+			modelOptics="-";
+			distanceZoomMin=100;
+			distanceZoomMax=100;
+		};
+		class Particles
+		{
+			class OnFire
+			{
+				class SmokeCloud
+				{
+					overrideParticle="weapon_shot_winded_smoke";
+				};
+				class MuzzleFlash
+				{
+					overrideParticle="weapon_shot_vss_01";
+					positionOffset[]={-0.050000001,0,0};
+				};
+				class ChamberSmokeBurst
+				{
+					overrideParticle="weapon_shot_chamber_smoke";
+					overridePoint="Nabojnicestart";
+					overrideDirectionPoint="Nabojniceend";
+				};
+			};
+			class OnOverheating
+			{
+				maxOverheatingValue=20;
+				shotsToStartOverheating=3;
+				overheatingDecayInterval=1;
+				class SmokingBarrel1
+				{
+					overrideParticle="smoking_barrel_small";
+					onlyWithinOverheatLimits[]={0,1};
+					positionOffset[]={0.1,0,0};
+					onlyWithinRainLimits[]={0,0.2};
+				};
+				class SmokingBarrelHotSteamSmall
+				{
+					overrideParticle="smoking_barrel_steam_small";
+					positionOffset[]={0.30000001,0,0};
+					onlyWithinRainLimits[]={0.2,0.5};
+				};
+				class SmokingBarrelHotSteam
+				{
+					overrideParticle="smoking_barrel_steam";
+					positionOffset[]={0.30000001,0,0};
+					onlyWithinRainLimits[]={0.5,1};
+				};
+				class OpenChamberSmoke
+				{
+					onlyIfBoltIsOpen=1;
+					overrideParticle="smoking_barrel_small";
+					overridePoint="Nabojnicestart";
+				};
+			};
+			class OnBulletCasingEject
+			{
+				class ChamberSmokeRaise
+				{
+					overrideParticle="weapon_shot_chamber_smoke_raise";
+					overridePoint="Nabojnicestart";
+				};
+			};
+		};
+	};
+	class VSS: VSS_Base
+	{};
+	class Diman_VSS: VSS
+	{
+		scope=2;
+		displayName="Diman VSS";
+		descriptionShort="Specialy made VSS loading 9x39";
+		model="\dz\weapons\firearms\VSS\VSS.p3d";
+		hiddenSelections[]=
+		{
+			"camo"
+		};
+		magazines[]=
+		{
+			"DMag_VSS_10Rnd",
+			"DMag_VSS_30Rnd",
+			"DMag_VSS_60Rnd"
+		};
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\storage\clothes\DimanObjects\FireWeedCam\data\fire2048.paa"
+		};
+		hiddenSelectionsMaterials[]=
+		{
+			"dz\weapons\firearms\VSS\data\vss.rvmat"
+		};
+		attachments[]=
+		{
+			"weaponWrap",
+			"weaponOpticsAK"
+		};
+		itemSize[]={8,3};
+		class DamageSystem
+		{
+			class GlobalHealth
+			{
+				class Health
+				{
+					hitpoints=250;
+					healthLevels[]=
+					{
+						
+						{
+							1,
+							
+							{
+								"DZ\weapons\firearms\VSS\data\vss.rvmat"
+							}
+						},
+						
+						{
+							0.69999999,
+							
+							{
+								"DZ\weapons\firearms\VSS\data\vss.rvmat"
+							}
+						},
+						
+						{
+							0.5,
+							
+							{
+								"DZ\weapons\firearms\VSS\data\vss_damage.rvmat"
+							}
+						},
+						
+						{
+							0.30000001,
+							
+							{
+								"DZ\weapons\firearms\VSS\data\vss_damage.rvmat"
+							}
+						},
+						
+						{
+							0,
+							
+							{
+								"DZ\weapons\firearms\VSS\data\vss_destruct.rvmat"
+							}
+						}
+					};
+				};
+			};
+		};
+	};
+};
+class CfgNonAIVehicles
+{
+
+};

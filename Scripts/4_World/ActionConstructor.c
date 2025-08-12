@@ -1,0 +1,89 @@
+modded class ActionConstructor
+{
+    override void RegisterActions(TTypenameArray actions)
+    {
+        super.RegisterActions(actions);                	// This executes the original so you dont mess anything up
+		actions.Insert(ActionDeployObject);
+		actions.Insert(ActionDeploySCObject);
+		actions.Insert(ActionGiveHealthTarget);
+		actions.Insert(ActionGiveHealthSelf);
+		actions.Insert(ActionEmptyGardenBox);
+		actions.Insert(ActionFillGardenBox);
+		actions.Insert(ActionUseHealthPack);
+		actions.Insert(ActionUseHealthPackOnTarget);
+		actions.Insert(ActionFixTargetBone);
+		actions.Insert(ActionFixBrokenLeg);
+		// actions.Insert(ActionMineBuilding);
+		actions.Insert(ActionTurnOnOffPlankProcessor);
+		actions.Insert(ActionTurnOnOffFurnace);
+		actions.Insert(ActionOpenSCDoors);
+		actions.Insert(ActionCloseSCDoors);
+		actions.Insert(ActionTurnOnComputer);
+		actions.Insert(ActionTurnOffComputer);
+		actions.Insert(ActionTurnOnSolarPanel);
+		actions.Insert(ActionTurnOffSolarPanel);
+		actions.Insert(ActionOpenBuildingDoors);
+		actions.Insert(ActionCloseBuildingDoors);
+        actions.Insert(ActionDestroyCodeLockOnSC);
+        actions.Insert(ActionInteractLockOnSC);
+        actions.Insert(ActionAttachCodeLockToSC);
+        actions.Insert(ActionManageLockOnSC);
+        actions.Insert(ActionLockAdminOnSC);
+        actions.Insert(ActionTurnOnOffWeedProcessor);
+		actions.Insert(ActionDismantleSC_DryingRack);
+		actions.Insert(ActionDismantleSC_SolarPanel);
+		actions.Insert(ActionDismantleSausageHelipad_Single);
+		actions.Insert(ActionDismantleSausageCo_CasingsProcessor);
+		actions.Insert(ActionDismantleSausageBuilding_Storage);
+		actions.Insert(ActionDismantleSausageBuilding_VendMachine);
+		actions.Insert(ActionDismantleSausageBuilding_Sign0);
+		actions.Insert(ActionDismantleSausageBuilding_Sign1);
+		actions.Insert(ActionDismantleSausageCrateWood3_Storage);
+		actions.Insert(ActionDismantleSausageCrateWood2_Storage);
+		actions.Insert(ActionDismantleSausageCrateWood1_Storage);
+		actions.Insert(ActionDismantleSausageGear_Storage);
+		actions.Insert(ActionDismantleSausageDecor_Picture1);
+		actions.Insert(ActionDismantleSausageStorage_Shed);
+		actions.Insert(ActionDismantleSausageGarden_CompostBin);
+		actions.Insert(ActionDismantleSausageBuilding_Statue);
+		actions.Insert(ActionDismantleSausageBuilding_WatchTower);
+		actions.Insert(ActionDismantleSausageBuilding_Well);
+		actions.Insert(ActionDismantleSausageBathroom_Sink);
+		actions.Insert(ActionDismantleSausageBathroom_Cabinet);
+		actions.Insert(ActionDismantleSausageBathroom_Toilet);
+		actions.Insert(ActionDismantleSausageBathroom_Bath);
+		actions.Insert(ActionDismantleSausageOffice_Desk);
+		actions.Insert(ActionDismantleSausageOffice_Chair);
+		actions.Insert(ActionDismantleSausageOffice_Shelves);
+		actions.Insert(ActionDismantleSausageOffice_Computer);
+		actions.Insert(ActionDismantleSausageBedroom_Dressor);
+		actions.Insert(ActionDismantleSausageBedroom_BunkBed);
+		actions.Insert(ActionDismantleSausageBedroom_Hopechest);
+		actions.Insert(ActionDismantleSausageBedroom_NightStand);
+		actions.Insert(ActionDismantleSausageLivingroom_EndTable);
+		actions.Insert(ActionDismantleSausageLivingroom_CoffeeTable);
+		actions.Insert(ActionDismantleSausageLivingroom_Shelf);
+		actions.Insert(ActionDismantleSausageLivingroom_Couch);
+		actions.Insert(ActionDismantleSausageKitchen_Stove);
+		actions.Insert(ActionDismantleSausageKitchen_Cabinets);
+		actions.Insert(ActionDismantleSausageKitchen_Sink);
+		actions.Insert(ActionDismantleSausageKitchen_Fridge);
+		actions.Insert(ActionDismantleSausageGarage_TrashCan);
+		actions.Insert(ActionDismantleSausageBook_Storage);
+		actions.Insert(ActionDismantleSausageGarage_Gunrack);
+		actions.Insert(ActionDismantleSausageBuilding_GasPump);
+		actions.Insert(ActionDismantleSausageBuilding_SignKind);
+		actions.Insert(ActionTrashItemsSBS);
+		actions.Insert(ActionTurnOnOffAmmoPacker);
+		actions.Insert(ActionTurnOnOffCompostBin);
+		actions.Insert(ActionTurnOnOffCasingsProcessor);
+		actions.Insert(ActionRepairWithMechSkillCarEngine);
+		actions.Insert(ActionRepairWithMechSkillCarPart);
+		actions.Insert(ActionRepairWithMechSkilItem);
+		actions.Insert(ActionRepairWithMechSkillCarChassis);
+		// actions.Insert(ActionDestroyCodeLockOnSC);
+		// actions.Insert(ActionBuildPartSC);
+		// actions.Insert(ActionBuildPartSC);
+		
+    }
+}

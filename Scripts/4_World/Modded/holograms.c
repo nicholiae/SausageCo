@@ -1,0 +1,267 @@
+modded class Hologram
+{
+	protected ref array<typename> m_SCItemsCollision = { SC_Kit, SC_Storage_Base, SC_Openable_Placeable_Base, SC_InventoryStorage_Base, SC_Foldable_Item };
+	protected ref array<string> m_SCItemsHologram = { "SC_Item", "SC_Storage_Base", "SC_InventoryStorage_Base", "SC_Openable_Placeable_Base", "SC_Floaties", "SC_Foldable_Item" };
+	
+	override void UpdateHologram( float timeslice )
+	{
+		super.UpdateHologram(timeslice);
+
+		SC_ItemBase container = SC_ItemBase.Cast(m_Parent);
+		if(container)
+		{
+			vector containerPos;
+			vector adjustedContainerPos;
+			//vector adjustedContainerOri;
+			bool not_snapped = true;
+			SC_ItemBase itemBaseProjection = SC_ItemBase.Cast(m_Projection);
+			if(itemBaseProjection)
+			{
+				vector pos;
+				if(itemBaseProjection.SCSnapToCeiling() && GetSCCeilingPosition(itemBaseProjection, 5.0, pos))
+				{
+					containerPos = pos;
+					not_snapped = false;
+				}
+				adjustedContainerPos = itemBaseProjection.Get_ItemAdjustedPlacingPos();
+				//adjustedContainerOri = itemBaseProjection.Get_ItemAdjustedPlacingOrientation();
+			}
+			if(not_snapped)
+			{
+				containerPos = GetProjectionEntityPosition( m_Player ) + container.Get_ItemPlacingPos() + adjustedContainerPos;
+			}
+			vector containerOrientation = AlignProjectionOnTerrain( timeslice ) + container.Get_ItemPlacingOrientation();
+			SetProjectionPosition( containerPos );
+			SetProjectionOrientation( containerOrientation );		
+			m_Projection.OnHologramBeingPlaced( m_Player );
+			return;
+		}
+	}
+
+	override string GetProjectionName(ItemBase item)
+	{
+		SC_Kit item_in_hands = SC_Kit.Cast( item );
+		if ( item_in_hands )
+			return item_in_hands.Get_ItemName();
+		
+		return super.GetProjectionName(item);
+	}
+
+	override void EvaluateCollision(ItemBase action_item = null)
+	{			
+		ItemBase item_in_hands = m_Parent;
+
+		if(item_in_hands.IsAnyInherited(m_SCItemsCollision))
+		{
+			SetIsColliding(false);
+			return;
+		}
+		super.EvaluateCollision();
+	}
+
+		
+	override void RefreshVisual()
+	{
+		if(m_Projection && m_SCItemsHologram)
+		{			
+			foreach( string SCItem : m_SCItemsHologram )
+			{
+				if(m_Projection.IsKindOf(SCItem))
+				{
+					string config_material = "CfgVehicles" + " " + m_Projection.GetType() + " " + "hologramMaterial";
+					string hologram_material = GetGame().ConfigGetTextOut( config_material );
+					string config_model = "CfgVehicles" + " " + m_Projection.GetType() + " " + "hologramMaterialPath";
+					string hologram_material_path = GetGame().ConfigGetTextOut( config_model ) + "\\" + hologram_material;
+					string selection_to_refresh;
+					int hidden_selection = 0;
+					static const string textureName = "#(argb,8,8,3)color(0.5,0.5,0.5,0.75,ca)";
+					
+					string config_path = "CfgVehicles" + " " + m_Projection.GetType() + " " + "hiddenSelections";
+					array<string> hidden_selection_array = new array<string>;
+
+					GetGame().ConfigGetTextArray( config_path, hidden_selection_array );	
+					hologram_material_path += CorrectMaterialPathName();
+						
+					for (int i = 0; i < hidden_selection_array.Count(); ++i)
+					{
+						selection_to_refresh = hidden_selection_array.Get(i);
+						hidden_selection = GetHiddenSelection( selection_to_refresh );
+						m_Projection.SetObjectTexture( hidden_selection, textureName );
+						m_Projection.SetObjectMaterial( hidden_selection, hologram_material_path );
+					}
+					return;
+				}
+			}
+		}
+		else
+		{
+			super.RefreshVisual();
+		}
+		
+	}
+	
+	//doing this so items don't snap to middle of other items
+	//removed the part where it checks for the BBox
+	override protected vector GetProjectionEntityPosition( PlayerBase player )
+	{		
+		foreach( string SCItem : m_SCItemsHologram )
+		{
+			if(m_Projection.IsKindOf(SCItem))
+			{
+				float minProjectionDistance;
+				float maxProjectionDistance; 
+				m_ContactDir = vector.Zero;
+				vector minMax[2];
+				float projectionRadius = GetProjectionRadius();
+				float cameraToPlayerDistance = vector.Distance(GetGame().GetCurrentCameraPosition(), player.GetPosition());
+
+				if (projectionRadius < SMALL_PROJECTION_RADIUS) // objects with radius smaller than 1m
+				{
+					minProjectionDistance = SMALL_PROJECTION_RADIUS;
+					maxProjectionDistance = SMALL_PROJECTION_RADIUS * 2;
+				}
+				else
+				{
+					minProjectionDistance = projectionRadius;
+					maxProjectionDistance = projectionRadius * 2;
+					maxProjectionDistance = Math.Clamp(maxProjectionDistance, SMALL_PROJECTION_RADIUS, LARGE_PROJECTION_DISTANCE_LIMIT);
+				}
+				
+				vector from = GetGame().GetCurrentCameraPosition();
+				//adjusts raycast origin to player head approx. level (limits results behind the character)
+				if ( DayZPlayerCamera3rdPerson.Cast(player.GetCurrentCamera()) )
+				{
+					vector head_pos;
+					MiscGameplayFunctions.GetHeadBonePos(player,head_pos);
+					float dist = vector.Distance(head_pos,from);
+					from = from + GetGame().GetCurrentCameraDirection() * dist;
+				}
+				
+				vector to = from + (GetGame().GetCurrentCameraDirection() * (maxProjectionDistance + cameraToPlayerDistance));
+				vector contactPosition;
+				set<Object> hitObjects = new set<Object>();
+
+				DayZPhysics.RaycastRV(from, to, contactPosition, m_ContactDir, m_ContactComponent, hitObjects, player, m_Projection, false, false, ObjIntersectFire);
+				
+				static const float raycastOriginOffsetOnFail = 0.25;
+				static const float minDistFromStart = 0.01;
+				// Camera isn't correctly positioned in some cases, leading to raycasts hitting the object directly behind the camera
+				if ((hitObjects.Count() > 0) && (vector.DistanceSq(from, contactPosition) < minDistFromStart))
+				{
+					from = contactPosition + GetGame().GetCurrentCameraDirection() * raycastOriginOffsetOnFail;
+					DayZPhysics.RaycastRV(from, to, contactPosition, m_ContactDir, m_ContactComponent, hitObjects, player, m_Projection, false, false, ObjIntersectFire);
+				}
+
+				bool isFloating = SetHologramPosition(player.GetPosition(), minProjectionDistance, maxProjectionDistance, contactPosition);
+				SetIsFloating(isFloating);	
+				
+				m_FromAdjusted = from;
+
+				return contactPosition;
+			}
+		}
+		return super.GetProjectionEntityPosition(player);
+	}
+	
+	bool GetSCCeilingPosition(SC_ItemBase entity, float height, out vector contact_pos ) 
+	{
+		vector from = entity.GetPosition();
+		vector to = "0 0 0";
+		vector ceiling = "0 0 0";
+		ceiling[1] = height;
+		to = from + ceiling;
+
+		vector contact_dir;
+		int geometry = ObjIntersectFire;
+		int contact_component;
+		//Print("got from " + from);
+		bool boo = DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, /*hit_object*/NULL, NULL, entity, false, false, geometry );
+		//Print("got contact_pos " + contact_pos);
+		
+		if (boo)
+		{
+			Debug.DrawSphere(contact_pos , 0.05, Colors.GREEN, ShapeFlags.ONCE);
+			contact_pos[1] = contact_pos[1] - entity.GetSCCeilingSnapPos();
+			Debug.DrawSphere(contact_pos , 0.05, Colors.BLUE, ShapeFlags.ONCE);
+			//Print("adjusted contact_pos " + contact_pos);
+		}
+		else
+		{
+			Debug.DrawSphere(from , 0.05, Colors.RED, ShapeFlags.ONCE);
+		}
+		
+		return boo;
+	}
+	
+	bool GetSCWallPosition(SC_ItemBase entity, float backchecksize, out vector contact_pos ) 
+	{
+		vector from = entity.GetPosition();
+		vector to = "0 0 0";
+		vector ceiling = "0 0 0";
+		ceiling[2] = backchecksize;
+		to = from + ceiling;
+
+		vector contact_dir;
+		int geometry = ObjIntersectFire;
+		int contact_component;
+		//Print("got from " + from);
+		bool boo = DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, /*hit_object*/NULL, NULL, entity, false, false, geometry );
+		//Print("got contact_pos " + contact_pos);
+		
+		if (boo)
+		{
+			Debug.DrawSphere(contact_pos , 0.05, Colors.GREEN, ShapeFlags.ONCE);
+			contact_pos[2] = contact_pos[2] + 0.1;
+			Debug.DrawSphere(contact_pos , 0.05, Colors.BLUE, ShapeFlags.ONCE);
+			//Print("adjusted contact_pos " + contact_pos);
+		}
+		else
+		{
+			Debug.DrawSphere(from , 0.05, Colors.RED, ShapeFlags.ONCE);
+		}
+		
+		return boo;
+	}
+
+ 	// override bool IsFloating() 
+	// {
+	// 	if (m_Parent.IsInherited(SC_Kit) || m_Parent.IsInherited(SC_Storage_Base) || m_Parent.IsInherited(SC_Openable_Placeable_Base))
+	// 	{
+	// 		return true;
+	// 	}
+		
+	// 	return super.IsFloating();
+	// }
+
+	override void SetProjectionPosition( vector position )
+	{	
+		//if (m_Parent.IsInherited(SC_Kit) || m_Parent.IsInherited(SC_Storage_Base) || m_Parent.IsInherited(SC_Openable_Placeable_Base) && IsFloating())
+		SC_ItemBase itemBaseProjection = SC_ItemBase.Cast(m_Projection);
+		if(itemBaseProjection && itemBaseProjection.SCSnapToCeiling())
+		{
+			m_Projection.SetPosition( position );
+			return;
+		}
+
+		super.SetProjectionPosition(position);
+	}
+
+	// vector SetOnGroundOld( vector position )
+	// {
+	// 	vector from = position;
+	// 	vector ground;
+	// 	vector player_to_projection_vector;
+	// 	float projection_diameter = GetProjectionDiameter();
+			
+	// 	ground = Vector(0, - Math.Max( projection_diameter, SMALL_PROJECTION_GROUND ), 0);	
+	// 	vector to = from + ground;
+	// 	vector contact_pos;
+	// 	int contact_component;
+		
+	// 	DayZPhysics.RaycastRV( from, to, contact_pos, m_ContactDir, contact_component, NULL, NULL, m_Projection, false, false );
+
+	// 	HideWhenClose( contact_pos );
+
+	// 	return contact_pos;
+	// }
+};

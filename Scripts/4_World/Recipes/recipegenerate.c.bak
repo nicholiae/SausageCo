@@ -1,0 +1,814 @@
+modded class PluginRecipesManager 
+{
+
+ 	override void RegisterRecipies()
+	{
+		super.RegisterRecipies();
+		
+		RegisterRecipe(new CutGemE);
+		RegisterRecipe(new CutGemR);
+		RegisterRecipe(new CutGemS);
+		RegisterRecipe(new CutGemD);
+		
+		RegisterRecipe(new CraftscPlantMaterial);
+		//CROSSOVERS
+		RegisterRecipe(new createSkillStarter1);
+		RegisterRecipe(new createSkillStarter2);
+		RegisterRecipe(new createSkillStarter3);
+		RegisterRecipe(new createSkillStarter4);
+		
+		RegisterRecipe(new createSkillFromMasterMechanic1);
+		RegisterRecipe(new createSkillFromMasterMechanic2);
+		RegisterRecipe(new createSkillFromMasterMechanic3);
+		RegisterRecipe(new createSkillFromMasterMechanic4);
+		RegisterRecipe(new createSkillFromMasterMechanic5);
+		RegisterRecipe(new createSkillFromMasterMechanic6);
+		RegisterRecipe(new createSkillFromMasterMechanic0);
+		RegisterRecipe(new createSkillFromMasterFirearm1);
+		RegisterRecipe(new createSkillFromMasterFirearm2);
+		RegisterRecipe(new createSkillFromMasterFirearm3);
+		RegisterRecipe(new createSkillFromMasterFirearm4);
+		RegisterRecipe(new createSkillFromMasterFirearm5);
+		RegisterRecipe(new createSkillFromMasterFirearm6);
+		RegisterRecipe(new createSkillFromMasterFirearm0);
+		RegisterRecipe(new createSkillFromMasterEngineer1);
+		RegisterRecipe(new createSkillFromMasterEngineer2);
+		RegisterRecipe(new createSkillFromMasterEngineer3);
+		RegisterRecipe(new createSkillFromMasterEngineer4);
+		RegisterRecipe(new createSkillFromMasterEngineer5);
+		RegisterRecipe(new createSkillFromMasterEngineer6);
+		RegisterRecipe(new createSkillFromMasterEngineer0);
+		RegisterRecipe(new createSkillFromMasterLeather1);
+		RegisterRecipe(new createSkillFromMasterLeather2);
+		RegisterRecipe(new createSkillFromMasterLeather3);
+		RegisterRecipe(new createSkillFromMasterLeather4);
+		RegisterRecipe(new createSkillFromMasterLeather5);
+		RegisterRecipe(new createSkillFromMasterLeather6);
+		RegisterRecipe(new createSkillFromMasterLeather0);
+		RegisterRecipe(new createSkillFromMasterFarmer1);
+		RegisterRecipe(new createSkillFromMasterFarmer2);
+		RegisterRecipe(new createSkillFromMasterFarmer3);
+		RegisterRecipe(new createSkillFromMasterFarmer4);
+		RegisterRecipe(new createSkillFromMasterFarmer5);
+		RegisterRecipe(new createSkillFromMasterFarmer6);
+		RegisterRecipe(new createSkillFromMasterFarmer0);
+		RegisterRecipe(new createSkillFromMasterMedic1);
+		RegisterRecipe(new createSkillFromMasterMedic2);
+		RegisterRecipe(new createSkillFromMasterMedic3);
+		RegisterRecipe(new createSkillFromMasterMedic4);
+		RegisterRecipe(new createSkillFromMasterMedic5);
+		RegisterRecipe(new createSkillFromMasterMedic6);
+		RegisterRecipe(new createSkillFromMasterMedic0);
+		//ENDCROSSOVERS
+		RegisterRecipe(new createGunPowder0);
+		RegisterRecipe(new createGunPowder1);
+		RegisterRecipe(new createGunPowder2);
+		RegisterRecipe(new createGunPowder3);
+		RegisterRecipe(new CombineGunPowder0);
+		RegisterRecipe(new CombineGunPowder1);
+		RegisterRecipe(new CombineGunPowder2);
+		RegisterRecipe(new CombineGunPowder3);
+		RegisterRecipe(new CombineGunPowder4);
+		//Randoms
+		RegisterRecipe(new fillEmptyCasing);
+		RegisterRecipe(new upgradeTier1Firearm);
+		RegisterRecipe(new upgradeTier2Firearm);
+		RegisterRecipe(new upgradeTier3Firearm);
+		RegisterRecipe(new CleanWeaponWithFirearmsSkill);
+		//FirearmRegEnd
+		RegisterRecipe(new createEmptyCasings0);
+		RegisterRecipe(new createEmptyCasings1);
+		RegisterRecipe(new createEmptyCasings2);
+		RegisterRecipe(new createEmptyCasings3);
+		RegisterRecipe(new createAmmo9x19);
+		RegisterRecipe(new createAmmo12gaBeanbag);
+		RegisterRecipe(new createAmmo12gaPellets);
+		RegisterRecipe(new createAmmo12gaRubberSlug);
+		RegisterRecipe(new createAmmo12gaSlug);
+		RegisterRecipe(new createAmmo22);
+		RegisterRecipe(new createAmmo380);
+		RegisterRecipe(new createMagCMAG10);
+		RegisterRecipe(new createMagIJ70);
+		RegisterRecipe(new createMagMKII);
+		RegisterRecipe(new createMagRuger102210);
+		RegisterRecipe(new createMagSaiga5);
+		//Tier1FirearmEnd
+		RegisterRecipe(new createAmmo9x39);
+		RegisterRecipe(new createAmmo45ACP);
+		RegisterRecipe(new createAmmo357);
+		RegisterRecipe(new createAmmo545x39);
+		RegisterRecipe(new createAmmo762x39);
+		RegisterRecipe(new createMag1911);
+		RegisterRecipe(new createMagCMAG20);
+		RegisterRecipe(new createMagAKM30);
+		RegisterRecipe(new createMagAKMPalm30);
+		RegisterRecipe(new createMagCZ61);
+		RegisterRecipe(new createMagCZ75);
+		RegisterRecipe(new createMagCZ527);
+		RegisterRecipe(new createMagFNX45);
+		RegisterRecipe(new createMagGlock);
+		RegisterRecipe(new createMagRuger102215);
+		RegisterRecipe(new createMagSaiga8);
+		RegisterRecipe(new createMagSVD10);
+		RegisterRecipe(new createMagUMP25);
+		RegisterRecipe(new createToolsTacKnife);
+		//Tier2FirearmEnd
+		RegisterRecipe(new createAmmo9x39AP);
+		RegisterRecipe(new createAmmo308Win);
+		RegisterRecipe(new createAmmo556x45);
+		RegisterRecipe(new createAmmo762x54);
+		RegisterRecipe(new createMagAK7430);
+		RegisterRecipe(new createMagAKMDrum);
+		RegisterRecipe(new createMagAK10130);
+		RegisterRecipe(new createMagCMAG40);
+		RegisterRecipe(new createMagDeagle);
+		RegisterRecipe(new createMagFAL20);
+		RegisterRecipe(new createMagRuger102230);
+		RegisterRecipe(new createMagSaiga20);
+		RegisterRecipe(new createMagStanag);
+		RegisterRecipe(new createMagVSS10);
+		RegisterRecipe(new createMagStanagCoupled);
+		//Tier3FirearmEnd
+		RegisterRecipe(new createCreateHeavyARMouldFrame);
+		RegisterRecipe(new createCreateHeavyARMouldBarrel);
+		RegisterRecipe(new createCreateARMouldFrame);
+		RegisterRecipe(new createCreateARMouldBarrel);
+		RegisterRecipe(new createCreatePistolMouldFrame);
+		RegisterRecipe(new createCreatePistolMouldBarrel);
+		RegisterRecipe(new createAttachmentOpticM68);
+		RegisterRecipe(new createAttachmentOpticT3NRDS);
+		RegisterRecipe(new createAttachmentOpticFNP45);
+		RegisterRecipe(new createAttachmentOpticReflex);
+		RegisterRecipe(new createAttachmentOpticACOG);
+		RegisterRecipe(new createAttachmentOpticPU);
+		RegisterRecipe(new createAttachmentOpticKashtan);
+		RegisterRecipe(new createAttachmentOpticHunting);
+		RegisterRecipe(new createAttachmentOpticLongrange);
+		RegisterRecipe(new createAttachmentOpticPistol);
+		RegisterRecipe(new createAttachmentOpticPS01);
+		RegisterRecipe(new createAttachmentOpticPS011);
+		RegisterRecipe(new createAttachmentOpticKobra);
+		RegisterRecipe(new createAttachmentOpticKazuar);
+		RegisterRecipe(new createSMagVSS30);
+		RegisterRecipe(new createSMagSMG50);
+		RegisterRecipe(new createSMagAutoGlock);
+		RegisterRecipe(new createSMagBarret);
+		RegisterRecipe(new createSMagDMR);  
+		RegisterRecipe(new createSMagFNP);
+		RegisterRecipe(new createSMagScarL100);
+		RegisterRecipe(new createSMagScarL30);
+		RegisterRecipe(new createSMagScarL60);
+		RegisterRecipe(new createSBttstckScarl);
+		//Tier4FirearmEnd
+		RegisterRecipe(new createFilledHeavyARMouldFrame);
+		RegisterRecipe(new createFilledHeavyARMouldBarrel);
+		RegisterRecipe(new createFilledARMouldFrame);
+		RegisterRecipe(new createFilledARMouldBarrel);
+		RegisterRecipe(new createFilledPistolMouldFrame);
+		RegisterRecipe(new createFilledPistolMouldBarrel);
+		RegisterRecipe(new createUNISuppressor);
+		RegisterRecipe(new createHeavyARFrame);
+		RegisterRecipe(new createHeavyARBarrel);
+		RegisterRecipe(new createARFrame);
+		RegisterRecipe(new createARBarrel);
+		RegisterRecipe(new createPistolFrame);
+		RegisterRecipe(new createPistolBarrel);
+		//FirearmWeaponCrafting MOULDS END
+		RegisterRecipe(new createPistolij70);
+		RegisterRecipe(new createPistolcz75);
+		RegisterRecipe(new createPistolfnx45);
+		RegisterRecipe(new createPistolGlock19);
+		RegisterRecipe(new createPistolcolt1911);
+		RegisterRecipe(new createPistolengravedcolt1911);
+		RegisterRecipe(new createPistolAutoGlock);
+		
+		//PistolsEnd
+		RegisterRecipe(new createARmp133);
+		RegisterRecipe(new createARizh43);
+		RegisterRecipe(new createARsaiga);
+		RegisterRecipe(new createARcz61);
+		RegisterRecipe(new createARump45);
+		RegisterRecipe(new createARmp5k);
+		RegisterRecipe(new createARaks74u);
+		RegisterRecipe(new createARfal);
+		RegisterRecipe(new createARakm);
+		RegisterRecipe(new createARak101);
+		RegisterRecipe(new createARak74);
+		RegisterRecipe(new createARm4a1);
+		RegisterRecipe(new createARScarL);
+		RegisterRecipe(new createARFNP90);
+		//expansionAdds
+		//AR END
+		RegisterRecipe(new createHARizh18);
+		RegisterRecipe(new createHARmosin9130);
+		RegisterRecipe(new createHARcz527);
+		RegisterRecipe(new createHARwinchester70);
+		RegisterRecipe(new createHARsks);
+		RegisterRecipe(new createHARvss);
+		RegisterRecipe(new createHARb95);
+		RegisterRecipe(new createHARsvd);
+		RegisterRecipe(new createHARBarret);
+		RegisterRecipe(new createHARDMR);
+		//expansionAdds
+		//HeavyAR END
+		//FirearmWeaponCrafting END
+		RegisterRecipe(new upgradeTier1Engineering);
+		RegisterRecipe(new upgradeTier2Engineering);
+		RegisterRecipe(new upgradeTier3Engineering);
+		RegisterRecipe(new RepairWithEngineerSkill);
+		//EngineerRegEnd
+		RegisterRecipe(new createStorageTorch);
+		RegisterRecipe(new createStorageKitchenCabinets);
+		RegisterRecipe(new createStorageOfficeShelves);
+		RegisterRecipe(new createStorageLivingRoomEndTable);
+		RegisterRecipe(new createStorageBedroomBunkBed);
+		RegisterRecipe(new createStorageBathroomToilet);
+		RegisterRecipe(new createStorageVendMachine);
+		RegisterRecipe(new createStorageCrateWood1);
+		RegisterRecipe(new createDecorPicture1);
+		RegisterRecipe(new createStorageLivingRoomShelf);
+		RegisterRecipe(new createStorageBedroomNightStand);
+		RegisterRecipe(new createToolsHatchet);
+		RegisterRecipe(new createToolsHammer);
+		RegisterRecipe(new createToolsScrewDriver);
+		RegisterRecipe(new createWoodenPlankFromLogT1);
+		RegisterRecipe(new createToolsNails0);
+		RegisterRecipe(new createToolsNails1);
+		RegisterRecipe(new createToolsNails2);
+		RegisterRecipe(new createToolsNails3);
+		RegisterRecipe(new createToolsMetalWire);
+		RegisterRecipe(new createToolsPliers);
+		RegisterRecipe(new createToolsKitchenKnife);
+		//Tier1EngineerEnd
+		RegisterRecipe(new createStorageBookShelf);
+		RegisterRecipe(new createGarageTrashCan);
+		RegisterRecipe(new createKitchenSink);
+		RegisterRecipe(new createKitchenFridge);
+		RegisterRecipe(new createOfficeChair);
+		RegisterRecipe(new createOfficeDesk);
+		RegisterRecipe(new createLivingroomCouch);
+		RegisterRecipe(new createLivingroomCoffeeTable);
+		RegisterRecipe(new createBedroomHopeChest);
+		RegisterRecipe(new createBathroomSink);
+		RegisterRecipe(new createBathroomCabinet);
+		RegisterRecipe(new createBuildingSign0);
+		RegisterRecipe(new createBuildingSign1);
+		RegisterRecipe(new createStorageCrateWood2);
+		RegisterRecipe(new createWoodenPlankFromLogT2);
+		//Tier2EngineerEnd
+		RegisterRecipe(new createAmmoPacker);
+		RegisterRecipe(new createCasingsPacker);
+		//RegisterRecipe(new createGardenPlot);
+		RegisterRecipe(new createKitchenStove);
+		RegisterRecipe(new createOfficeComputer);
+		RegisterRecipe(new createBedroomDressor);
+		RegisterRecipe(new createBathroomTub);
+		//RegisterRecipe(new createBuildingStatue);
+		RegisterRecipe(new createBuildingWatchtower);
+		RegisterRecipe(new createBuildingWell);
+		RegisterRecipe(new createGardenCompostBin);
+		RegisterRecipe(new createStorageShedStorage);
+		RegisterRecipe(new createStorageBuildingStorage);
+		RegisterRecipe(new createStorageCrateWood3);
+		RegisterRecipe(new createMiningFurnace);
+		RegisterRecipe(new createWoodenPlankFromLogT3);
+		RegisterRecipe(new createGarageGunrack);
+		RegisterRecipe(new createSpotlight);
+		//Tier3EngindeerEnd
+		RegisterRecipe(new createPrefab1);
+		RegisterRecipe(new createPrefab2);
+		RegisterRecipe(new createPrefab3);
+		RegisterRecipe(new createPrefab3camo);
+		RegisterRecipe(new createPrefab4);
+		RegisterRecipe(new createPrefab5);
+		RegisterRecipe(new createPrefab6);
+		RegisterRecipe(new createCodelockFromT4);
+		RegisterRecipe(new createAnvilFromT4);
+		// RegisterRecipe(new createAdminHammerFromT4);
+		//Tier4EngindeerEnd
+		RegisterRecipe(new upgradeTier1Mechanic);
+		RegisterRecipe(new upgradeTier2Mechanic);
+		RegisterRecipe(new upgradeTier3Mechanic);
+		// RegisterRecipe(new upgradeToNehrTrucks);
+		// RegisterRecipe(new upgradeTier1Nehr);
+		// RegisterRecipe(new upgradeToAvionics);
+		// RegisterRecipe(new upgradeTier1Avionics);
+		// RegisterRecipe(new upgradeTier2Avionics);
+		// RegisterRecipe(new upgradeTier3Avionics);
+		//MechanicRegEnd
+		RegisterRecipe(new createPartsTrunkOlga);
+		RegisterRecipe(new createPartsHoodOlga);
+		RegisterRecipe(new createPartsTrunkADA);
+		RegisterRecipe(new createPartsHoodADA);
+		RegisterRecipe(new createPartsTrunkSarka);
+		RegisterRecipe(new createPartsHoodSarka);
+		RegisterRecipe(new createPartsTrunkGunter);
+		RegisterRecipe(new createPartsHoodGunter);
+		RegisterRecipe(new createPartsTruckHood);
+		RegisterRecipe(new createPartsCarRadiator);
+		RegisterRecipe(new createPartsCarBattery);
+		RegisterRecipe(new createPartsTruckBattery);
+		RegisterRecipe(new createPartsSparkplug);
+		RegisterRecipe(new createPartsHeadlight);
+		RegisterRecipe(new createSheetMetal0);
+		RegisterRecipe(new createSheetMetal1);
+		RegisterRecipe(new createSheetMetal2);
+		RegisterRecipe(new createSheetMetal3);
+		//Tier1MechanicEnd
+		RegisterRecipe(new createToolsWrench);
+		RegisterRecipe(new createToolsKitchenKnife2);
+		RegisterRecipe(new createPartsDoorGunter11);
+		RegisterRecipe(new createPartsDoorGunter12);
+		RegisterRecipe(new createPartsDoorGunter21);
+		RegisterRecipe(new createPartsDoorGunter22);
+		RegisterRecipe(new createPartsDoorADA11);
+		RegisterRecipe(new createPartsDoorADA12);
+		RegisterRecipe(new createPartsDoorOlga11);
+		RegisterRecipe(new createPartsDoorOlga12);
+		RegisterRecipe(new createPartsDoorOlga21);
+		RegisterRecipe(new createPartsDoorOlga22);
+		RegisterRecipe(new createPartsDoorSarka11);
+		RegisterRecipe(new createPartsDoorSarka12);
+		RegisterRecipe(new createPartsDoorSarka21);
+		RegisterRecipe(new createPartsDoorSarka22);
+		RegisterRecipe(new createPartsTruckDoor12);
+		RegisterRecipe(new createPartsTruckDoor11);
+		//Tier2MechanicEnd
+		RegisterRecipe(new createPartsTireSarka);
+		RegisterRecipe(new createPartsTireOlga);
+		RegisterRecipe(new createPartsTireADA);
+		RegisterRecipe(new createPartsTireGunter);
+		RegisterRecipe(new createTireTruck);
+		RegisterRecipe(new createTireTruckDouble);
+		// RegisterRecipe(new createPartsTireBus);
+		// RegisterRecipe(new createPartsTireBusDouble);
+		// RegisterRecipe(new createPartsTireTractorFront);
+		// RegisterRecipe(new createPartsTireTractorBack);
+		// RegisterRecipe(new createPartsTireUAZ);
+		//Tier3MechanicEnd
+		RegisterRecipe(new createSmallEngine);
+		RegisterRecipe(new createMediumEngine);
+		RegisterRecipe(new createHeavyEngine);
+		RegisterRecipe(new createSmallPiston);
+		RegisterRecipe(new createMediumPiston);
+		RegisterRecipe(new createHeavyPiston);
+		RegisterRecipe(new createVehADA4x4Base);
+		RegisterRecipe(new createVehOlgaBase);
+		RegisterRecipe(new createVehGunterBase);
+		RegisterRecipe(new createVehSarkaBase);
+		RegisterRecipe(new createVehM3SBase);
+		//ExpansionADD
+		// RegisterRecipe(new createVehUAZBase);
+		//Tier4MechanicEnd
+		//NehrTrucks
+		//NehrBegin T1
+		// RegisterRecipe(new createPartsTireNehr);
+		// RegisterRecipe(new createPartscoDoorNEHRSimple);
+		// RegisterRecipe(new createPartsDoorNEHRSimple);
+		// RegisterRecipe(new createPartsHoodNEHRSimple);
+		// RegisterRecipe(new createPartsNehrCoDriver);
+		// RegisterRecipe(new createPartsNehrDriver);
+		// RegisterRecipe(new createPartsNehrHood);
+		// RegisterRecipe(new createPartsNehrToxicCoDriver);
+		// RegisterRecipe(new createPartsNehrToxicDriver);
+		// RegisterRecipe(new createPartsNehrToxicHood);
+		// RegisterRecipe(new createPartsNehrToxicTrunk);
+		// RegisterRecipe(new createPartsNehrTrunk);
+		// RegisterRecipe(new createPartsTrunkNEHRSimple);
+		//NehrBegin T2
+		// RegisterRecipe(new createVehNehrPickupToxicBase);
+		// RegisterRecipe(new createVehNehrPickupSimpleBase);
+		// RegisterRecipe(new createVehNehrPickupBase);
+		//NehrEND
+		RegisterRecipe(new createLeatherScraps0);
+		RegisterRecipe(new createLeatherScraps1);
+		RegisterRecipe(new createLeatherScraps2);
+		RegisterRecipe(new createLeatherScraps3);
+		RegisterRecipe(new createLeatherScraps4);
+		RegisterRecipe(new createLeatherScraps5);
+		RegisterRecipe(new createLeatherScraps6);
+		RegisterRecipe(new createLeatherScraps7);
+		RegisterRecipe(new createLeatherScraps8);
+		RegisterRecipe(new createLeatherScraps9);
+		RegisterRecipe(new createLeatherScraps10);
+		RegisterRecipe(new upgradeTier1Leather);
+		RegisterRecipe(new upgradeTier2Leather);
+		RegisterRecipe(new upgradeTier3Leather);
+		RegisterRecipe(new RepairWithLeatherSkill);
+		//LeatherRegEnd
+		RegisterRecipe(new createLeatherWaterBottle);
+		RegisterRecipe(new createLeatherExperiencePouch);
+		RegisterRecipe(new createLeatherGlovesT1);
+		RegisterRecipe(new createHuntingKnife);
+		RegisterRecipe(new createLeatherPantsT1);
+		RegisterRecipe(new createLeatherShirtT1);
+		RegisterRecipe(new createLeatherVestT1);
+		RegisterRecipe(new createLeatherBagT1);
+		RegisterRecipe(new createLeatherBootsT1);
+		RegisterRecipe(new createLeatherBeltT1);
+		RegisterRecipe(new createLeatherHelmetT1);
+		RegisterRecipe(new createLeatherFirstAidKitT1);
+		RegisterRecipe(new createFirefighterJacket);
+		RegisterRecipe(new createFirefighterPants);
+		RegisterRecipe(new createFirefighterHelmet);
+		RegisterRecipe(new createParamedicPants);
+		RegisterRecipe(new createParamedicJacket);
+		RegisterRecipe(new createSmallTent);
+		RegisterRecipe(new createDryBag);
+		RegisterRecipe(new createRopeFromLeatherScraps);
+		//Tier1LeatherEnd 
+		RegisterRecipe(new createLeatherGlovesT2);
+		RegisterRecipe(new createT2LeatherUpgradeKit);
+		RegisterRecipe(new createLeatherBootsT2);
+		RegisterRecipe(new createLeatherCanteenT2);
+		RegisterRecipe(new createLeatherBeltT2);
+		RegisterRecipe(new createLeatherHelmetT2);
+		RegisterRecipe(new createLeatherHolsterT2);
+		RegisterRecipe(new createLeatherSheathT2);
+		RegisterRecipe(new createMediumTent);
+		RegisterRecipe(new createWaterProofBag);
+		RegisterRecipe(new createPolicePants);
+		RegisterRecipe(new createPoliceVest);
+		RegisterRecipe(new createLeatherProtectiveCaseT2);
+		//LeatherUpgrades START
+		RegisterRecipe(new upgradeLeatherPantsT2);
+		RegisterRecipe(new upgradeLeatherShirtT2);
+		RegisterRecipe(new upgradeLeatherBagT2);
+		RegisterRecipe(new upgradeLeatherVestT2);
+		//Tier2LeatherEnd
+		RegisterRecipe(new createLeatherGlovesT3);
+		RegisterRecipe(new createLeatherVestBagT3);
+		RegisterRecipe(new createT3LeatherUpgradeKit);
+		RegisterRecipe(new createLeatherBootsT3);
+		RegisterRecipe(new createLeatherBeltT3);
+		RegisterRecipe(new createLeatherHelmetT3);
+		RegisterRecipe(new createLeatherPouchesT3);
+		RegisterRecipe(new createTacticalShirt);
+		RegisterRecipe(new createTacticalPants);
+		RegisterRecipe(new createTacticalVest);
+		RegisterRecipe(new createAliceBag);
+		RegisterRecipe(new createLeatherAmmoBoxT3);
+		RegisterRecipe(new createLargeTent);
+		RegisterRecipe(new createRoadflare);
+		RegisterRecipe(new createPot);
+		//LeatherUpgrades START
+		RegisterRecipe(new upgradeLeatherPantsT3);
+		RegisterRecipe(new upgradeLeatherShirtT3);
+		RegisterRecipe(new upgradeLeatherBagT3);
+		RegisterRecipe(new upgradeLeatherVestT3);
+		//Tier3LeatherEnd
+		RegisterRecipe(new createBasePaint);
+		RegisterRecipe(new createDimanPaint);
+		RegisterRecipe(new createRedPaint);
+		RegisterRecipe(new createBluePaint);
+		RegisterRecipe(new createGreenPaint);
+		RegisterRecipe(new createOrangePaint);
+		RegisterRecipe(new createYellowPaint);
+		RegisterRecipe(new createPurplePaint);
+		RegisterRecipe(new createBlackPaint);
+		RegisterRecipe(new createGreyPaint);
+		//DimanGearpaintingpatterns
+		RegisterRecipe(new createDimanFeatherPants);
+		RegisterRecipe(new createDimanFeatherJacket);
+		RegisterRecipe(new createDimanFeatherBag);
+		RegisterRecipe(new createDimanFeatherBoots);
+		RegisterRecipe(new createDimanFeatherGloves);
+		RegisterRecipe(new createDimanFeatherHelm);
+		RegisterRecipe(new createDimanGreenMonsterPants);
+		RegisterRecipe(new createDimanGreenMonsterJacket);
+		RegisterRecipe(new createDimanGreenMonsterBag);
+		RegisterRecipe(new createDimanGreenMonsterBoots);
+		RegisterRecipe(new createDimanGreenMonsterGloves);
+		RegisterRecipe(new createDimanGreenMonsterHelm);
+		//Tier4LeatherEnd
+		// RegisterRecipe(new createRedPainted);
+		//ColorRedPatternsEND
+		// RegisterRecipe(new createBluePainted);
+		// ColorBluePatternsEND
+		// RegisterRecipe(new createGreenPainted);
+		//ColorGreenPatternsEND
+		// RegisterRecipe(new createOrangePainted);
+		//ColorOrangePatternsEND
+		// RegisterRecipe(new createYellowPainted);
+		//ColorYellowPatternsEND
+		// RegisterRecipe(new createPurplePainted);
+		//ColorPurplePatternsEND
+		//PaintLeatherClothes
+		RegisterRecipe(new createBlackPaintedCraftedLargeBag);
+		RegisterRecipe(new createBlackPaintedCraftedMediumBag);
+		RegisterRecipe(new createBlackPaintedCraftedSmallBag);
+		RegisterRecipe(new createBlackPaintedCraftedLargeVest);
+		RegisterRecipe(new createBlackPaintedCraftedMediumVest);
+		RegisterRecipe(new createBlackPaintedCraftedSmallVest);
+		RegisterRecipe(new createBlackPaintedCraftedLargePants);
+		RegisterRecipe(new createBlackPaintedCraftedMediumPants);
+		RegisterRecipe(new createBlackPaintedCraftedSmallPants);
+		RegisterRecipe(new createBlackPaintedCraftedLargeShirt);
+		RegisterRecipe(new createBlackPaintedCraftedMediumShirt);
+		RegisterRecipe(new createBlackPaintedCraftedSmallShirt);
+		RegisterRecipe(new createBlackPaintedM4_OEBttstck);
+		RegisterRecipe(new createBlackPaintedM4_CQBBttstck);
+		RegisterRecipe(new createBlackPaintedM4_MPBttstck);
+		RegisterRecipe(new createBlackPaintedAK_WoodBttstck);
+		RegisterRecipe(new createBlackPaintedAK74_WoodBttstck);
+		RegisterRecipe(new createBlackPaintedAK_FoldingBttstck);
+		RegisterRecipe(new createBlackPaintedAK_PlasticBttstck);
+		RegisterRecipe(new createBlackPaintedAKS74U_Bttstck);
+		RegisterRecipe(new createBlackPaintedM4_PlasticHndgrd);
+		RegisterRecipe(new createBlackPaintedM4_RISHndgrd);
+		RegisterRecipe(new createBlackPaintedM4_MPHndgrd);
+		RegisterRecipe(new createBlackPaintedAK_WoodHndgrd);
+		RegisterRecipe(new createBlackPaintedAK74_Hndgrd);
+		RegisterRecipe(new createBlackPaintedAK_RailHndgrd);
+		RegisterRecipe(new createBlackPaintedWorkingGloves);
+		RegisterRecipe(new createBlackPaintedTacticalGloves);
+		RegisterRecipe(new createBlackPaintedLeatherGloves);
+		RegisterRecipe(new createBlackPaintedBallisticHelmet);
+		RegisterRecipe(new createBlackPaintedBaseballCap);
+		RegisterRecipe(new createBlackPaintedBeanieHat);
+		RegisterRecipe(new createBlackPaintedBaseballCapCMMG);
+		RegisterRecipe(new createBlackPaintedZSh3PilotHelmet);
+		RegisterRecipe(new createBlackPaintedUshanka);
+		RegisterRecipe(new createBlackPaintedMotoHelmet);
+		RegisterRecipe(new createBlackPaintedDarkMotoHelmet);
+		RegisterRecipe(new createBlackPaintedHeadtorch);
+		RegisterRecipe(new createBlackPaintedBandana);
+		RegisterRecipe(new createBlackPaintedRadarCap);
+		RegisterRecipe(new createBlackPaintedZmijovkaCap);
+		RegisterRecipe(new createBlackPaintedCowboyHat);
+		RegisterRecipe(new createBlackPaintedBoonieHat);
+		RegisterRecipe(new createBlackPaintedGorkaHelmet);
+		RegisterRecipe(new createBlackPaintedSkateHelmet);
+		RegisterRecipe(new createBlackPaintedFlatCap);
+		RegisterRecipe(new createBlackPaintedZmijovkaCap);
+		RegisterRecipe(new createBlackPaintedLeatherHat);
+		RegisterRecipe(new createBlackPaintedCargoPants);
+		RegisterRecipe(new createBlackPaintedJeans);
+		RegisterRecipe(new createBlackPaintedHockeyHelmet);
+		RegisterRecipe(new createBlackPaintedDirtBikeHelmet);
+		RegisterRecipe(new createBlackPaintedBalaclava3hole);
+		RegisterRecipe(new createBlackPaintedBalaclava);
+		RegisterRecipe(new createBlackPaintedTrackSuitPants);
+		RegisterRecipe(new createBlackPaintedFireFighterPants);
+		RegisterRecipe(new createBlackPaintedLeatherPants);
+		RegisterRecipe(new createBlackPaintedSlacksPants);
+		RegisterRecipe(new createBlackPaintedBreechesPants);
+		RegisterRecipe(new createBlackPaintedShortJeans);
+		RegisterRecipe(new createBlackPaintedAthleticShoes);
+		RegisterRecipe(new createBlackPaintedHikingBoots);
+		RegisterRecipe(new createBlackPaintedHikingBootsLow);
+		RegisterRecipe(new createBlackPaintedWellies);
+		RegisterRecipe(new createBlackPaintedJungleBoots);
+		RegisterRecipe(new createBlackPaintedDressShoes);
+		RegisterRecipe(new createBlackPaintedMilitaryBoots);
+		RegisterRecipe(new createBlackPaintedCombatBoots);
+		RegisterRecipe(new createBlackPaintedJoggingShoes);
+		RegisterRecipe(new createBlackPaintedLeatherShoes);
+		RegisterRecipe(new createBlackPaintedSneakers);
+		RegisterRecipe(new createBlackPaintedArmband);
+		RegisterRecipe(new createBlackPaintedTShirt);
+		RegisterRecipe(new createBlackPaintedHoodie);
+		RegisterRecipe(new createBlackPaintedTacticalShirt);
+		RegisterRecipe(new createBlackPaintedHikingJacket);
+		RegisterRecipe(new createBlackPaintedRaincoat);
+		RegisterRecipe(new createBlackPaintedM65Jacket);
+		RegisterRecipe(new createBlackPaintedRidersJacket);
+		RegisterRecipe(new createBlackPaintedWoolCoat);
+		RegisterRecipe(new createBlackPaintedTrackSuitJacket);
+		RegisterRecipe(new createBlackPaintedFirefighterJacket);
+		RegisterRecipe(new createBlackPaintedQuiltedJacket);
+		RegisterRecipe(new createBlackPaintedBomberJacket);
+		RegisterRecipe(new createBlackPaintedLeatherJacket);
+		RegisterRecipe(new createBlackPaintedManSuit);
+		RegisterRecipe(new createBlackPaintedWomanSuit);
+		RegisterRecipe(new createBlackPaintedUKAssVest);
+		RegisterRecipe(new createBlackPaintedLeatherStorageVest);
+		RegisterRecipe(new createBlackPaintedHighCapacityVest);
+		RegisterRecipe(new createBlackPaintedFirefighterAxe);
+		RegisterRecipe(new createBlackPaintedDryBag);
+		RegisterRecipe(new createBlackPaintedLeatherSack);
+		RegisterRecipe(new createBlackPaintedAssaultBag);
+		RegisterRecipe(new createBlackPaintedAliceBag);
+		RegisterRecipe(new createBlackPaintedLeatherBelt);
+		RegisterRecipe(new createBlackPaintedSportGlasses);
+		RegisterRecipe(new createBlackPaintedAK101);
+		RegisterRecipe(new createBlackPaintedAK74);
+		RegisterRecipe(new createBlackPaintedAKS74U);
+		RegisterRecipe(new createBlackPaintedB95);
+		RegisterRecipe(new createBlackPaintedCZ527);
+		RegisterRecipe(new createBlackPaintedM4A1);
+		RegisterRecipe(new createBlackPaintedMosin9130);
+		RegisterRecipe(new createBlackPaintedSawedoffMosin9130);
+		RegisterRecipe(new createBlackPaintedScout);
+		RegisterRecipe(new createBlackPaintedSKS);
+		RegisterRecipe(new createBlackPaintedWinchester70);
+		RegisterRecipe(new createBlackPaintedShockpistol);
+		RegisterRecipe(new createBlackPaintedDerringer);
+		RegisterRecipe(new createBlackPaintedMag_AKM_Drum75);
+		RegisterRecipe(new createBlackPaintedMag_AKM_Palm30Rnd);
+		RegisterRecipe(new createBlackPaintedMag_CMAG_10Rnd);
+		RegisterRecipe(new createBlackPaintedMag_CMAG_20Rnd);
+		RegisterRecipe(new createBlackPaintedMag_CMAG_30Rnd);
+		RegisterRecipe(new createBlackPaintedMag_CMAG_40Rnd);
+		RegisterRecipe(new createBlackPaintedMag_AK101_30Rnd);
+		RegisterRecipe(new createBlackPaintedMag_AK74_30Rnd);
+		//
+		RegisterRecipe(new createBlackPaintedCivSedan);
+		RegisterRecipe(new createBlackPaintedCivSedanDoors_Driver);
+		RegisterRecipe(new createBlackPaintedCivSedanDoors_BackRight);
+		RegisterRecipe(new createBlackPaintedCivSedanDoors_BackLeft);
+		RegisterRecipe(new createBlackPaintedCivSedanDoors_CoDriver);
+		RegisterRecipe(new createBlackPaintedCivSedanTrunk);
+		RegisterRecipe(new createBlackPaintedCivSedanHood);
+		
+		RegisterRecipe(new createBlackPaintedHatchback_02);
+		RegisterRecipe(new createBlackPaintedHatchback_02_Trunk);
+		RegisterRecipe(new createBlackPaintedHatchback_02_Door_1_1);
+		RegisterRecipe(new createBlackPaintedHatchback_02_Door_1_2);
+		RegisterRecipe(new createBlackPaintedHatchback_02_Door_2_1);
+		RegisterRecipe(new createBlackPaintedHatchback_02_Door_2_2);
+		RegisterRecipe(new createBlackPaintedHatchback_02_Hood);
+		
+		//ColorBlackPatternsEND
+		// RegisterRecipe(new createGreyPainted);
+		//ColorGreyPatternsEND
+		RegisterRecipe(new SharpenMeleeWithFarmerBook);
+		RegisterRecipe(new upgradeTier1Farmer);
+		RegisterRecipe(new upgradeTier2Farmer);
+		RegisterRecipe(new upgradeTier3Farmer);
+		RegisterRecipe(new upgradeTier1Weed);
+		RegisterRecipe(new upgradeTier2Weed);
+		RegisterRecipe(new upgradeTier3Weed);
+		RegisterRecipe(new createWeedGuide);
+		RegisterRecipe(new createTomatoSeedsPack);
+		RegisterRecipe(new createZucchiniSeedsPack);
+		RegisterRecipe(new createPumpkinSeedsPack);
+		RegisterRecipe(new createPepperSeedsPack);
+		RegisterRecipe(new createCannabisSeedsPack);
+		RegisterRecipe(new createSC_PotatoSeedsPack);
+		RegisterRecipe(new createSC_PlumSeedsPack);
+		RegisterRecipe(new createSC_AppleSeedsPack);
+		RegisterRecipe(new createSC_OrangeSeedsPack);
+		RegisterRecipe(new createSC_BananaSeedsPack);
+		RegisterRecipe(new createSC_PearSeedsPack);
+		RegisterRecipe(new createSC_CaninaBerrySeedsPack);
+		RegisterRecipe(new createSC_SambucusBerrySeedsPack);
+		RegisterRecipe(new createSC_KiwiSeedsPack);
+		RegisterRecipe(new createSC_SausageSeedsPack);
+		RegisterRecipe(new createSC_Cannabis_Alaskan_ThunderFuck_SeedsPack);
+		RegisterRecipe(new createSC_Cannabis_GorillaGlue_SeedsPack);
+		RegisterRecipe(new createSC_Cannabis_Trainwreck_SeedsPack);
+		RegisterRecipe(new createSC_Cannabis_WhiteWidow_SeedsPack);
+		RegisterRecipe(new createSC_Cannabis_FireCrotch_SeedsPack);
+		RegisterRecipe(new createSC_Cannabis_SourDiesel_SeedsPack);
+		RegisterRecipe(new createSC_Cannabis_BlueDream_SeedsPack);
+		RegisterRecipe(new createSC_Cannabis_PineappleExpress_SeedsPack);
+		//FarmerRegEnd
+		RegisterRecipe(new createToolShovel);
+		RegisterRecipe(new createGardenBox);
+		RegisterRecipe(new createSausageCoSeeds);
+		RegisterRecipe(new createPaperfromMat);
+		RegisterRecipe(new createEmptySeedsPack);
+		RegisterRecipe(new createSeedsTomato);
+		RegisterRecipe(new createSeedsPepper);
+		RegisterRecipe(new createSeedsPumpkin);
+		RegisterRecipe(new createSeedsZucchini);
+		RegisterRecipe(new createSeedsCannabis);
+		
+		RegisterRecipe(new createWhiteWidowPoundbag );
+		RegisterRecipe(new createWhiteWidowOuncebag );
+		RegisterRecipe(new createWhiteWidowHalfOuncebag );
+		RegisterRecipe(new createGorillaGluePoundbag );
+		RegisterRecipe(new createGorillaGlueOuncebag );
+		RegisterRecipe(new createGorillaGlueHalfOuncebag );
+		RegisterRecipe(new createTrainwreckPoundbag );
+		RegisterRecipe(new createTrainwreckOuncebag );
+		RegisterRecipe(new createTrainwreckHalfOuncebag );
+		RegisterRecipe(new createAlaskanThunderFuckPoundbag );
+		RegisterRecipe(new createAlaskanThunderFuckOuncebag );
+		RegisterRecipe(new createAlaskanThunderFuckHalfOuncebag );
+		RegisterRecipe(new createBasicCannabisPoundbag );
+		RegisterRecipe(new createBasicCannabisOuncebag );
+		RegisterRecipe(new createBasicCannabisHalfOuncebag );
+		RegisterRecipe(new createPineappleExpressPoundbag );
+		RegisterRecipe(new createPineappleExpressOuncebag );
+		RegisterRecipe(new createPineappleExpressHalfOuncebag );
+		RegisterRecipe(new createSourDieselPoundbag );
+		RegisterRecipe(new createSourDieselOuncebag );
+		RegisterRecipe(new createSourDieselHalfOuncebag );
+		RegisterRecipe(new createFireCrotchPoundbag );
+		RegisterRecipe(new createFireCrotchOuncebag );
+		RegisterRecipe(new createFireCrotchHalfOuncebag );
+		RegisterRecipe(new createBlueDreamPoundbag );
+		RegisterRecipe(new createBlueDreamOuncebag );
+		RegisterRecipe(new createBlueDreamHalfOuncebag );
+		
+		RegisterRecipe(new createAlaskanThunderFuckJoint );
+		RegisterRecipe(new createCannabisJoint );
+		RegisterRecipe(new createGorillaGlueJoint );
+		RegisterRecipe(new createTrainwreckJoint );
+		RegisterRecipe(new createWhiteWidowJoint );
+		RegisterRecipe(new createBlueDreamJoint );
+		RegisterRecipe(new createFireCrotchJoint );
+		RegisterRecipe(new createSourDieselJoint );
+		RegisterRecipe(new createPineappleExpressJoint );
+		
+		RegisterRecipe(new createAlaskanThunderFuckBlunt );
+		RegisterRecipe(new createCannabisBlunt );
+		RegisterRecipe(new createGorillaGlueBlunt );
+		RegisterRecipe(new createTrainwreckBlunt );
+		RegisterRecipe(new createWhiteWidowBlunt );
+		RegisterRecipe(new createBlueDreamBlunt );
+		RegisterRecipe(new createFireCrotchBlunt );
+		RegisterRecipe(new createSourDieselBlunt );
+		RegisterRecipe(new createPineappleExpressBlunt );
+		//Tier1FarmerEnd
+		RegisterRecipe(new createToolWhetstone);
+		RegisterRecipe(new createSCSeedsPotato);
+		RegisterRecipe(new createSCSeedsPlum);
+		RegisterRecipe(new createSCSeedsApple);
+		RegisterRecipe(new createSCSeedsOrange);
+		RegisterRecipe(new createSCSeedsBanana);
+		RegisterRecipe(new createSCSeedsPear);
+		//Tier2FarmerEnd
+		RegisterRecipe(new createToolPickaxe);
+		RegisterRecipe(new createSCSeedsCaninaBerry);
+		RegisterRecipe(new createSCSeedsSambucusBerry);
+		RegisterRecipe(new createSCSeedsKiwi);
+		//Tier3FarmerEnd
+		RegisterRecipe(new createGardenCompost);
+		RegisterRecipe(new createSCSeedsSausage);
+		//Tier4FarmerEnd
+		//T1Weed
+		RegisterRecipe(new createSCSeedsFireCrotch);
+		RegisterRecipe(new createSCSeedsAlaskanThunderFuck);
+		//T2Weed
+		RegisterRecipe(new createSCSeedsPineappleExpress);
+		RegisterRecipe(new createSCSeedsGorillaGlue);
+		//T3Weed
+		RegisterRecipe(new createSCSeedsSourDiesel);
+		RegisterRecipe(new createSCSeedsTrainwreck);
+		//T4Weed
+		RegisterRecipe(new createSCSeedsBlueDream);
+		RegisterRecipe(new createSCSeedsWhiteWidow);
+		
+		
+		RegisterRecipe(new upgradeTier1Medic);
+		RegisterRecipe(new upgradeTier2Medic);
+		RegisterRecipe(new upgradeTier3Medic);
+		//MedicRegEnd
+		RegisterRecipe(new createMedicineVitamins);
+		RegisterRecipe(new createMedicineBandages);
+		RegisterRecipe(new createMedicinePurificationTablets);
+		RegisterRecipe(new createMedicineSalineBag);
+		RegisterRecipe(new createMedicineStartKitIV);
+		RegisterRecipe(new createMedicineBloodTestKit);
+		RegisterRecipe(new createMedicineBloodBagEmpty);
+		RegisterRecipe(new createMedicineSplint);
+		//Tier1MedicEnd
+		RegisterRecipe(new createMedicineBetterVitamins);
+		RegisterRecipe(new createMedicineSCBandages);
+		RegisterRecipe(new createMedicineCharcoalTablets);
+		RegisterRecipe(new createMedicinePainkillerTablets);
+		RegisterRecipe(new createMedicineBloodBagIV);
+		RegisterRecipe(new createMedicineEpinephrine);
+		//Tier2MedicEnd
+		RegisterRecipe(new createMedicineBestVitamins);
+		RegisterRecipe(new createMedicineBetterBandages);
+		RegisterRecipe(new createMedicineSalineBagIV);
+		RegisterRecipe(new createMedicineTetracyclineAntibiotics);
+		RegisterRecipe(new createMedicineMorphine);
+		RegisterRecipe(new createMedicineIodine);
+		//Tier3MedicEnd
+		RegisterRecipe(new createMedicineBestBandages);
+		RegisterRecipe(new createMedKit);
+		//Tier4MedicEnd
+		RegisterRecipe(new createZestOrange);
+		RegisterRecipe(new createZestBanana);
+		RegisterRecipe(new createZestPear);
+		RegisterRecipe(new createZestPlum);
+		RegisterRecipe(new createZestApple);
+		RegisterRecipe(new createZestKiwi);
+		//CookSkill
+		RegisterRecipe(new upgradeTier1Chef);
+		//Tier2upgrade
+		RegisterRecipe(new upgradeTier2Chef);
+		//Tier3upgrade
+		RegisterRecipe(new upgradeTier3Chef);
+		//Tier4upgrade
+		//CookSkill END
+		//HunterSkill
+		RegisterRecipe(new craftLure);
+		RegisterRecipe(new craftBoneLure);
+		// RegisterRecipe(new createCrossBowBolts);
+		RegisterRecipe(new upgradeTier1Hunter);
+		//Tier2upgrade
+		// RegisterRecipe(new createCrossBow);
+		RegisterRecipe(new upgradeTier2Hunter);
+		//Tier3upgrade
+		RegisterRecipe(new upgradeTier3Hunter);
+		//Tier4upgrade
+		//HunterSkill END
+		
+	}
+};

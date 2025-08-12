@@ -1,0 +1,1 @@
+class SC_DuffleSling extends Clothing {};
