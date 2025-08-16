@@ -3,6 +3,15 @@
  * RPC Handlers
  */
 
+// Notification type enum (moved outside the class)
+enum NotificationType
+{
+    PLAIN,
+    SUCCESS,
+    WARNING,
+    ERROR
+}
+
 class SausageSkillsRPC
 {
     // Server-side RPC handlers
@@ -184,13 +193,7 @@ class SausageSkillsRPC
 // Notification system for client messages
 class NotificationSystem
 {
-    enum NotificationType
-    {
-        PLAIN,
-        SUCCESS,
-        WARNING,
-        ERROR
-    }
+    // NotificationType enum is now defined outside the class
     
     static void AddNotification(int type, float duration, string message)
     {

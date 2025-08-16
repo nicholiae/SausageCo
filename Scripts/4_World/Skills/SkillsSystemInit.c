@@ -1,4 +1,4 @@
-/*
+/**
  * SausageCo Skills System
  * Initialization
  */
@@ -11,10 +11,43 @@ class SkillsSystemInit
     {
         Print("[SausageSkills] Initializing Skills System");
         
+        // Initialize folders
+        CheckFolders();
+        
+        // Initialize plugins first
+        GetPlugin(PluginSausageSkillsConfig);
+        GetPlugin(PluginSausageSkillsManager);
+        
+        // Initialize RPC manager
+        RPCManagerHelper.GetRPCManager();
+        
         // Initialize XP events system
         SkillXPEvents.Init();
         
         Print("[SausageSkills] Skills System Initialized");
+    }
+    
+    // Create necessary folders
+    static void CheckFolders()
+    {
+        string skillsFolder = "$profile:Sausage\\Skills\\";
+        string playersFolder = "$profile:Sausage\\Skills\\players\\";
+        
+        if (!FileExist(skillsFolder))
+        {
+            if (!FileExist("$profile:Sausage\\"))
+            {
+                MakeDirectory("$profile:Sausage\\");
+            }
+            MakeDirectory(skillsFolder);
+        }
+        
+        if (!FileExist(playersFolder))
+        {
+            MakeDirectory(playersFolder);
+        }
+        
+        Print("[SausageSkills] Folders checked and created if needed");
     }
 }
 

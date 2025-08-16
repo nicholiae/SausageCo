@@ -1,4 +1,4 @@
-/*
+/**
  * SausageCo Skills System
  * XP Gain Events
  */
@@ -382,57 +382,49 @@ class SkillXPEvents
             string resultType = result.GetType();
             
             // Engineering items
-            if (resultType.Contains("Wooden") || resultType.Contains("Metal") || resultType.Contains("Shelter") || 
-                resultType.Contains("Fence") || resultType.Contains("Workbench") || resultType.Contains("Furnace"))
+            if (resultType.Contains("Wooden") || resultType.Contains("Metal") || resultType.Contains("Shelter") || resultType.Contains("Fence") || resultType.Contains("Workbench") || resultType.Contains("Furnace"))
             {
                 return SkillTypes.ENGINEERING;
             }
             
             // Farming items
-            if (resultType.Contains("Seed") || resultType.Contains("Fertilizer") || resultType.Contains("Compost") ||
-                resultType.Contains("Plant") || resultType.Contains("Garden"))
+            if (resultType.Contains("Seed") || resultType.Contains("Fertilizer") || resultType.Contains("Compost") || resultType.Contains("Plant") || resultType.Contains("Garden"))
             {
                 return SkillTypes.FARMING;
             }
             
             // Firearm items
-            if (resultType.Contains("Ammo") || resultType.Contains("Magazine") || resultType.Contains("Weapon") ||
-                resultType.Contains("Gun") || resultType.Contains("Pistol") || resultType.Contains("Rifle"))
+            if (resultType.Contains("Ammo") || resultType.Contains("Magazine") || resultType.Contains("Weapon") || resultType.Contains("Gun") || resultType.Contains("Pistol") || resultType.Contains("Rifle"))
             {
                 return SkillTypes.FIREARM;
             }
             
             // Leather items
-            if (resultType.Contains("Leather") || resultType.Contains("Hide") || resultType.Contains("Pelt") ||
-                resultType.Contains("Tanned"))
+            if (resultType.Contains("Leather") || resultType.Contains("Hide") || resultType.Contains("Pelt") || resultType.Contains("Tanned"))
             {
                 return SkillTypes.LEATHER;
             }
             
             // Mechanic items
-            if (resultType.Contains("Engine") || resultType.Contains("Wheel") || resultType.Contains("Battery") ||
-                resultType.Contains("Spark") || resultType.Contains("Vehicle") || resultType.Contains("Car"))
+            if (resultType.Contains("Engine") || resultType.Contains("Wheel") || resultType.Contains("Battery") || resultType.Contains("Spark") || resultType.Contains("Vehicle") || resultType.Contains("Car"))
             {
                 return SkillTypes.MECHANIC;
             }
             
             // Medic items
-            if (resultType.Contains("Bandage") || resultType.Contains("Medical") || resultType.Contains("Medicine") ||
-                resultType.Contains("First") || resultType.Contains("Health") || resultType.Contains("Blood"))
+            if (resultType.Contains("Bandage") || resultType.Contains("Medical") || resultType.Contains("Medicine") || resultType.Contains("First") || resultType.Contains("Health") || resultType.Contains("Blood"))
             {
                 return SkillTypes.MEDIC;
             }
             
             // Hunter items
-            if (resultType.Contains("Trap") || resultType.Contains("Snare") || resultType.Contains("Bait") ||
-                resultType.Contains("Arrow") || resultType.Contains("Bow") || resultType.Contains("Hunt"))
+            if (resultType.Contains("Trap") || resultType.Contains("Snare") || resultType.Contains("Bait") || resultType.Contains("Arrow") || resultType.Contains("Bow") || resultType.Contains("Hunt"))
             {
                 return SkillTypes.HUNTER;
             }
             
             // Cook items
-            if (resultType.Contains("Food") || resultType.Contains("Meal") || resultType.Contains("Stew") ||
-                resultType.Contains("Cooked") || resultType.Contains("Baked") || resultType.Contains("Preserved"))
+            if (resultType.Contains("Food") || resultType.Contains("Meal") || resultType.Contains("Stew") || resultType.Contains("Cooked") || resultType.Contains("Baked") || resultType.Contains("Preserved"))
             {
                 return SkillTypes.COOK;
             }

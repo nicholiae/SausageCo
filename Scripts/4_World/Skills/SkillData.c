@@ -1,4 +1,4 @@
-/*
+/**
  * SausageCo Skills System
  * Skill Data Structures
  */

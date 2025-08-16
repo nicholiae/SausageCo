@@ -30,9 +30,15 @@ modded class PlayerBase
     {
         super.OnRPC(sender, rpc_type, ctx);
         
-        // Handle skills-related RPCs
-        // Note: This is handled by the SausageSkillsRPC class
-		switch (rpc_type)
+        // Handle SausageCo RPCs
+        if (rpc_type >= 100 && rpc_type < 200) // SausageSkills RPC range
+        {
+            // These are handled by the SausageSkillsRPC class
+            return;
+        }
+        
+        // Handle original SausageCo RPCs
+        switch (rpc_type)
         {
         case SausageCompany_RPC.RPC_CLIENT_SETPROXIESCONFIG:
             PluginSausageCompanyProxiesConfig SC_config = PluginSausageCompanyProxiesConfig.Cast(GetPlugin(PluginSausageCompanyProxiesConfig));
@@ -63,7 +69,7 @@ modded class PlayerBase
                 GetGame().GetMission().AddActiveInputExcludes({"menu"});
             }
             break;
-        } 
+        }
     }
     
     // Update all skills data (client-side)

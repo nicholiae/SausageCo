@@ -1,0 +1,11 @@
+ButtonWidgetClass TabButton {
+    position 0 0
+    size 0.2 1
+    visible 1
+    text "Tab"
+    font "gui/fonts/sdf_MetronBook24"
+    "text color" 0.9 0.9 0.9 1
+    "text halign" center
+    "text valign" center
+    color 0.3 0.3 0.3 0.8
+}

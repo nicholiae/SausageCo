@@ -1,4 +1,4 @@
-/*
+/**
  * SausageCo Skills System
  * Skills Manager Plugin
  */
