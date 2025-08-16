@@ -35,9 +35,6 @@ class PluginSausageSkillsManager extends PluginBase
         m_RecipeManager = new SausageSkillsRecipeManager();
         m_RecipeManager.Init();
         
-        // Register events
-        GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(RegisterEvents, 1000, false);
-        
         // Auto-save timer (every 5 minutes)
         GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(AutoSavePlayerData, 300000, true);
         
@@ -46,16 +43,6 @@ class PluginSausageSkillsManager extends PluginBase
         {
             GetRPCManager().AddRPC("SausageSkills", "RequestSkillsData", this, SingleplayerExecutionType.Server);
             GetRPCManager().AddRPC("SausageSkills", "CraftRecipe", this, SingleplayerExecutionType.Server);
-        }
-    }
-    
-    void RegisterEvents()
-    {
-        // Register for player connect/disconnect events
-        if (GetGame().IsServer())
-        {
-            GetDayZGame().Event_OnPlayerConnect.Insert(OnPlayerConnect);
-            GetDayZGame().Event_OnPlayerDisconnect.Insert(OnPlayerDisconnect);
         }
     }
     
@@ -357,8 +344,8 @@ class PluginSausageSkillsManager extends PluginBase
                             // Craft the recipe
                             CraftRecipeForPlayer(player, recipe);
                             
-                            // Add some XP for crafting
-                            AddSkillXP(player, skillType, 10);
+                            // Award XP for crafting using the recipe manager
+                            m_RecipeManager.AwardRecipeXP(player, recipeName);
                         }
                         else
                         {

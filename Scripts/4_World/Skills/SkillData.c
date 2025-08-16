@@ -126,11 +126,13 @@ class SkillRecipeData
     ref array<ref Param2<string, int>> ingredients; // Item classname and quantity
     ref array<ref Param2<string, int>> results; // Item classname and quantity
     float craftingTime;
+    int xpReward; // Added XP reward field
     
     void SkillRecipeData()
     {
         ingredients = new array<ref Param2<string, int>>();
         results = new array<ref Param2<string, int>>();
         craftingTime = 1.0;
+        xpReward = 10; // Default XP reward
     }
 }

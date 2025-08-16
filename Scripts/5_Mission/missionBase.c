@@ -14,4 +14,15 @@ modded class MissionBase
         }
         return menu;
     }
+	override void OnInit()
+    {
+        super.OnInit();
+        
+        // Only initialize on server
+        if (GetGame().IsServer())
+        {
+            // Initialize the skills system
+            GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(SkillsSystemInit.OnGameInit, 1000, false);
+        }
+    }
 };

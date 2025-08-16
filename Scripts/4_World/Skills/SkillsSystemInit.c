@@ -21,9 +21,6 @@ class SkillsSystemInit
         // Initialize RPC manager
         RPCManagerHelper.GetRPCManager();
         
-        // Initialize XP events system
-        SkillXPEvents.Init();
-        
         Print("[SausageSkills] Skills System Initialized");
     }
     
@@ -51,30 +48,30 @@ class SkillsSystemInit
     }
 }
 
-// Hook into the game initialization
-modded class DayZGame
-{
-    // Events for XP gain
-    ref ScriptInvoker Event_OnRecipePerformed = new ScriptInvoker();
-    ref ScriptInvoker Event_OnBuildPartPlaced = new ScriptInvoker();
-    ref ScriptInvoker Event_OnDismantleFinished = new ScriptInvoker();
-    ref ScriptInvoker Event_OnMedicalActionPerformed = new ScriptInvoker();
-    ref ScriptInvoker Event_OnEntityKilled = new ScriptInvoker();
-    ref ScriptInvoker Event_OnItemButchered = new ScriptInvoker();
-    ref ScriptInvoker Event_OnPlantSeed = new ScriptInvoker();
-    ref ScriptInvoker Event_OnHarvestPlant = new ScriptInvoker();
-    ref ScriptInvoker Event_OnWeaponFired = new ScriptInvoker();
-    ref ScriptInvoker Event_OnWeaponCleaned = new ScriptInvoker();
-    ref ScriptInvoker Event_OnVehicleRepaired = new ScriptInvoker();
-    ref ScriptInvoker Event_OnVehiclePartAttached = new ScriptInvoker();
-    ref ScriptInvoker Event_OnItemTanned = new ScriptInvoker();
-    ref ScriptInvoker Event_OnItemCooked = new ScriptInvoker();
-    
-    override void OnInit()
-    {
-        super.OnInit();
+// Hook into the mission initialization instead of DayZGame  --- THIS IS NOW DONE IN MISSIONGAMEPLAY.c
+// modded class MissionGameplay
+// {
+    // override void OnInit()
+    // {
+        // super.OnInit();
         
         // Initialize the skills system
-        GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(SkillsSystemInit.OnGameInit, 1000, false);
-    }
-}
+        // GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(SkillsSystemInit.OnGameInit, 1000, false);
+    // }
+// }
+
+// Server-side initialization  --- THIS IS NOW DONE IN MISSIONBASE.c
+// modded class MissionBase
+// {
+    // override void OnInit()
+    // {
+        // super.OnInit();
+        
+        // Only initialize on server
+        // if (GetGame().IsServer())
+        // {
+            // Initialize the skills system
+            // GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(SkillsSystemInit.OnGameInit, 1000, false);
+        // }
+    // }
+// }

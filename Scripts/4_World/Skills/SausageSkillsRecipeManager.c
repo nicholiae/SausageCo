@@ -77,6 +77,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("WoodenLog", 1));
         recipe.results.Insert(new Param2<string, int>("WoodenPlank", 4));
         recipe.craftingTime = 5.0;
+        recipe.xpReward = 15; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -93,6 +94,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("Rope", 2));
         recipe.results.Insert(new Param2<string, int>("ShelterKit", 1));
         recipe.craftingTime = 30.0;
+        recipe.xpReward = 25; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -110,6 +112,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("Nail", 20));
         recipe.results.Insert(new Param2<string, int>("ImprovedShelterKit", 1));
         recipe.craftingTime = 60.0;
+        recipe.xpReward = 40; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -126,6 +129,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("Nail", 16));
         recipe.results.Insert(new Param2<string, int>("WoodenCrate", 1));
         recipe.craftingTime = 20.0;
+        recipe.xpReward = 30; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -143,6 +147,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("MetalWire", 2));
         recipe.results.Insert(new Param2<string, int>("SausageFurnace", 1));
         recipe.craftingTime = 90.0;
+        recipe.xpReward = 50; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -160,6 +165,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("MetalPlate", 2));
         recipe.results.Insert(new Param2<string, int>("WorkBench", 1));
         recipe.craftingTime = 60.0;
+        recipe.xpReward = 45; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -176,6 +182,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("Tomato", 1));
         recipe.results.Insert(new Param2<string, int>("TomatoSeeds", 5));
         recipe.craftingTime = 5.0;
+        recipe.xpReward = 10; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -191,6 +198,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("Zucchini", 1));
         recipe.results.Insert(new Param2<string, int>("ZucchiniSeeds", 5));
         recipe.craftingTime = 5.0;
+        recipe.xpReward = 10; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -206,6 +214,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("Pumpkin", 1));
         recipe.results.Insert(new Param2<string, int>("PumpkinSeeds", 10));
         recipe.craftingTime = 5.0;
+        recipe.xpReward = 15; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -222,6 +231,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("PlantMaterial", 8));
         recipe.results.Insert(new Param2<string, int>("ImprovedCompost", 1));
         recipe.craftingTime = 30.0;
+        recipe.xpReward = 25; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -239,6 +249,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("MetalPlate", 1));
         recipe.results.Insert(new Param2<string, int>("Ammo_9x19", 20));
         recipe.craftingTime = 30.0;
+        recipe.xpReward = 20; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -255,6 +266,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("WaterBottle", 1));
         recipe.results.Insert(new Param2<string, int>("WeaponCleaningKit", 1));
         recipe.craftingTime = 15.0;
+        recipe.xpReward = 15; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -271,6 +283,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("MetalPlate", 2));
         recipe.results.Insert(new Param2<string, int>("Ammo_308Win", 10));
         recipe.craftingTime = 45.0;
+        recipe.xpReward = 30; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -288,6 +301,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("WaterBottle", 1));
         recipe.results.Insert(new Param2<string, int>("Leather", 2));
         recipe.craftingTime = 60.0;
+        recipe.xpReward = 20; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -304,6 +318,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("Rope", 1));
         recipe.results.Insert(new Param2<string, int>("LeatherSack", 1));
         recipe.craftingTime = 20.0;
+        recipe.xpReward = 15; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -321,6 +336,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("Duct Tape", 1));
         recipe.results.Insert(new Param2<string, int>("RepairKit", 1));
         recipe.craftingTime = 30.0;
+        recipe.xpReward = 25; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -337,6 +353,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("Rubber", 1));
         recipe.results.Insert(new Param2<string, int>("TireRepairKit", 1));
         recipe.craftingTime = 20.0;
+        recipe.xpReward = 20; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -354,6 +371,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("Disinfectant", 1));
         recipe.results.Insert(new Param2<string, int>("BandageDressing", 2));
         recipe.craftingTime = 10.0;
+        recipe.xpReward = 15; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -370,6 +388,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("WaterBottle", 1));
         recipe.results.Insert(new Param2<string, int>("HerbalTea", 1));
         recipe.craftingTime = 15.0;
+        recipe.xpReward = 15; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -387,6 +406,7 @@ class SausageSkillsRecipeManager
         recipe.results.Insert(new Param2<string, int>("Meat", 5));
         recipe.results.Insert(new Param2<string, int>("AnimalPelt", 1));
         recipe.craftingTime = 30.0;
+        recipe.xpReward = 25; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -403,6 +423,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("WoodenStick", 3));
         recipe.results.Insert(new Param2<string, int>("RabbitSnare", 1));
         recipe.craftingTime = 15.0;
+        recipe.xpReward = 15; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -420,6 +441,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("Potato", 2));
         recipe.results.Insert(new Param2<string, int>("CookedMeal", 1));
         recipe.craftingTime = 20.0;
+        recipe.xpReward = 15; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -436,6 +458,7 @@ class SausageSkillsRecipeManager
         recipe.ingredients.Insert(new Param2<string, int>("Salt", 1));
         recipe.results.Insert(new Param2<string, int>("DriedMeat", 3));
         recipe.craftingTime = 60.0;
+        recipe.xpReward = 25; // Added XP reward
         
         m_Recipes.Set(recipe.recipeName, recipe);
     }
@@ -481,5 +504,19 @@ class SausageSkillsRecipeManager
         }
         
         return recipes;
+    }
+    
+    // Award XP for crafting a recipe
+    void AwardRecipeXP(PlayerBase player, string recipeName)
+    {
+        if (!GetGame().IsServer() || !player)
+            return;
+            
+        ref SkillRecipeData recipe = GetRecipe(recipeName);
+        if (recipe)
+        {
+            // Use the XP events system to award XP
+            SkillXPEvents.AwardRecipeXP(player, recipeName, recipe.xpReward, recipe.skillType);
+        }
     }
 }
