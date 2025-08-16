@@ -1,0 +1,12 @@
+This directory will contain skill icon images:
+
+- engineering.paa - Engineering skill icon
+- farming.paa - Farming skill icon
+- firearm.paa - Firearms skill icon
+- leather.paa - Leatherworking skill icon
+- mechanic.paa - Mechanics skill icon
+- medic.paa - Medicine skill icon
+- hunter.paa - Hunting skill icon
+- cook.paa - Cooking skill icon
+
+These would be created using image editing software and converted to PAA format for DayZ.
