@@ -1,3 +1,4 @@
+
 /**
  * SausageCo Skills System
  * Skills Manager Plugin
@@ -41,8 +42,9 @@ class PluginSausageSkillsManager extends PluginBase
         // Register RPC handlers
         if (GetGame().IsServer())
         {
-            GetRPCManager().AddRPC("SausageSkills", "RequestSkillsData", this, SingleplayerExecutionType.Server);
-            GetRPCManager().AddRPC("SausageSkills", "CraftRecipe", this, SingleplayerExecutionType.Server);
+            // Use the global GetRPCManager() function to avoid conflicts
+            ::GetRPCManager().AddRPC("SausageSkills", "RequestSkillsData", this, SingleplayerExecutionType.Server);
+            ::GetRPCManager().AddRPC("SausageSkills", "CraftRecipe", this, SingleplayerExecutionType.Server);
         }
     }
     
@@ -195,8 +197,8 @@ class PluginSausageSkillsManager extends PluginBase
                 skillsArray.Insert(new Param3<string, int, int>(skillType, data.level, data.experience));
             }
             
-            // Send to client
-            GetRPCManager().SendRPC("SausageSkills", "SyncPlayerSkills", new Param1<ref array<ref Param3<string, int, int>>>(skillsArray), true, player.GetIdentity());
+            // Send to client using the global GetRPCManager() function
+            ::GetRPCManager().SendRPC("SausageSkills", "SyncPlayerSkills", new Param1<ref array<ref Param3<string, int, int>>>(skillsArray), true, player.GetIdentity());
             
             Print("[SausageSkills] Sent skills data to client: " + steamId);
         }
@@ -284,8 +286,8 @@ class PluginSausageSkillsManager extends PluginBase
         if (!player || !player.GetIdentity())
             return;
             
-        // Send updated skill to client
-        GetRPCManager().SendRPC("SausageSkills", "UpdateSkill", new Param3<string, int, int>(skillType, level, experience), true, player.GetIdentity());
+        // Send updated skill to client using the global GetRPCManager() function
+        ::GetRPCManager().SendRPC("SausageSkills", "UpdateSkill", new Param3<string, int, int>(skillType, level, experience), true, player.GetIdentity());
     }
     
     // Check if player has required skill level
@@ -509,7 +511,8 @@ class PluginSausageSkillsManager extends PluginBase
     {
         if (player && player.GetIdentity())
         {
-            GetRPCManager().SendRPC("SausageSkills", "DisplayMessage", new Param1<string>(message), true, player.GetIdentity());
+            // Use the global GetRPCManager() function to avoid conflicts
+            ::GetRPCManager().SendRPC("SausageSkills", "DisplayMessage", new Param1<string>(message), true, player.GetIdentity());
         }
     }
     

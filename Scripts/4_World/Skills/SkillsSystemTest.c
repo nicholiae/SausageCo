@@ -1,3 +1,4 @@
+
 /**
  * SausageCo Skills System
  * Testing Script
@@ -53,8 +54,8 @@ class SkillsSystemTest
             
         Print("[SausageSkills] Testing CraftRecipe: " + skillType + " - " + recipeName);
         
-        // Send craft request to server
-        GetRPCManager().SendRPC("SausageSkills", "CraftRecipe", new Param2<string, string>(skillType, recipeName), true);
+        // Send craft request to server using the global GetRPCManager() function
+        ::GetRPCManager().SendRPC("SausageSkills", "CraftRecipe", new Param2<string, string>(skillType, recipeName), true);
         
         // Log result
         Print("[SausageSkills] Craft request sent");
@@ -324,19 +325,28 @@ class SkillsSystemTest
 }
 
 // Register the admin command through a plugin
-modded class PluginManager
+class SkillsTestCommandRegistration
 {
-    override void OnInit()
+    // This will be called when the game starts
+    static void RegisterCommand()
     {
-        super.OnInit();
-        
-        // Register the skillstest command
+        // Register the command with the existing command system
         GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(RegisterSkillsTestCommand, 1000, false);
     }
     
-    void RegisterSkillsTestCommand()
+    static void RegisterSkillsTestCommand()
     {
         // Register the command with the existing command system
+        Print("[SausageSkills] Registering skillstest command");
+        
+        // Use the appropriate method to register the command based on the game's command system
+        // This is a simplified example and may need to be adjusted based on the actual command system
         GetGame().GetMission().RegisterCommand("skillstest", "Test the skills system", "SkillsSystemTest.ProcessAdminCommand");
     }
+}
+
+// Initialize the command registration when the script is loaded
+void InitSkillsTestCommand()
+{
+    SkillsTestCommandRegistration.RegisterCommand();
 }

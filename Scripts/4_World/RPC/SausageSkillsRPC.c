@@ -1,32 +1,26 @@
-/*
+
+/**
  * SausageCo Skills System
  * RPC Handlers
  */
-
-// Notification type enum (moved outside the class)
-enum NotificationType
-{
-    PLAIN,
-    SUCCESS,
-    WARNING,
-    ERROR
-}
 
 class SausageSkillsRPC
 {
     // Server-side RPC handlers
     static void RegisterServerRPCs()
     {
-        GetRPCManager().AddRPC("SausageSkills", "RequestSkillsData", RequestSkillsDataServer);
-        GetRPCManager().AddRPC("SausageSkills", "CraftRecipe", CraftRecipeServer);
+        // Use the global GetRPCManager() function to avoid conflicts
+        ::GetRPCManager().AddRPC("SausageSkills", "RequestSkillsData", RequestSkillsDataServer);
+        ::GetRPCManager().AddRPC("SausageSkills", "CraftRecipe", CraftRecipeServer);
     }
     
     // Client-side RPC handlers
     static void RegisterClientRPCs()
     {
-        GetRPCManager().AddRPC("SausageSkills", "SyncPlayerSkills", SyncPlayerSkillsClient);
-        GetRPCManager().AddRPC("SausageSkills", "UpdateSkill", UpdateSkillClient);
-        GetRPCManager().AddRPC("SausageSkills", "DisplayMessage", DisplayMessageClient);
+        // Use the global GetRPCManager() function to avoid conflicts
+        ::GetRPCManager().AddRPC("SausageSkills", "SyncPlayerSkills", SyncPlayerSkillsClient);
+        ::GetRPCManager().AddRPC("SausageSkills", "UpdateSkill", UpdateSkillClient);
+        ::GetRPCManager().AddRPC("SausageSkills", "DisplayMessage", DisplayMessageClient);
     }
     
     // Server RPC Handlers
@@ -144,7 +138,7 @@ class SausageSkillsRPC
                     string skillDisplayName = config.GetSkillDisplayName(skillType);
                     
                     // Show level up notification
-                    NotificationSystem.AddNotification(NotificationType.PLAIN, 5, "Skill Level Up: " + skillDisplayName + " reached level " + level + "!");
+                    SausageSkillsNotification.AddNotification(SausageSkillsNotification.NOTIFICATION_PLAIN, 5, "Skill Level Up: " + skillDisplayName + " reached level " + level + "!");
                 }
             }
         }
@@ -162,7 +156,7 @@ class SausageSkillsRPC
             string message = data.param1;
             
             // Show notification
-            NotificationSystem.AddNotification(NotificationType.PLAIN, 5, message);
+            SausageSkillsNotification.AddNotification(SausageSkillsNotification.NOTIFICATION_PLAIN, 5, message);
         }
     }
     
@@ -190,10 +184,14 @@ class SausageSkillsRPC
     }
 }
 
-// Notification system for client messages
-class NotificationSystem
+// Notification system for client messages - renamed to avoid conflicts
+class SausageSkillsNotification
 {
-    // NotificationType enum is now defined outside the class
+    // Constants instead of enum to avoid conflicts
+    const static int NOTIFICATION_PLAIN = 0;
+    const static int NOTIFICATION_SUCCESS = 1;
+    const static int NOTIFICATION_WARNING = 2;
+    const static int NOTIFICATION_ERROR = 3;
     
     static void AddNotification(int type, float duration, string message)
     {

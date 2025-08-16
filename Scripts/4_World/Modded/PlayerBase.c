@@ -205,12 +205,12 @@ class ActionOpenSkillsMenu: ActionBase
         return true;
     }
     
-    override void OnExecuteServer(ActionData action_data)
+    override void OnStartClient(ActionData action_data)
     {
         // Server side - nothing to do
     }
     
-    override void OnExecuteClient(ActionData action_data)
+    override void OnStartServer(ActionData action_data)
     {
         // Open skills menu
         PlayerBase player = PlayerBase.Cast(action_data.m_Player);
