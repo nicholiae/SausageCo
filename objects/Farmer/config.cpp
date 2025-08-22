@@ -987,6 +987,9 @@ class CfgVehicles
 	class Inventory_Base;
 	class GardenPlotPolytunnel;
 	class Book_Base;
+    class SausageCo_SkillBook_Base: Book_Base
+    {
+    };
 	class HouseNoDestruct;
 	class Paper: Inventory_Base
 	{
@@ -1395,7 +1398,7 @@ class CfgVehicles
 			"SausageCo\Objects\Farmer\GardenBox\data\garden_wood_co.paa"
 		};
 	};
-	class SausageCo_FarmersTool: Inventory_Base
+	class SausageCo_FarmersTool: SausageCo_SkillBook_Base
 	{
 		model="DZ\gear\books\book_kniga.p3d";
 		isMeleeWeapon=1;

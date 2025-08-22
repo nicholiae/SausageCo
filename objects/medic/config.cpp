@@ -30,6 +30,9 @@ class CfgVehicles
 {
 	class Inventory_Base;
 	class Book_Base;
+    class SausageCo_SkillBook_Base: Book_Base
+    {
+    };
 	class Edible_Base;
 	class SausageCo_MedKit: Inventory_Base
 	{
@@ -150,7 +153,7 @@ class CfgVehicles
 		descriptionShort="SausageCo Med Kit. Use this to fix a broken leg and restore some blood, CAREFUL Setting a bone harms the target for 12 health.";
 		
 	};
-	class SausageCo_MedicsTool: Inventory_Base
+	class SausageCo_MedicsTool: SausageCo_SkillBook_Base
 	{
 		model="DZ\gear\books\book_kniga.p3d";
 		isMeleeWeapon=1;

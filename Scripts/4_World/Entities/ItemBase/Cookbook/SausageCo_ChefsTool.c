@@ -1,4 +1,4 @@
-class SausageCo_ChefsTool extends ItemBase
+class SausageCo_ChefsTool extends SausageCo_SkillBook_Base
 {
 	ref protected EffectSound 						m_DeployLoopSound;
 	Object											ChefsMealTest;
@@ -33,6 +33,9 @@ class SausageCo_ChefsTool extends ItemBase
 	void SausageCo_ChefsTool()
 	{	
 		RegisterNetSyncVariableBool("m_IsSoundSynchRemote");
+		m_SkillType = SkillTypes.COOK;
+        m_BookTitle = "Cooking Manual";
+        m_BookDescription = "This book contains recipes for preparing and preserving various foods.";
 	}
 	bool hasProperPrep()
 	{

@@ -1,4 +1,4 @@
-class SausageCo_HuntersTool extends ItemBase
+class SausageCo_HuntersTool extends SausageCo_SkillBook_Base
 {
 	ref protected EffectSound 						m_DeployLoopSound;
 	Object											HuntersBateItem;
@@ -31,6 +31,9 @@ class SausageCo_HuntersTool extends ItemBase
 	
 	void SausageCo_HuntersTool()
 	{	
+        m_SkillType = SkillTypes.HUNTER;
+        m_BookTitle = "Hunter's Guide";
+        m_BookDescription = "This book contains information about tracking, trapping, and processing game animals.";
 		RegisterNetSyncVariableBool("m_IsSoundSynchRemote");
 	}
 	

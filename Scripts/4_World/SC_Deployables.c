@@ -14,6 +14,7 @@ class SC_Deployables : ItemBase
 		super.SetActions();
         AddAction(ActionTogglePlaceObject);
 		AddAction(ActionPlaceObject);
+		AddAction(ActionDeploySCObject);
 	}
 };
 

@@ -216,8 +216,11 @@ class CfgVehicles
 {
 	class Inventory_Base;
 	class Book_Base;
+    class SausageCo_SkillBook_Base: Book_Base
+    {
+    };
 	class HouseNoDestruct;
-	class SausageCo_HuntersTool: Inventory_Base
+	class SausageCo_HuntersTool: SausageCo_SkillBook_Base
 	{
 		scope=2;
 		displayName="SausageCo Hunter's Tool";

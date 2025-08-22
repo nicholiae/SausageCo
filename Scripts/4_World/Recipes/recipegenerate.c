@@ -828,6 +828,13 @@ modded class PluginRecipesManager
 		//Tier4upgrade
 		//HunterSkill END
 		//Mining Recipes
+		RegisterRecipe(new craftHacksawCopper);
+		RegisterRecipe(new craftHacksawSilver);
+		RegisterRecipe(new craftHacksawGold);
+		RegisterRecipe(new craftHacksawRune);
+		RegisterRecipe(new craftHacksawJade);
+		RegisterRecipe(new craftHacksawPresem);
+		RegisterRecipe(new craftHacksawBlood);
 		RegisterRecipe(new craftHatchetCopper);
 		RegisterRecipe(new craftHatchetSilver);
 		RegisterRecipe(new craftHatchetGold);

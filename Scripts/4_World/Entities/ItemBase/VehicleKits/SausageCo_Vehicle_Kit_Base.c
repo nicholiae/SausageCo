@@ -171,7 +171,7 @@ class SausageCo_Vehicle_Kit_Base extends ItemBase
 	{
 		super.SetActions();
 		AddAction(ActionTogglePlaceObject);
-		AddAction(ActionDeployObject);
+		AddAction(ActionDeploySCObject);
 	}
 };
 class SausageCo_Vehicle_SarkaBase_Kit extends SausageCo_Vehicle_Kit_Base

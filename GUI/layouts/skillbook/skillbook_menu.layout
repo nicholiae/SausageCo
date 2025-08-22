@@ -1,0 +1,111 @@
+FrameWidgetClass SkillBookMenu {
+    position 0.1 0.1
+    size 0.8 0.8
+    visible 1
+    color 0 0 0 0.9
+    style DayZDefaultPanel
+    {
+        PanelWidgetClass MainPanel {
+            position 0 0
+            size 1 1
+            visible 1
+            color 0.05 0.05 0.05 0.95
+            style DayZDefaultPanel
+            {
+                TextWidgetClass TitleText {
+                    position 0 0.02
+                    size 1 0.05
+                    visible 1
+                    text "Skill Book"
+                    font "gui/fonts/sdf_MetronBook24"
+                    "text color" 0.9 0.9 0.9 1
+                    "text halign" center
+                    "text valign" center
+                }
+                
+                TextWidgetClass BookTypeText {
+                    position 0.02 0.02
+                    size 0.3 0.05
+                    visible 1
+                    text "Book Type: Unknown"
+                    font "gui/fonts/sdf_MetronBook24"
+                    "text color" 0.9 0.9 0.9 1
+                    "text halign" left
+                    "text valign" center
+                }
+                
+                ButtonWidgetClass CloseButton {
+                    position 0.95 0.02
+                    size 0.04 0.04
+                    visible 1
+                    text "X"
+                    font "gui/fonts/sdf_MetronBook24"
+                    "text color" 0.9 0.9 0.9 1
+                    color 0.5 0.1 0.1 1
+                }
+                
+                PanelWidgetClass DescriptionPanel {
+                    position 0.05 0.09
+                    size 0.9 0.1
+                    visible 1
+                    color 0.15 0.15 0.15 0.8
+                    style DayZDefaultPanel
+                    {
+                        TextWidgetClass DescriptionText {
+                            position 0.02 0.1
+                            size 0.96 0.8
+                            visible 1
+                            text "This book contains knowledge about various crafting recipes."
+                            font "gui/fonts/sdf_MetronBook16"
+                            "text color" 0.9 0.9 0.9 1
+                            "text halign" left
+                            "text valign" top
+                            "exact text" 0
+                            "size to text h" 0
+                            "size to text v" 0
+                            wrap 1
+                        }
+                    }
+                }
+                
+                PanelWidgetClass RecipesPanel {
+                    position 0.05 0.21
+                    size 0.9 0.74
+                    visible 1
+                    color 0.15 0.15 0.15 0.8
+                    style DayZDefaultPanel
+                    {
+                        TextWidgetClass RecipesTitle {
+                            position 0.02 0.02
+                            size 0.96 0.06
+                            visible 1
+                            text "Available Recipes"
+                            font "gui/fonts/sdf_MetronBook24"
+                            "text color" 0.9 0.9 0.9 1
+                            "text halign" center
+                            "text valign" center
+                        }
+                        
+                        ScrollWidgetClass RecipesScroll {
+                            position 0.02 0.1
+                            size 0.96 0.88
+                            visible 1
+                            color 0.1 0.1 0.1 0
+                            style DayZDefaultPanel
+                            {
+                                GridSpacerWidgetClass RecipesGrid {
+                                    position 0 0
+                                    size 1 1
+                                    visible 1
+                                    "Columns" 1
+                                    "Rows" 0
+                                    "Gap" 0.01
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

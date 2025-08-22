@@ -209,6 +209,641 @@ class CfgVehicles
 			};
 		};
 	};
+	class Hacksaw: Inventory_Base
+	{
+		scope=2;
+		displayName="$STR_CfgVehicles_Hacksaw0";
+		descriptionShort="$STR_CfgVehicles_Hacksaw1";
+		model="\dz\weapons\melee\blade\Hacksaw.p3d";
+		debug_ItemCategory=2;
+		build_action_type=10;
+		dismantle_action_type=74;
+		repairableWithKits[]={4};
+		repairCosts[]={18};
+		rotationFlags=17;
+		weight=1000;
+		itemSize[]={2,4};
+		fragility=0.0099999998;
+		lootCategory="Tools";
+		lootTag[]=
+		{
+			"Work",
+			"Forester",
+			"Camping"
+		};
+		itemInfo[]=
+		{
+			"Axe"
+		};
+		inventorySlot[]=
+		{
+			"Backpack_1"
+		};
+		openItemSpillRange[]={20,40};
+		class DamageSystem
+		{
+			class GlobalHealth
+			{
+				class Health
+				{
+					hitpoints=150;
+					healthLevels[]=
+					{
+						
+						{
+							1,
+							
+							{
+								"DZ\weapons\melee\blade\data\Hacksaw.rvmat"
+							}
+						},
+						
+						{
+							0.69999999,
+							
+							{
+								"DZ\weapons\melee\blade\data\Hacksaw.rvmat"
+							}
+						},
+						
+						{
+							0.5,
+							
+							{
+								"DZ\weapons\melee\blade\data\Hacksaw_damage.rvmat"
+							}
+						},
+						
+						{
+							0.30000001,
+							
+							{
+								"DZ\weapons\melee\blade\data\Hacksaw_damage.rvmat"
+							}
+						},
+						
+						{
+							0,
+							
+							{
+								"DZ\weapons\melee\blade\data\Hacksaw_destruct.rvmat"
+							}
+						}
+					};
+				};
+			};
+		};
+		class MeleeModes
+		{
+			class Default
+			{
+				ammo="MeleeSharpLight_2";
+				range=1.4;
+			};
+			class Heavy
+			{
+				ammo="MeleeSharpHeavy_2";
+				range=1.4;
+			};
+			class Sprint
+			{
+				ammo="MeleeSharpHeavy_2";
+				range=3.3;
+			};
+		};
+		isMeleeWeapon=1;
+		suicideAnim="woodaxe";
+		soundImpactType="metal";
+		class AnimEvents
+		{
+			class SoundWeapon
+			{
+				class pickup_light
+				{
+					soundSet="Hacksaw_pickup_light_SoundSet";
+					id=796;
+				};
+				class pickup
+				{
+					soundSet="Hacksaw_pickup_SoundSet";
+					id=797;
+				};
+				class drop
+				{
+					soundset="woodaxe_drop_SoundSet";
+					id=898;
+				};
+				class FirefighterAxe_loop_SoundSet
+				{
+					soundSet="FirefighterAxe_loop_SoundSet";
+					id=1121;
+				};
+				class FirefighterAxe_end_SoundSet
+				{
+					soundSet="FirefighterAxe_end_SoundSet";
+					id=1122;
+				};
+				class ShoulderR_Hide
+				{
+					soundset="ShoulderR_Hide_SoundSet";
+					id=1210;
+				};
+				class ShoulderR_Show
+				{
+					soundset="ShoulderR_Show_SoundSet";
+					id=1211;
+				};
+				class WoodHammer_SoundSet
+				{
+					soundSet="WoodHammer_SoundSet";
+					id=11161;
+				};
+				class animalSkinning_in
+				{
+					soundSet="animalSkinning_in_SoundSet";
+					id=516;
+				};
+				class animalSkinning
+				{
+					soundSet="animalSkinning_SoundSet";
+					id=517;
+				};
+				class animalSkinning_out
+				{
+					soundSet="animalSkinning_out_SoundSet";
+					id=518;
+				};
+			};
+			class Sound
+			{
+				class SurfaceDig
+				{
+					class DigPrimary
+					{
+						default=907;
+						sakhal_snow=907;
+						sakhal_snow_forest=907;
+						sakhal_grass_brown=907;
+					};
+				};
+			};
+		};
+	};
+	class SC_Hacksaw_Blood: Hacksaw
+	{
+		displayName="Blood Hacksaw";
+		hiddenSelections[]=
+		{
+			"zbytek"
+		};
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\objects\ExtraTools\data\BloodHacksaw_co.paa"
+		};
+		class DamageSystem
+		{
+			class GlobalHealth
+			{
+				class Health
+				{
+					hitpoints=2500;
+					healthLevels[]=
+					{
+						
+						{
+							1,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\SCHacksawBlood.rvmat"
+							}
+						},
+						
+						{
+							0.69999999,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\SCHacksawBlood.rvmat"
+							}
+						},
+						
+						{
+							0.5,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_damageBlood.rvmat"
+							}
+						},
+						
+						{
+							0.30000001,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_damageBlood.rvmat"
+							}
+						},
+						
+						{
+							0,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_destructBlood.rvmat"
+							}
+						}
+					};
+				};
+			};
+		};
+	};
+	class SC_Hacksaw_Copper: Hacksaw
+	{
+		displayName="Copper Hacksaw";
+		hiddenSelections[]=
+		{
+			"zbytek"
+		};
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\objects\ExtraTools\data\CopperHacksaw_co.paa"
+		};
+		class DamageSystem
+		{
+			class GlobalHealth
+			{
+				class Health
+				{
+					hitpoints=500;
+					healthLevels[]=
+					{
+						
+						{
+							1,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\SCHacksawCopper.rvmat"
+							}
+						},
+						
+						{
+							0.69999999,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\SCHacksawCopper.rvmat"
+							}
+						},
+						
+						{
+							0.5,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_damageCopper.rvmat"
+							}
+						},
+						
+						{
+							0.30000001,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_damageCopper.rvmat"
+							}
+						},
+						
+						{
+							0,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_destructCopper.rvmat"
+							}
+						}
+					};
+				};
+			};
+		};
+	};
+	class SC_Hacksaw_Rune: Hacksaw
+	{
+		displayName="Rune Hacksaw";
+		hiddenSelections[]=
+		{
+			"zbytek"
+		};
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\objects\ExtraTools\data\RuneHacksaw_co.paa"
+		};
+		class DamageSystem
+		{
+			class GlobalHealth
+			{
+				class Health
+				{
+					hitpoints=1000;
+					healthLevels[]=
+					{
+						
+						{
+							1,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\SCHacksawRune.rvmat"
+							}
+						},
+						
+						{
+							0.69999999,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\SCHacksawRune.rvmat"
+							}
+						},
+						
+						{
+							0.5,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_damageRune.rvmat"
+							}
+						},
+						
+						{
+							0.30000001,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_damageRune.rvmat"
+							}
+						},
+						
+						{
+							0,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_destructRune.rvmat"
+							}
+						}
+					};
+				};
+			};
+		};
+	};
+	class SC_Hacksaw_Silver: Hacksaw
+	{
+		displayName="Silver Hacksaw";
+		hiddenSelections[]=
+		{
+			"zbytek"
+		};
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\objects\ExtraTools\data\SilverHacksaw_co.paa"
+		};
+		class DamageSystem
+		{
+			class GlobalHealth
+			{
+				class Health
+				{
+					hitpoints=750;
+					healthLevels[]=
+					{
+						
+						{
+							1,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\SCHacksawSilver.rvmat"
+							}
+						},
+						
+						{
+							0.69999999,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\SCHacksawSilver.rvmat"
+							}
+						},
+						
+						{
+							0.5,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_damageSilver.rvmat"
+							}
+						},
+						
+						{
+							0.30000001,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_damageSilver.rvmat"
+							}
+						},
+						
+						{
+							0,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_destructSilver.rvmat"
+							}
+						}
+					};
+				};
+			};
+		};
+	};
+	class SC_Hacksaw_Jade: Hacksaw
+	{
+		displayName="Jade Hacksaw";
+		hiddenSelections[]=
+		{
+			"zbytek"
+		};
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\objects\ExtraTools\data\JadeHacksaw_co.paa"
+		};
+		class DamageSystem
+		{
+			class GlobalHealth
+			{
+				class Health
+				{
+					hitpoints=1500;
+					healthLevels[]=
+					{
+						
+						{
+							1,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\SCHacksawJade.rvmat"
+							}
+						},
+						
+						{
+							0.69999999,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\SCHacksawJade.rvmat"
+							}
+						},
+						
+						{
+							0.5,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_damageJade.rvmat"
+							}
+						},
+						
+						{
+							0.30000001,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_damageJade.rvmat"
+							}
+						},
+						
+						{
+							0,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_destructJade.rvmat"
+							}
+						}
+					};
+				};
+			};
+		};
+	};
+	class SC_Hacksaw_Presem: Hacksaw
+	{
+		displayName="Presem Hacksaw";
+		hiddenSelections[]=
+		{
+			"zbytek"
+		};
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\objects\ExtraTools\data\PresemHacksaw_co.paa"
+		};
+		class DamageSystem
+		{
+			class GlobalHealth
+			{
+				class Health
+				{
+					hitpoints=2000;
+					healthLevels[]=
+					{
+						
+						{
+							1,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\SCHacksawPresem.rvmat"
+							}
+						},
+						
+						{
+							0.69999999,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\SCHacksawPresem.rvmat"
+							}
+						},
+						
+						{
+							0.5,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_damagePresem.rvmat"
+							}
+						},
+						
+						{
+							0.30000001,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_damagePresem.rvmat"
+							}
+						},
+						
+						{
+							0,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_destructPresem.rvmat"
+							}
+						}
+					};
+				};
+			};
+		};
+	};
+	class SC_Hacksaw_Gold: Hacksaw
+	{
+		displayName="Gold Hacksaw";
+		hiddenSelections[]=
+		{
+			"zbytek"
+		};
+		hiddenSelectionsTextures[]=
+		{
+			"SausageCo\objects\ExtraTools\data\GoldHacksaw_co.paa"
+		};
+		class DamageSystem
+		{
+			class GlobalHealth
+			{
+				class Health
+				{
+					hitpoints=850;
+					healthLevels[]=
+					{
+						
+						{
+							1,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\SCHacksawGold.rvmat"
+							}
+						},
+						
+						{
+							0.69999999,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\SCHacksawGold.rvmat"
+							}
+						},
+						
+						{
+							0.5,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_damageGold.rvmat"
+							}
+						},
+						
+						{
+							0.30000001,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_damageGold.rvmat"
+							}
+						},
+						
+						{
+							0,
+							
+							{
+								"SausageCo\objects\ExtraTools\data\Hacksaw_destructGold.rvmat"
+							}
+						}
+					};
+				};
+			};
+		};
+	};
 	class SC_Hatchet_Blood: Hatchet
 	{
 		displayName="Blood Hatchet";

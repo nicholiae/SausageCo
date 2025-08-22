@@ -1,4 +1,4 @@
-class SausageCo_MechanicsTool extends ItemBase
+class SausageCo_MechanicsTool extends SausageCo_SkillBook_Base
 {
 	const string SOUND_BURNING 		= "Blowtorch_Loop_SoundSet";
 	
@@ -6,6 +6,13 @@ class SausageCo_MechanicsTool extends ItemBase
 	
 	protected EffectSound 		m_SoundBurningLoop;
 
+	void SausageCo_MechanicsTool()
+    {
+        m_SkillType = SkillTypes.MECHANIC;
+        m_BookTitle = "Mechanic's Manual";
+        m_BookDescription = "This book contains information about vehicle repair, maintenance, and part fabrication.";
+    }
+	
 	override void OnWorkStart()
 	{
 		super.OnWorkStart();

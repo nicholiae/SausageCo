@@ -31,7 +31,10 @@ class CfgVehicles
 	class Inventory_Base;
 	class Container_Base;
 	class Book_Base;
-	class SausageCo_MechanicsTool: Container_Base
+    class SausageCo_SkillBook_Base: Book_Base
+    {
+    };
+	class SausageCo_MechanicsTool: SausageCo_SkillBook_Base
 	{
 		model="DZ\gear\books\book_kniga.p3d";
 		quantityBar=1;

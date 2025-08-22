@@ -240,8 +240,11 @@ class CfgVehicles
 		varTemperatureMax=100;
 	};
 	class Book_Base;
+    class SausageCo_SkillBook_Base: Book_Base
+    {
+    };
 	class HouseNoDestruct;
-	class SausageCo_ChefsTool: Inventory_Base
+	class SausageCo_ChefsTool: SausageCo_SkillBook_Base
 	{
 		scope=2;
 		displayName="SausageCo Chef's Tool";

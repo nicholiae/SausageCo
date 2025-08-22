@@ -30,7 +30,10 @@ class CfgVehicles
 {
 	class Inventory_Base;
 	class Book_Base;
-	class SausageCo_LeatherWorkersTool: Inventory_Base
+    class SausageCo_SkillBook_Base: Book_Base
+    {
+    };
+	class SausageCo_LeatherWorkersTool: SausageCo_SkillBook_Base
 	{
 		model="DZ\gear\books\book_kniga.p3d";
 		quantityBar=1;
