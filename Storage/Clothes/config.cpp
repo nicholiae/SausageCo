@@ -2855,7 +2855,7 @@ class CfgVehicles
 			};
 		};
 	};
-	class SC_DuffleBag: Container_Base
+	class SC_DuffleBag: Clothing
 	{
 		scope=2;
 		displayName="Duffle Bag";

@@ -171,7 +171,7 @@ class SausageCo_Vehicle_Kit_Base extends ItemBase
 	{
 		super.SetActions();
 		AddAction(ActionTogglePlaceObject);
-		AddAction(ActionDeploySCObject);
+		AddAction(ActionDeployObject);
 	}
 };
 class SausageCo_Vehicle_SarkaBase_Kit extends SausageCo_Vehicle_Kit_Base
@@ -861,24 +861,24 @@ class SausageCo_Vehicle_HummerBase_Kit extends SausageCo_Vehicle_Kit_Base
 {	
 	Car craftedCar;	
 	
-	string slotEngine = "CarBattery";
-	string slotEngine1 = "Reflector_1_1";
-	string slotEngine2 = "Reflector_2_1";
-	string slotEngine3 = "GlowPlug";
-	
-	string slotDoor = "Offroad_02_Hood";
-	string slotDoor1 = "Offroad_02_Trunk";
-	string slotDoor2 = "Offroad_02_Door_1_1";
-	string slotDoor3 = "Offroad_02_Door_2_1";
-	string slotDoor4 = "Offroad_02_Door_1_2";
-	string slotDoor5 = "Offroad_02_Door_2_2";
-	
 	string slotTire = "Offroad_02_Wheel_1_1";
 	string slotTire1 = "Offroad_02_Wheel_1_2";
 	string slotTire2 = "Offroad_02_Wheel_2_1";
 	string slotTire3 = "Offroad_02_Wheel_2_2";
 	string slotTire4 = "Offroad_02_Wheel_Spare_1";
 	
+	string slotDoor = "Offroad_02_Door_1_1";
+	string slotDoor1 = "Offroad_02_Door_2_1";
+	string slotDoor2 = "Offroad_02_Door_1_2";
+	string slotDoor3 = "Offroad_02_Door_2_2";
+	string slotDoor4 = "Offroad_02_Hood";
+	string slotDoor5 = "Offroad_02_Trunk";
+	
+	string slotEngine = "CarBattery";
+	string slotEngine1 = "Reflector_1_1";
+	string slotEngine2 = "Reflector_2_1";
+	string slotEngine3 = "GlowPlug";
+
 	int slot_id;
 	int slot_id1;
 	int slot_id2;

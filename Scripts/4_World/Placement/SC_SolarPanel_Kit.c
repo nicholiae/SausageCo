@@ -1,7 +1,8 @@
+
 class SC_SolarPanel_Kit extends ItemBase
 {	
-	ref protected EffectSound 						m_DeployLoopSound;
-	protected Object								SC_SolarPanel_Kit1;	
+	ref protected EffectSound 					m_DeployLoopSound;
+	protected Object							SC_SolarPanel_Kit1;	
 	
 	override void EEInit()
 	{
@@ -43,7 +44,7 @@ class SC_SolarPanel_Kit extends ItemBase
 	
 	//================================================================
 	// ADVANCED PLACEMENT
-	//================================================================			
+	//================================================================		
 		
 	#ifdef DAYZ_1_09	
 	override void OnPlacementComplete( Man player )
@@ -155,14 +156,16 @@ class SC_SolarPanel extends PowerGenerator
 	protected const string 	ATTACHED_CLIPS_STATES[] 		= {SEL_CLIPS_CAR, SEL_CLIPS_TRUCK}; // TO DO: If it's required by design, add helicopter battery here and register its selection names.
 	protected const int 	ATTACHED_CLIPS_STATES_COUNT		= 2; // Reffers to this ^ array
 	
-	int 						m_BatteryEnergy0To100;
-	protected float 			m_ChargeEnergyPerSecond;
+	int 					m_BatteryEnergy0To100;
+	protected float 		m_ChargeEnergyPerSecond;
 	
 	static protected 	float 	m_BlinkingStatusLightInterval = 0.4; // How often the lights blink
 	ref 				Timer 	m_UpdateStatusLightsTimer;
 	protected 			bool 	m_BlinkingStatusLightIsOn = false;	// Status of one blinking light
 
 	protected int				SolarCheckTime;
+	protected bool              m_IsNight;
+	protected bool              m_IsUnderRoof;
 	
 	void SC_SolarPanel()
 	{
@@ -173,12 +176,20 @@ class SC_SolarPanel extends PowerGenerator
 		//RegisterNetSyncVariableBool("m_IsSoundSynchRemote");
 		//RegisterNetSyncVariableBool("m_IsPlaceSound");
 		SetEventMask(EntityEvent.INIT); // Enable EOnInit event
+		m_IsNight = false;
+		m_IsUnderRoof = false;
 	}
 
 	void ~SC_SolarPanel()
 	{
 	}
 
+	// Init
+	override void OnInitEnergy()
+	{
+		
+	}
+	
 	override void EOnInit( IEntity other, int extra)
 	{
 		if ( GetGame().IsServer() )
@@ -256,7 +267,7 @@ class SC_SolarPanel extends PowerGenerator
 		// If battery is dead but not ruined
 		if ( battery && !battery.IsRuined() && battery.GetCompEM().GetEnergy() < 0.1 ) // If battery is depleted and not ruined
 		{
-			battery.GetCompEM().AddEnergy(0.2); // Add some energy to kickstart charging
+			battery.GetCompEM().AddEnergy(1.0); // Add some energy to kickstart charging
 		}
 	}
 
@@ -281,83 +292,84 @@ class SC_SolarPanel extends PowerGenerator
 		{
 			if ( GetGame().IsServer() )
 			{
+				// Update environment state
+				m_IsNight = GetGame().GetWorld().IsNight();
+				m_IsUnderRoof = IsRoofAbove();
+				
 				// Charge or drain battery
 				float battery_capacity = battery.GetCompEM().GetEnergyMax();
 				if ( !battery.IsRuined() ) // If battery is not ruined
 				{
-					// Heat up the items so players know they are working.
-					this.SetTemperature(60); 
-					battery.SetTemperature(60);
+					// Heat up the items so players know they are working, but not too hot
+					this.SetTemperature(40); 
+					battery.SetTemperature(40);
 					
 					float charger_health = GetHealth("", "");
 					float energy_add = m_ChargeEnergyPerSecond * ( consumed_energy / GetCompEM().GetEnergyUsage() );
 					float energy_consume = 0;
 					int getAppliances = GetCompEM().GetPoweredDevices().Count();
-					float poweredAppliances = getAppliances / 10;
+					float poweredAppliances = getAppliances / 20; // Reduced impact of appliances
 					
 					if ( battery ) // Bypass power source energy check
 					{
 						if ( GetCompEM().GetPluggedDevicesCount() <= 1 ) // Just battery attached
 						{
-							if ( GetGame().GetWorld().IsNight() || IsRoofAbove() ) // If no sun present
+							if ( m_IsNight || m_IsUnderRoof ) // If no sun present
 							{
-								energy_add = 0;
-								energy_consume = 0;
+								energy_add = 0; // Don't add energy
+								energy_consume = 0.01; // Minimal standby drain
 							}
 							else // There is enough energy to use
 							{
-								energy_add = energy_add * ( 0.1 + charger_health*0.001 ); // Damaged charger works less efficiently - 50% damage causes 75% efficiency
+								energy_add = energy_add * ( 0.5 + charger_health*0.005 ); // Improved efficiency
 							}
 						}
 						if ( GetCompEM().GetPluggedDevicesCount() == 2 ) // 1 appliance attached
 						{
-							if ( GetGame().GetWorld().IsNight() || IsRoofAbove() ) // If no sun present
+							if ( m_IsNight || m_IsUnderRoof ) // If no sun present
 							{
-								energy_add = -0.7 - poweredAppliances;
-								energy_consume = 0.1 + poweredAppliances;
+								energy_add = 0;
+								energy_consume = 0.05 + poweredAppliances; // Reduced drain
 							}
 							else // There is enough energy to use
 							{
-								energy_add = energy_add * ( 0.08 + charger_health*0.001 ); // Damaged charger works less efficiently - 50% damage causes 75% efficiency
+								energy_add = energy_add * ( 0.4 + charger_health*0.005 ); // Slightly less efficient with appliance
 							}
 						}
 						if ( GetCompEM().GetPluggedDevicesCount() == 3 ) // 2 appliances attached
 						{
-							if ( GetGame().GetWorld().IsNight() || IsRoofAbove() ) // If no sun present
+							if ( m_IsNight || m_IsUnderRoof ) // If no sun present
 							{
-								energy_add = -0.8 - poweredAppliances;
-								energy_consume = 0.2 + poweredAppliances;
+								energy_add = 0;
+								energy_consume = 0.1 + poweredAppliances; // Reduced drain
 							}
 							else // There is enough energy to use
 							{
-								energy_add = energy_add * ( 0.06 + charger_health*0.001 ); // Damaged charger works less efficiently - 50% damage causes 75% efficiency
+								energy_add = energy_add * ( 0.3 + charger_health*0.005 ); // Less efficient with more appliances
 							}
 						}
 						if ( GetCompEM().GetPluggedDevicesCount() == 4 ) // 3 appliances attached
 						{
-							if ( GetGame().GetWorld().IsNight() || IsRoofAbove() ) // If no sun present
+							if ( m_IsNight || m_IsUnderRoof ) // If no sun present
 							{
-								energy_add = -0.9 - poweredAppliances;
-								energy_consume = 0.3 + poweredAppliances;
+								energy_add = 0;
+								energy_consume = 0.15 + poweredAppliances; // Reduced drain
 							}
 							else // There is enough energy to use
 							{
-								energy_add = energy_add * ( 0.04 + charger_health*0.001 ); // Damaged charger works less efficiently - 50% damage causes 75% efficiency
+								energy_add = energy_add * ( 0.2 + charger_health*0.005 ); // Less efficient with more appliances
 							}
 						}
 						if ( GetCompEM().GetPluggedDevicesCount() > 4 ) // More than 3 appliances attached
 						{
-							if ( GetGame().GetWorld().IsNight() || IsRoofAbove() ) // If no sun present
+							if ( m_IsNight || m_IsUnderRoof ) // If no sun present
 							{
-								// Now using double energy
-								energy_add = -0.9 - poweredAppliances;
-								energy_consume = 0.5 + poweredAppliances;
+								energy_add = 0;
+								energy_consume = 0.2 + poweredAppliances; // Reduced drain
 							}
 							else // There is some energy to use
 							{
-								// Now using energy
-								energy_add = -0.7 - poweredAppliances;
-								energy_consume = 0.1 + poweredAppliances;
+								energy_add = energy_add * ( 0.1 + charger_health*0.005 ); // Much less efficient with many appliances
 							}
 						}
 					}
@@ -382,7 +394,7 @@ class SC_SolarPanel extends PowerGenerator
 				
 				if ( battery.GetCompEM().GetEnergy() < 0.1 ) // If battery is depleted (less than 10%)
 				{
-					if ( GetGame().GetWorld().IsNight() || IsRoofAbove() ) // If no sun present
+					if ( m_IsNight || m_IsUnderRoof ) // If no sun present
 					{
 						// Kill power
 						if ( GetCompEM().CanSwitchOff() )
@@ -416,13 +428,13 @@ class SC_SolarPanel extends PowerGenerator
 			RedLightOff();
 		
 		m_BlinkingStatusLightIsOn = !m_BlinkingStatusLightIsOn;
-		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater( SolarCallBack, 10000, false );
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater( SolarCallBack, 5000, false ); // Reduced to 5 seconds
 	}
 
 	void SolarCallBack()
 	{
 		RedLightOff();
-		int SCSolarCheckTime = 600;
+		int SCSolarCheckTime = 120; // Reduced to 2 minutes
 		SolarCheckTime = SCSolarCheckTime; // time in seconds it will take to produce a cement block.
 		int SolarTime = SolarCheckTime * 1000; // converting to milliseconds for Callback Queue
 		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater( SunCheck, SolarTime, false );
@@ -430,7 +442,7 @@ class SC_SolarPanel extends PowerGenerator
 	
 	void SunCheck()
 	{
-		if ( GetSun() )
+		if ( GetSun() && !IsRoofAbove() )
 		{
 			SetFuel(GetMaxFuel());
 			if ( !GetCompEM().IsSwitchedOn() )

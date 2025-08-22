@@ -18,12 +18,4 @@ modded class MissionGameplay {
             }
         }
     }
-	
-	override void OnInit()
-    {
-        super.OnInit();
-        
-        // Initialize the skills system
-        GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(SkillsSystemInit.OnGameInit, 1000, false);
-    }
 }

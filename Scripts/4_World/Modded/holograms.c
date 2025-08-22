@@ -1,7 +1,7 @@
 modded class Hologram
 {
-	protected ref array<typename> m_SCItemsCollision = { SC_Kit, SC_Storage_Base, SC_Openable_Placeable_Base, SC_InventoryStorage_Base, SC_Foldable_Item };
-	protected ref array<string> m_SCItemsHologram = { "SC_Item", "SC_Storage_Base", "SC_InventoryStorage_Base", "SC_Openable_Placeable_Base", "SC_Floaties", "SC_Foldable_Item" };
+	protected ref array<typename> m_SCItemsCollision = { SC_Kit, SC_Storage_Base, SC_Openable_Placeable_Base, SC_InventoryStorage_Base, SC_Foldable_Item, SausageCo_Vehicle_Kit_Base };
+	protected ref array<string> m_SCItemsHologram = { "SC_Item", "SC_Storage_Base", "SC_InventoryStorage_Base", "SC_Openable_Placeable_Base", "SC_Floaties", "SC_Foldable_Item", "SausageCo_Vehicle_Kit_Base" };
 	
 	override void UpdateHologram( float timeslice )
 	{
