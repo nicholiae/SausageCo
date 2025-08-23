@@ -1,24 +1,27 @@
+
 /*
  * SausageCo Skills System
  * TabberUI Implementation
+ * 
+ * FIXED VERSION - Renamed to SausageTabberUI to avoid multiple declaration conflicts
  */
 
-class TabberUI extends ScriptedWidgetEventHandler
+class SausageTabberUI extends ScriptedWidgetEventHandler
 {
     protected Widget m_Root;
-    protected ref array<ref TabberUITab> m_Tabs;
+    protected ref array<ref SausageTabberUITab> m_Tabs;
     protected int m_SelectedTab;
     
-    void TabberUI(Widget root)
+    void SausageTabberUI(Widget root)
     {
         m_Root = root;
-        m_Tabs = new array<ref TabberUITab>();
+        m_Tabs = new array<ref SausageTabberUITab>();
         m_SelectedTab = -1;
     }
     
     void AddTab(string name, Widget content)
     {
-        TabberUITab tab = new TabberUITab(name, content);
+        SausageTabberUITab tab = new SausageTabberUITab(name, content);
         m_Tabs.Insert(tab);
         
         // Create tab button
@@ -71,12 +74,12 @@ class TabberUI extends ScriptedWidgetEventHandler
     }
 }
 
-class TabberUITab
+class SausageTabberUITab
 {
     protected string m_Name;
     protected Widget m_Content;
     
-    void TabberUITab(string name, Widget content)
+    void SausageTabberUITab(string name, Widget content)
     {
         m_Name = name;
         m_Content = content;

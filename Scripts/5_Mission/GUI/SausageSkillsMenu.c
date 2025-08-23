@@ -1,6 +1,9 @@
+
 /**
  * SausageCo Skills System
  * Skills Menu
+ * 
+ * FIXED VERSION - Updated to use SausageTabberUI instead of TabberUI
  */
 
 // Recipe sorting function - moved outside of class and to the top of the file for global visibility
@@ -18,7 +21,7 @@ class SausageSkillsMenu extends UIScriptedMenu
 {
     // UI Controls
     private Widget m_Root;
-    private ref TabberUI m_Tabber;  // Changed to ref TabberUI
+    private ref SausageTabberUI m_Tabber;  // Changed from TabberUI to SausageTabberUI
     private TextWidget m_PlayerNameText;
     private ButtonWidget m_CloseButton;
     
@@ -37,8 +40,8 @@ class SausageSkillsMenu extends UIScriptedMenu
         
         // Get UI elements
         Widget tabberWidget = m_Root.FindAnyWidget("SkillsTabber");
-        // Create TabberUI instance instead of casting
-        m_Tabber = new TabberUI(tabberWidget);
+        // Create SausageTabberUI instance instead of TabberUI
+        m_Tabber = new SausageTabberUI(tabberWidget);
         
         m_PlayerNameText = TextWidget.Cast(m_Root.FindAnyWidget("PlayerNameText"));
         m_CloseButton = ButtonWidget.Cast(m_Root.FindAnyWidget("CloseButton"));
@@ -275,7 +278,7 @@ class RecipeListItem
         m_Unlocked = unlocked;
         
         // Create widget from layout
-        m_Root = GetGame().GetWorkspace().CreateWidgets("SausageCo\\GUI\\layouts\\recipe_item.layout", parent);
+        m_Root = GetGame().GetWorkspace().CreateWidgets("SausageCo\\GUI\\layouts\\ecipe_item.layout", parent);
         
         // Get UI elements
         m_RecipeName = TextWidget.Cast(m_Root.FindAnyWidget("RecipeName"));
