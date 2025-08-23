@@ -1,4 +1,5 @@
 
+
 modded class PlayerBase
 {
     // Add skills data
@@ -137,6 +138,35 @@ modded class PlayerBase
         }
     }
     
+    // New method to refresh the skills UI if the menu is open
+    void RefreshSkillsUI()
+    {
+        if (GetGame().IsClient())
+        {
+            // Check if the skills menu is open
+            if (GetGame().GetUIManager().IsMenuOpen(MENU_SAUSAGE_SKILLS))
+            {
+                // Get the menu
+                UIScriptedMenu menu = GetGame().GetUIManager().FindMenu(MENU_SAUSAGE_SKILLS);
+                if (menu)
+                {
+                    // Convert our skills data to the format expected by the menu
+                    array<ref Param3<string, int, int>> skillsData = new array<ref Param3<string, int, int>>();
+                    
+                    // Populate the array with our skills data
+                    foreach (string skillType, ref Param2<int, int> data : m_Skills)
+                    {
+                        skillsData.Insert(new Param3<string, int, int>(skillType, data.param1, data.param2));
+                    }
+                    
+                    // Now we need to update the menu
+                    // We'll use GetGame().GameScript to execute a script command
+                    GetGame().GameScript.Call(menu, "UpdateAllSkills", skillsData);
+                }
+            }
+        }
+    }
+    
     // Override OnRPC to handle skill-related RPCs
     override void OnRPC(PlayerIdentity sender, int rpc_type, ParamsReadContext ctx)
     {
@@ -155,14 +185,7 @@ modded class PlayerBase
                 }
                 
                 // Update UI if skills menu is open
-                if (GetGame().GetUIManager().IsMenuOpen(MENU_SAUSAGE_SKILLS))
-                {
-                    SausageSkillsMenu skillsMenu = SausageSkillsMenu.Cast(GetGame().GetUIManager().FindMenu(MENU_SAUSAGE_SKILLS));
-                    if (skillsMenu)
-                    {
-                        skillsMenu.UpdateAllSkills(skillsData);
-                    }
-                }
+                RefreshSkillsUI();
             }
         }
         else if (rpc_type == SausageSkillsRPCCommands.UPDATE_SKILL)
@@ -176,15 +199,7 @@ modded class PlayerBase
                 SetSkillData(skillType, level, experience);
                 
                 // Update UI if skills menu is open
-                if (GetGame().GetUIManager().IsMenuOpen(MENU_SAUSAGE_SKILLS))
-                {
-                    // Use a different variable name to avoid multiple declaration
-                    SausageSkillsMenu skillsMenuUI = SausageSkillsMenu.Cast(GetGame().GetUIManager().FindMenu(MENU_SAUSAGE_SKILLS));
-                    if (skillsMenuUI)
-                    {
-                        skillsMenuUI.UpdateSkillData(skillType, level, experience);
-                    }
-                }
+                RefreshSkillsUI();
             }
         }
         else if (rpc_type == SausageSkillsRPCCommands.OPEN_SKILLBOOK_MENU)

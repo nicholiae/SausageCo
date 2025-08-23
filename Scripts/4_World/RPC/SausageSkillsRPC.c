@@ -87,18 +87,20 @@ class SausageSkillsRPC
             
         if (type == CallType.Client)
         {
-            // Update skills in UI
-            SausageSkillsMenu menu = SausageSkillsMenu.Cast(GetGame().GetUIManager().FindMenu(MENU_SAUSAGE_SKILLS));
-            if (menu)
-            {
-                menu.UpdateAllSkills(data.param1);
-            }
-            
-            // Store skills data in player
+            // Store skills data in player first
             PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
             if (player)
             {
                 player.UpdateSkillsData(data.param1);
+            }
+            
+            // Update UI if menu is open - using a simpler approach
+            // Instead of trying to call methods directly, we'll use the PlayerBase to update the UI
+            // This avoids any direct references to the SausageSkillsMenu class
+            if (player)
+            {
+                // The player class will handle updating the UI if the menu is open
+                player.RefreshSkillsUI();
             }
         }
     }
@@ -116,25 +118,17 @@ class SausageSkillsRPC
             int level = data.param2;
             int experience = data.param3;
             
-            // Update skill in UI
-            SausageSkillsMenu menu = SausageSkillsMenu.Cast(GetGame().GetUIManager().FindMenu(MENU_SAUSAGE_SKILLS));
-            if (menu)
-            {
-                menu.UpdateSkillData(skillType, level, experience);
-            }
-            
             // Store skill data in player
             PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
             if (player)
             {
                 player.UpdateSkillData(skillType, level, experience);
-            }
-            
-            // Show notification if level increased
-            PlayerBase playerBase = PlayerBase.Cast(GetGame().GetPlayer());
-            if (playerBase)
-            {
-                int oldLevel = playerBase.GetSkillLevel(skillType);
+                
+                // The player class will handle updating the UI if the menu is open
+                player.RefreshSkillsUI();
+                
+                // Show notification if level increased
+                int oldLevel = player.GetSkillLevel(skillType);
                 if (level > oldLevel)
                 {
                     // Get skill display name

@@ -1,11 +1,11 @@
+
 modded class MissionGameplay {
     void MissionGameplay() {
         GetRPCManager().AddRPC("SausageMiningRPC", "SausageMiningRPCPopulateConfig", this, SingleplayerExecutionType.Client);
         Print("[MissionGameplay] RPC Manager for SausageMining initialized.");
         
-        // Register the SkillBookMenu
-        GetUIManager().RegisterMenu(MENU_SAUSAGE_SKILLBOOK, SkillBookMenu);
-        Print("[MissionGameplay] SkillBookMenu registered.");
+        // We'll register our menus in the CreateScriptedMenu override instead
+        Print("[MissionGameplay] Skills system initialized.");
     }
 
     void SausageMiningRPCPopulateConfig(CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target) {
@@ -29,5 +29,36 @@ modded class MissionGameplay {
         
         // Initialize the skills system
         GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(SkillsSystemInit.OnGameInit, 1000, false);
+    }
+    
+    // Override CreateScriptedMenu to handle our custom menus
+    override UIScriptedMenu CreateScriptedMenu(int id)
+    {
+        UIScriptedMenu menu = NULL;
+        menu = super.CreateScriptedMenu(id);
+        
+        if (!menu)
+        {
+            if (id == MENU_SAUSAGE_SKILLS)
+            {
+                menu = new SausageSkillsMenu;
+                if (menu)
+                {
+                    menu.SetID(id);
+                    Print("[MissionGameplay] Created SausageSkillsMenu instance.");
+                }
+            }
+            else if (id == MENU_SAUSAGE_SKILLBOOK)
+            {
+                menu = new SkillBookMenu;
+                if (menu)
+                {
+                    menu.SetID(id);
+                    Print("[MissionGameplay] Created SkillBookMenu instance.");
+                }
+            }
+        }
+        
+        return menu;
     }
 }

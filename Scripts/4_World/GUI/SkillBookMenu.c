@@ -1,3 +1,4 @@
+
 /**
  * SausageCo Skills System
  * Skill Book Menu Controller
@@ -54,11 +55,8 @@ class SkillBookMenu extends UIScriptedMenu
             m_RecipesGrid = GridSpacerWidget.Cast(recipesScroll.FindAnyWidget("RecipesGrid"));
         }
         
-        // Set up event handlers
-        if (m_CloseButton)
-        {
-            m_CloseButton.SetHandler(this);
-        }
+        // Set up event handlers - UIScriptedMenu already extends ScriptedWidgetEventHandler
+        // so we don't need to set a separate handler
         
         return m_Root;
     }
@@ -112,7 +110,14 @@ class SkillBookMenu extends UIScriptedMenu
         // Clear the grid
         if (m_RecipesGrid)
         {
-            m_RecipesGrid.ClearItems();
+            // Clear existing items
+            Widget child = m_RecipesGrid.GetChildren();
+            while (child)
+            {
+                Widget nextChild = child.GetSibling();
+                child.Unlink();
+                child = nextChild;
+            }
             
             // Add recipes to the grid
             foreach (SkillRecipeData recipe : m_Recipes)
@@ -155,27 +160,40 @@ class SkillBookMenu extends UIScriptedMenu
     // Get display name for skill type
     string GetSkillTypeDisplayName(string skillType)
     {
+        string displayName = "Unknown";
+        
         switch (skillType)
         {
             case SkillTypes.ENGINEERING:
-                return "Engineering";
+                displayName = "Engineering";
+                break;
             case SkillTypes.FARMING:
-                return "Farming";
+                displayName = "Farming";
+                break;
             case SkillTypes.FIREARM:
-                return "Firearm";
+                displayName = "Firearm";
+                break;
             case SkillTypes.LEATHER:
-                return "Leatherworking";
+                displayName = "Leatherworking";
+                break;
             case SkillTypes.MECHANIC:
-                return "Mechanic";
+                displayName = "Mechanic";
+                break;
             case SkillTypes.MEDIC:
-                return "Medical";
+                displayName = "Medical";
+                break;
             case SkillTypes.HUNTER:
-                return "Hunting";
+                displayName = "Hunting";
+                break;
             case SkillTypes.COOK:
-                return "Cooking";
+                displayName = "Cooking";
+                break;
             default:
-                return "Unknown";
+                displayName = "Unknown";
+                break;
         }
+        
+        return displayName;
     }
     
     // Handle button clicks
