@@ -214,8 +214,8 @@ class SkillBookMenu extends UIScriptedMenu
     }
     
     // Close the menu
-    void Close()
-    {
-        GetGame().GetUIManager().Back();
-    }
+    // void Close()
+    // {
+        // GetGame().GetUIManager().Back();
+    // }
 }
