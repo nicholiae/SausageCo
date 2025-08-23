@@ -9,24 +9,22 @@ class SausageSkillsRPC
     // Server-side RPC handlers
     static void RegisterServerRPCs()
     {
-        // Create a new instance of this class for RPC handling
-        SausageSkillsRPC rpcHandler = new SausageSkillsRPC();
-        
-        // Register server RPCs with instance methods
-        GetGame().GetRPCManager().AddRPC("SausageSkills", "RequestSkillsData", rpcHandler, "RequestSkillsData");
-        GetGame().GetRPCManager().AddRPC("SausageSkills", "CraftRecipe", rpcHandler, "CraftRecipe");
+        // Use GetGame().GetRPCManager() to avoid syntax errors
+        // We need to use "this" as the instance for RPC handlers
+        ref SausageSkillsRPC rpcInstance = new SausageSkillsRPC();
+        GetGame().GetRPCManager().AddRPC("SausageSkills", "RequestSkillsData", rpcInstance, SingleplayerExecutionType.Server);
+        GetGame().GetRPCManager().AddRPC("SausageSkills", "CraftRecipe", rpcInstance, SingleplayerExecutionType.Server);
     }
     
     // Client-side RPC handlers
     static void RegisterClientRPCs()
     {
-        // Create a new instance of this class for RPC handling
-        SausageSkillsRPC rpcHandler = new SausageSkillsRPC();
-        
-        // Register client RPCs with instance methods
-        GetGame().GetRPCManager().AddRPC("SausageSkills", "SyncPlayerSkills", rpcHandler, "SyncPlayerSkills");
-        GetGame().GetRPCManager().AddRPC("SausageSkills", "UpdateSkill", rpcHandler, "UpdateSkill");
-        GetGame().GetRPCManager().AddRPC("SausageSkills", "DisplayMessage", rpcHandler, "DisplayMessage");
+        // Use GetGame().GetRPCManager() to avoid syntax errors
+        // We need to use "this" as the instance for RPC handlers
+        ref SausageSkillsRPC rpcInstance = new SausageSkillsRPC();
+        GetGame().GetRPCManager().AddRPC("SausageSkills", "SyncPlayerSkills", rpcInstance, SingleplayerExecutionType.Client);
+        GetGame().GetRPCManager().AddRPC("SausageSkills", "UpdateSkill", rpcInstance, SingleplayerExecutionType.Client);
+        GetGame().GetRPCManager().AddRPC("SausageSkills", "DisplayMessage", rpcInstance, SingleplayerExecutionType.Client);
     }
     
     // Server RPC Handlers

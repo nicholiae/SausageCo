@@ -3,32 +3,22 @@
  * Skills Menu
  */
 
-// Define the SkillRecipeData class that was missing
-// class SkillRecipeData
-// {
-    // string displayName;
-    // string description;
-    // string skillType;
-    // int requiredLevel;
-    // string recipeName;
-    // string recipeClassName;
-    
-    // void SkillRecipeData()
-    // {
-        // displayName = "Unknown Recipe";
-        // description = "No description available";
-        // skillType = "";
-        // requiredLevel = 0;
-        // recipeName = "";
-        // recipeClassName = "";
-    // }
-// }
+// Recipe sorting function - moved outside of class and to the top of the file for global visibility
+int RecipeLevelSorter(SkillRecipeData recipe1, SkillRecipeData recipe2)
+{
+    if (recipe1.requiredLevel < recipe2.requiredLevel)
+        return -1;
+    else if (recipe1.requiredLevel > recipe2.requiredLevel)
+        return 1;
+    else
+        return 0;
+}
 
 class SausageSkillsMenu extends UIScriptedMenu
 {
     // UI Controls
     private Widget m_Root;
-    private TabberUI m_Tabber;
+    private ref TabberUI m_Tabber;  // Changed to ref TabberUI
     private TextWidget m_PlayerNameText;
     private ButtonWidget m_CloseButton;
     
@@ -46,7 +36,10 @@ class SausageSkillsMenu extends UIScriptedMenu
         m_Root = GetGame().GetWorkspace().CreateWidgets("SausageCo\\GUI\\layouts\\skills_menu.layout");
         
         // Get UI elements
-        m_Tabber = TabberUI.Cast(m_Root.FindAnyWidget("SkillsTabber"));
+        Widget tabberWidget = m_Root.FindAnyWidget("SkillsTabber");
+        // Create TabberUI instance instead of casting
+        m_Tabber = new TabberUI(tabberWidget);
+        
         m_PlayerNameText = TextWidget.Cast(m_Root.FindAnyWidget("PlayerNameText"));
         m_CloseButton = ButtonWidget.Cast(m_Root.FindAnyWidget("CloseButton"));
         
@@ -82,7 +75,7 @@ class SausageSkillsMenu extends UIScriptedMenu
         }
         
         // Request skill data from server
-        GetRPCManager().SendRPC("SausageSkills", "RequestSkillsData", null, true);
+        SausageSkillsRPCManager.GetRPCManager().SendRPC("SausageSkills", "RequestSkillsData", null, true);
         
         return m_Root;
     }
@@ -217,8 +210,9 @@ class SkillPanel
         recipeManager.Init();
         array<ref SkillRecipeData> recipes = recipeManager.GetRecipesForSkill(m_SkillType);
         
-        // Sort recipes by required level
-        recipes.Sort(RecipeLevelSorter);
+        // Sort recipes by required level - using global function now
+        // Using custom sorting method instead of Sort function to avoid visibility issues
+        SortRecipesByLevel(recipes);
         
         // Add recipe widgets
         foreach (SkillRecipeData recipe : recipes)
@@ -226,6 +220,25 @@ class SkillPanel
             // Create recipe item
             RecipeListItem recipeItem = new RecipeListItem(m_RecipesGrid, recipe, level >= recipe.requiredLevel);
             m_RecipeItems.Insert(recipeItem);
+        }
+    }
+    
+    // Custom sorting method to avoid using the Sort function with a callback
+    private void SortRecipesByLevel(array<ref SkillRecipeData> recipes)
+    {
+        int count = recipes.Count();
+        for (int i = 0; i < count - 1; i++)
+        {
+            for (int j = 0; j < count - i - 1; j++)
+            {
+                if (recipes[j].requiredLevel > recipes[j + 1].requiredLevel)
+                {
+                    // Swap elements
+                    SkillRecipeData temp = recipes[j];
+                    recipes[j] = recipes[j + 1];
+                    recipes[j + 1] = temp;
+                }
+            }
         }
     }
     
@@ -241,17 +254,6 @@ class SkillPanel
         }
         
         return false;
-    }
-    
-    // Recipe sorting function
-    static int RecipeLevelSorter(SkillRecipeData recipe1, SkillRecipeData recipe2)
-    {
-        if (recipe1.requiredLevel < recipe2.requiredLevel)
-            return -1;
-        else if (recipe1.requiredLevel > recipe2.requiredLevel)
-            return 1;
-        else
-            return 0;
     }
 }
 
@@ -306,7 +308,7 @@ class RecipeListItem
         if (w == m_CraftButton && m_Unlocked)
         {
             // Send craft request to server
-            GetRPCManager().SendRPC("SausageSkills", "CraftRecipe", new Param2<string, string>(m_Recipe.skillType, m_Recipe.recipeName), true);
+            SausageSkillsRPCManager.GetRPCManager().SendRPC("SausageSkills", "CraftRecipe", new Param2<string, string>(m_Recipe.skillType, m_Recipe.recipeName), true);
             return true;
         }
         

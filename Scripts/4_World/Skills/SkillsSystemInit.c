@@ -19,7 +19,7 @@ class SkillsSystemInit
         GetPlugin(PluginSausageSkillsManager);
         
         // Initialize RPC manager
-        SausageSkillsRPCManager.GetRPCManager();  // Changed from RPCManagerHelper to SausageSkillsRPCManager
+        SausageSkillsRPCManager.GetRPCManager();
         
         Print("[SausageSkills] Skills System Initialized");
     }

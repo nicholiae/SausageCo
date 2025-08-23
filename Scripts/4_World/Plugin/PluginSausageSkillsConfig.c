@@ -3,25 +3,6 @@
  * Skills Configuration Plugin
  */
 
-// Define the SkillTypeConfig class that was missing
-// class SkillTypeConfig
-// {
-    // string displayName;
-    // string description;
-    // string icon;
-    // ref array<int> levelXpRequirements;
-    // ref map<int, ref array<string>> levelRecipes;
-    
-    // void SkillTypeConfig()
-    // {
-        // displayName = "Unknown Skill";
-        // description = "No description available";
-        // icon = "";
-        // levelXpRequirements = new array<int>();
-        // levelRecipes = new map<int, ref array<string>>();
-    // }
-// }
-
 class PluginSausageSkillsConfig extends PluginBase
 {
     private const static string CONFIG_FOLDER = "$profile:Sausage\\Skills\\";

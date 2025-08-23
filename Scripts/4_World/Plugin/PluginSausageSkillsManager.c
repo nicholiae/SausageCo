@@ -1,88 +1,9 @@
 
+
 /**
  * SausageCo Skills System
  * Skills Manager Plugin
  */
-
-// Define the PlayerInfo class that is used by PlayerSkillsData
-// class PlayerInfo
-// {
-    // string steamId;
-    // string playerName;
-    // string lastUpdate;
-    
-    // void PlayerInfo(string id = "")
-    // {
-        // steamId = id;
-        // playerName = "";
-        // lastUpdate = "";
-    // }
-// }
-
-// Define the SkillData class that is used by PlayerSkillsData
-// class SkillData
-// {
-    // int level;
-    // int experience;
-    // int nextLevelAt;
-    // ref array<string> unlockedRecipes;
-    
-    // void SkillData()
-    // {
-        // level = 0;
-        // experience = 0;
-        // nextLevelAt = 1000;
-        // unlockedRecipes = new array<string>();
-    // }
-// }
-
-// Define the PlayerSkillsData class that was missing
-// class PlayerSkillsData
-// {
-    // ref PlayerInfo playerInfo;
-    // ref map<string, ref SkillData> skills;
-    
-    // void PlayerSkillsData()
-    // {
-        // playerInfo = new PlayerInfo();
-        // skills = new map<string, ref SkillData>();
-    // }
-    
-    // bool HasUnlockedRecipe(string skillType, string recipeName)
-    // {
-        // if (skills.Contains(skillType))
-        // {
-            // ref SkillData skill = skills.Get(skillType);
-            // return skill.unlockedRecipes.Find(recipeName) != -1;
-        // }
-        
-        // return false;
-    // }
-// }
-
-// Define the SkillRecipeData class that is used in the file -- This class is already defined in SausageSkillsMenu.c 
-// class SkillRecipeData
-// {
-    // string displayName;
-    // string description;
-    // string skillType;
-    // int requiredLevel;
-    // string recipeName;
-    // ref array<ref Param2<string, int>> ingredients;
-    // ref array<ref Param2<string, int>> results;
-    
-    // void SkillRecipeData()
-    // {
-        // displayName = "Unknown Recipe";
-        // description = "No description available";
-        // skillType = "";
-        // requiredLevel = 0;
-        // recipeName = "";
-        // ingredients = new array<ref Param2<string, int>>();
-        // results = new array<ref Param2<string, int>>();
-    // }
-// }
-
 
 class PluginSausageSkillsManager extends PluginBase
 {
@@ -167,12 +88,13 @@ class PluginSausageSkillsManager extends PluginBase
     void LoadPlayerSkills(string steamId, PlayerBase player)
     {
         string filePath = PLAYERS_FOLDER + steamId + ".json";
+        ref PlayerSkillsData skillsData;
         
         // Check if player data exists
         if (FileExist(filePath))
         {
             // Load existing data
-            ref PlayerSkillsData skillsData = new PlayerSkillsData();
+            skillsData = new PlayerSkillsData();
             JsonFileLoader<PlayerSkillsData>.JsonLoadFile(filePath, skillsData);
             
             // Update player name if changed
@@ -192,7 +114,7 @@ class PluginSausageSkillsManager extends PluginBase
         else
         {
             // Create new player data
-            ref PlayerSkillsData skillsData = CreateNewPlayerData(steamId, player);
+            skillsData = CreateNewPlayerData(steamId, player);
             m_PlayerSkillsCache.Set(steamId, skillsData);
             
             // Save immediately
@@ -500,11 +422,15 @@ class PluginSausageSkillsManager extends PluginBase
     
     void CraftRecipeForPlayer(PlayerBase player, ref SkillRecipeData recipe)
     {
+        string itemClassName;
+        int requiredQuantity;
+        int quantity;
+        
         // Remove ingredients
         foreach (ref Param2<string, int> ingredient : recipe.ingredients)
         {
-            string itemClassName = ingredient.param1;
-            int requiredQuantity = ingredient.param2;
+            itemClassName = ingredient.param1;
+            requiredQuantity = ingredient.param2;
             
             RemoveItemsFromInventory(player, itemClassName, requiredQuantity);
         }
@@ -512,8 +438,8 @@ class PluginSausageSkillsManager extends PluginBase
         // Add results
         foreach (ref Param2<string, int> result : recipe.results)
         {
-            string itemClassName = result.param1;
-            int quantity = result.param2;
+            itemClassName = result.param1;
+            quantity = result.param2;
             
             CreateItemInInventory(player, itemClassName, quantity);
         }
@@ -609,6 +535,14 @@ class PluginSausageSkillsManager extends PluginBase
         }
     }
     
+    // Custom function to add leading zeros to numbers
+    string AddLeadingZero(int number)
+    {
+        if (number < 10)
+            return "0" + number.ToString();
+        return number.ToString();
+    }
+    
     string GetDateTimeStr()
     {
         int year, month, day, hour, minute, second;
@@ -616,11 +550,11 @@ class PluginSausageSkillsManager extends PluginBase
         GetHourMinuteSecond(hour, minute, second);
         
         string dateTime = year.ToString() + "-";
-        dateTime += month.ToString().PadLeft(2, "0") + "-";
-        dateTime += day.ToString().PadLeft(2, "0") + "T";
-        dateTime += hour.ToString().PadLeft(2, "0") + ":";
-        dateTime += minute.ToString().PadLeft(2, "0") + ":";
-        dateTime += second.ToString().PadLeft(2, "0") + "Z";
+        dateTime += AddLeadingZero(month) + "-";
+        dateTime += AddLeadingZero(day) + "T";
+        dateTime += AddLeadingZero(hour) + ":";
+        dateTime += AddLeadingZero(minute) + ":";
+        dateTime += AddLeadingZero(second) + "Z";
         
         return dateTime;
     }

@@ -1,188 +1,129 @@
-/*
- * SausageCo Skills System
- * PlayerBase Extension
- */
 
 modded class PlayerBase
 {
-    // Cached skill data for client-side access
-    private ref map<string, ref Param2<int, int>> m_SkillsData; // skillType -> (level, xp)
+    // Add skills data
+    protected ref map<string, ref Param2<int, int>> m_Skills; // skillType -> (level, xp)
     
-    // Reference to skills manager
-    private ref PluginSausageSkillsManager m_SkillsManager;
-    
+    // Override Init to initialize skills
     override void Init()
     {
         super.Init();
         
-        // Initialize skills data
-        m_SkillsData = new map<string, ref Param2<int, int>>();
+        // Initialize skills map
+        m_Skills = new map<string, ref Param2<int, int>>();
         
-        // Initialize with default values for all skill types
+        // Initialize with default values
         array<string> skillTypes = SkillTypes.GetAllTypes();
         foreach (string skillType : skillTypes)
         {
-            m_SkillsData.Set(skillType, new Param2<int, int>(0, 0));
+            m_Skills.Set(skillType, new Param2<int, int>(0, 0));
         }
     }
     
-    override void OnRPC(PlayerIdentity sender, int rpc_type, ParamsReadContext ctx)
-    {
-        super.OnRPC(sender, rpc_type, ctx);
-        
-        // Handle SausageCo RPCs
-        if (rpc_type >= 100 && rpc_type < 200) // SausageSkills RPC range
-        {
-            // Handle skillbook menu RPC
-            if (rpc_type == SausageSkillsRPCCommands.OPEN_SKILLBOOK_MENU)
-            {
-                Param3<string, string, string> data = new Param3<string, string, string>("", "", "");
-                if (ctx.Read(data))
-                {
-                    string skillType = data.param1;
-                    string bookTitle = data.param2;
-                    string bookDescription = data.param3;
-                    
-                    // Open the skillbook menu
-                    OpenSkillBookMenu(skillType, bookTitle, bookDescription);
-                }
-                return;
-            }
-            
-            // Other SausageSkills RPCs are handled by the SausageSkillsRPC class
-            return;
-        }
-        
-        // Handle original SausageCo RPCs
-        switch (rpc_type)
-        {
-        case SausageCompany_RPC.RPC_CLIENT_SETPROXIESCONFIG:
-            PluginSausageCompanyProxiesConfig SC_config = PluginSausageCompanyProxiesConfig.Cast(GetPlugin(PluginSausageCompanyProxiesConfig));
-            if(SC_config)
-            {
-                SC_config.OnRPC(sender, this, rpc_type, ctx);
-            }
-            break;
-        case SausageCompany_RPC.RPC_CLIENT_CODELOCK_SETCONFIG:
-            PluginSausageCompanyCodelockConfig codelock_config = GetSausageCompanyCodelockConfig();
-            if(codelock_config)
-            {
-                codelock_config.OnRPC(sender, this, rpc_type, ctx);
-            }
-            break;
-        case SausageCompany_RPC.RPC_CLIENT_SETSETTINGSCONFIG:
-            PluginSCSettingsConfig settings_config = PluginSCSettingsConfig.Cast(GetPlugin(PluginSCSettingsConfig));
-            if(settings_config)
-            {
-                settings_config.OnRPC(sender, this, rpc_type, ctx);
-            }
-            break;
-        case SausageCompany_RPC.RPC_CLIENT_SHOWWARNINGUI:
-            if (GetGame().IsClient() && GetGame().GetUIManager())
-            {
-                GetGame().GetUIManager().EnterScriptedMenu(SC_Constants.SC_NOTICE_UI,null);                
-                //GetGame().GetUIManager().ShowScriptedMenu(noticeUI, NULL);
-                GetGame().GetMission().AddActiveInputExcludes({"menu"});
-            }
-            break;
-        }
-    }
-    
-    // Update all skills data (client-side)
-    void UpdateSkillsData(ref array<ref Param3<string, int, int>> skillsData)
-    {
-        foreach (ref Param3<string, int, int> data : skillsData)
-        {
-            string skillType = data.param1;
-            int level = data.param2;
-            int experience = data.param3;
-            
-            UpdateSkillData(skillType, level, experience);
-        }
-    }
-    
-    // Update a single skill (client-side)
-    void UpdateSkillData(string skillType, int level, int experience)
-    {
-        m_SkillsData.Set(skillType, new Param2<int, int>(level, experience));
-    }
-    
-    // Get skill level (client-side)
+    // Get skill level
     int GetSkillLevel(string skillType)
     {
-        if (m_SkillsData.Contains(skillType))
+        if (m_Skills && m_Skills.Contains(skillType))
         {
-            return m_SkillsData.Get(skillType).param1;
+            return m_Skills.Get(skillType).param1;
         }
-        
         return 0;
     }
     
-    // Get skill experience (client-side)
+    // Get skill experience
     int GetSkillExperience(string skillType)
     {
-        if (m_SkillsData.Contains(skillType))
+        if (m_Skills && m_Skills.Contains(skillType))
         {
-            return m_SkillsData.Get(skillType).param2;
+            return m_Skills.Get(skillType).param2;
         }
-        
         return 0;
     }
     
-    // Check if player has required skill level (server-side)
-    bool HasSkillLevel(string skillType, int requiredLevel)
+    // Set skill data
+    void SetSkillData(string skillType, int level, int experience)
     {
-        if (GetGame().IsServer())
+        if (m_Skills)
         {
-            // Server-side check
-            if (!m_SkillsManager)
-            {
-                m_SkillsManager = PluginSausageSkillsManager.Cast(GetPlugin(PluginSausageSkillsManager));
-            }
-            
-            if (m_SkillsManager && GetIdentity())
-            {
-                string steamId = GetIdentity().GetPlainId();
-                return m_SkillsManager.HasSkillLevel(steamId, skillType, requiredLevel);
-            }
+            m_Skills.Set(skillType, new Param2<int, int>(level, experience));
         }
-        else
-        {
-            // Client-side check (less secure but faster)
-            return GetSkillLevel(skillType) >= requiredLevel;
-        }
-        
-        return false;
     }
     
-    // Add experience to a skill (server-side only)
-    void AddSkillXP(string skillType, int amount)
+    // Update a single skill's data
+    void UpdateSkillData(string skillType, int level, int experience)
     {
-        if (GetGame().IsServer())
+        SetSkillData(skillType, level, experience);
+    }
+    
+    // Update all skills data from array
+    void UpdateSkillsData(array<ref Param3<string, int, int>> skillsData)
+    {
+        if (skillsData && m_Skills)
         {
-            // Server-side implementation
-            if (!m_SkillsManager)
+            foreach (ref Param3<string, int, int> data : skillsData)
             {
-                m_SkillsManager = PluginSausageSkillsManager.Cast(GetPlugin(PluginSausageSkillsManager));
-            }
-            
-            if (m_SkillsManager)
-            {
-                m_SkillsManager.AddSkillXP(this, skillType, amount);
+                SetSkillData(data.param1, data.param2, data.param3);
             }
         }
     }
     
-    // Open skills menu (client-side only)
+    // Add experience to a skill
+    void AddSkillExperience(string skillType, int experienceToAdd)
+    {
+        if (m_Skills && m_Skills.Contains(skillType))
+        {
+            Param2<int, int> skillData = m_Skills.Get(skillType);
+            int currentLevel = skillData.param1;
+            int currentExperience = skillData.param2;
+            
+            // Add experience
+            currentExperience += experienceToAdd;
+            
+            // Check for level up
+            PluginSausageSkillsConfig config = PluginSausageSkillsConfig.Cast(GetPlugin(PluginSausageSkillsConfig));
+            if (config)
+            {
+                int requiredXp = config.GetXpForLevel(skillType, currentLevel + 1);
+                while (currentExperience >= requiredXp && requiredXp > 0)
+                {
+                    // Level up
+                    currentLevel++;
+                    currentExperience -= requiredXp;
+                    
+                    // Get XP for next level
+                    requiredXp = config.GetXpForLevel(skillType, currentLevel + 1);
+                    
+                    // Notify player of level up
+                    if (GetGame().IsClient() || !GetGame().IsMultiplayer())
+                    {
+                        string skillName = config.GetSkillDisplayName(skillType);
+                        // Use a simpler approach to display messages
+                        GetGame().Chat(string.Format("You've reached level %1 in %2!", currentLevel, skillName), "");
+                    }
+                }
+            }
+            
+            // Update skill data
+            m_Skills.Set(skillType, new Param2<int, int>(currentLevel, currentExperience));
+            
+            // Sync to client if on server
+            if (GetGame().IsServer())
+            {
+                SausageSkillsRPCManager.GetRPCManager().SendRPC("SausageSkills", "SyncPlayerSkill", new Param3<string, int, int>(skillType, currentLevel, currentExperience), true, this.GetIdentity());
+            }
+        }
+    }
+    
+    // Open the skills menu
     void OpenSkillsMenu()
     {
-        if (GetGame().IsClient() && !GetGame().GetUIManager().IsMenuOpen(MENU_SAUSAGE_SKILLS))
+        if (GetGame().IsClient())
         {
             GetGame().GetUIManager().EnterScriptedMenu(MENU_SAUSAGE_SKILLS, null);
         }
     }
     
-    // Open skillbook menu (client-side only)
+    // Open the skillbook menu
     void OpenSkillBookMenu(string skillType, string bookTitle, string bookDescription)
     {
         if (GetGame().IsClient())
@@ -196,23 +137,76 @@ modded class PlayerBase
         }
     }
     
-    // Override SetActions to add key binding for skills menu
-    override void SetActions(out TInputActionMap InputActionMap)
+    // Override OnRPC to handle skill-related RPCs
+    override void OnRPC(PlayerIdentity sender, int rpc_type, ParamsReadContext ctx)
     {
-        super.SetActions(InputActionMap);
-        #ifdef CodeLock
-        AddAction(ActionRaidCodelockOnSC, InputActionMap);       
-        #endif 
-        #ifdef RA_BASEBUILDING
-        AddAction(ActionRaidRACodeLockOnSC, InputActionMap);       
-        #endif 
-        AddAction(ActionOpenSkillsMenu, InputActionMap);
+        super.OnRPC(sender, rpc_type, ctx);
+        
+        // Handle skill-related RPCs
+        if (rpc_type == SausageSkillsRPCCommands.SYNC_PLAYER_SKILLS)
+        {
+            // Sync all player skills
+            ref array<ref Param3<string, int, int>> skillsData;
+            if (ctx.Read(skillsData))
+            {
+                foreach (ref Param3<string, int, int> data : skillsData)
+                {
+                    SetSkillData(data.param1, data.param2, data.param3);
+                }
+                
+                // Update UI if skills menu is open
+                if (GetGame().GetUIManager().IsMenuOpen(MENU_SAUSAGE_SKILLS))
+                {
+                    SausageSkillsMenu skillsMenu = SausageSkillsMenu.Cast(GetGame().GetUIManager().FindMenu(MENU_SAUSAGE_SKILLS));
+                    if (skillsMenu)
+                    {
+                        skillsMenu.UpdateAllSkills(skillsData);
+                    }
+                }
+            }
+        }
+        else if (rpc_type == SausageSkillsRPCCommands.UPDATE_SKILL)
+        {
+            // Update a single skill
+            string skillType;
+            int level;
+            int experience;
+            if (ctx.Read(skillType) && ctx.Read(level) && ctx.Read(experience))
+            {
+                SetSkillData(skillType, level, experience);
+                
+                // Update UI if skills menu is open
+                if (GetGame().GetUIManager().IsMenuOpen(MENU_SAUSAGE_SKILLS))
+                {
+                    // Use a different variable name to avoid multiple declaration
+                    SausageSkillsMenu skillsMenuUI = SausageSkillsMenu.Cast(GetGame().GetUIManager().FindMenu(MENU_SAUSAGE_SKILLS));
+                    if (skillsMenuUI)
+                    {
+                        skillsMenuUI.UpdateSkillData(skillType, level, experience);
+                    }
+                }
+            }
+        }
+        else if (rpc_type == SausageSkillsRPCCommands.OPEN_SKILLBOOK_MENU)
+        {
+            // Open the skillbook menu
+            // Use a different variable name to avoid multiple declaration
+            string bookSkillType;
+            string bookTitle;
+            string bookDescription;
+            if (ctx.Read(bookSkillType) && ctx.Read(bookTitle) && ctx.Read(bookDescription))
+            {
+                OpenSkillBookMenu(bookSkillType, bookTitle, bookDescription);
+            }
+        }
     }
 }
 
 // Action to open skills menu
-class ActionOpenSkillsMenu: ActionBase
+class ActionOpenSkillsMenu: ActionInteractBase
 {
+    // Removed m_CommandUID declaration as it's already defined in ActionInteractBase
+    
     void ActionOpenSkillsMenu()
     {
         m_CommandUID = DayZPlayerConstants.CMD_ACTIONMOD_OPENDOORFW;
@@ -235,15 +229,9 @@ class ActionOpenSkillsMenu: ActionBase
         return true;
     }
     
-    override void OnStartClient(ActionData action_data)
+    // Changed from OnExecuteClient to StartAction to match ActionInteractBase
+    void StartAction(PlayerBase player, ActionTarget target, ItemBase item)
     {
-        // Server side - nothing to do
-    }
-    
-    override void OnStartServer(ActionData action_data)
-    {
-        // Open skills menu
-        PlayerBase player = PlayerBase.Cast(action_data.m_Player);
         if (player)
         {
             player.OpenSkillsMenu();

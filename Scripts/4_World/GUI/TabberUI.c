@@ -6,7 +6,7 @@
 class TabberUI extends ScriptedWidgetEventHandler
 {
     protected Widget m_Root;
-    protected ref array<ref TabberUITab> m_Tabs;  // Added 'ref' before array
+    protected ref array<ref TabberUITab> m_Tabs;
     protected int m_SelectedTab;
     
     void TabberUI(Widget root)
