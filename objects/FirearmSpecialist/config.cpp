@@ -34,7 +34,7 @@ class CfgVehicles
 {
 	class Inventory_Base;
 	class Book_Base;
-    class SausageCo_SkillBook_Base: Book_Base
+    class SausageCo_SkillBook_Base: Inventory_Base
     {
     };
 	class SausageCo_FirearmsTool: SausageCo_SkillBook_Base

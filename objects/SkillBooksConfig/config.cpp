@@ -20,10 +20,10 @@ class CfgPatches
 
 class CfgVehicles
 {
-    class Book;
+    class Inventory_Base;
     
     // Base Skill Book
-    class SausageCo_SkillBook_Base: Book
+    class SausageCo_SkillBook_Base: Inventory_Base
     {
         scope = 0;
         displayName = "Skill Book";
