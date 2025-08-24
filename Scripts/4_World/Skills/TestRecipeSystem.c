@@ -9,6 +9,101 @@
 
 class TestRecipeSystem
 {
+    // Custom string conversion functions
+    static string ConvertToUpperCase(string input)
+    {
+        string result = "";
+        for (int i = 0; i < input.Length(); i++)
+        {
+            string currentChar = input.Substring(i, 1);
+            
+            // Check if the character is lowercase (a-z)
+            if (currentChar >= "a" && currentChar <= "z")
+            {
+                // Convert to uppercase using a simple mapping
+                if (currentChar == "a") result += "A";
+                else if (currentChar == "b") result += "B";
+                else if (currentChar == "c") result += "C";
+                else if (currentChar == "d") result += "D";
+                else if (currentChar == "e") result += "E";
+                else if (currentChar == "f") result += "F";
+                else if (currentChar == "g") result += "G";
+                else if (currentChar == "h") result += "H";
+                else if (currentChar == "i") result += "I";
+                else if (currentChar == "j") result += "J";
+                else if (currentChar == "k") result += "K";
+                else if (currentChar == "l") result += "L";
+                else if (currentChar == "m") result += "M";
+                else if (currentChar == "n") result += "N";
+                else if (currentChar == "o") result += "O";
+                else if (currentChar == "p") result += "P";
+                else if (currentChar == "q") result += "Q";
+                else if (currentChar == "r") result += "R";
+                else if (currentChar == "s") result += "S";
+                else if (currentChar == "t") result += "T";
+                else if (currentChar == "u") result += "U";
+                else if (currentChar == "v") result += "V";
+                else if (currentChar == "w") result += "W";
+                else if (currentChar == "x") result += "X";
+                else if (currentChar == "y") result += "Y";
+                else if (currentChar == "z") result += "Z";
+                else result += currentChar; // Fallback
+            }
+            else
+            {
+                result += currentChar;
+            }
+        }
+        return result;
+    }
+
+    static string ConvertToLowerCase(string input)
+    {
+        string result = "";
+        for (int i = 0; i < input.Length(); i++)
+        {
+            string currentChar = input.Substring(i, 1);
+            
+            // Check if the character is uppercase (A-Z)
+            if (currentChar >= "A" && currentChar <= "Z")
+            {
+                // Convert to lowercase using a simple mapping
+                if (currentChar == "A") result += "a";
+                else if (currentChar == "B") result += "b";
+                else if (currentChar == "C") result += "c";
+                else if (currentChar == "D") result += "d";
+                else if (currentChar == "E") result += "e";
+                else if (currentChar == "F") result += "f";
+                else if (currentChar == "G") result += "g";
+                else if (currentChar == "H") result += "h";
+                else if (currentChar == "I") result += "i";
+                else if (currentChar == "J") result += "j";
+                else if (currentChar == "K") result += "k";
+                else if (currentChar == "L") result += "l";
+                else if (currentChar == "M") result += "m";
+                else if (currentChar == "N") result += "n";
+                else if (currentChar == "O") result += "o";
+                else if (currentChar == "P") result += "p";
+                else if (currentChar == "Q") result += "q";
+                else if (currentChar == "R") result += "r";
+                else if (currentChar == "S") result += "s";
+                else if (currentChar == "T") result += "t";
+                else if (currentChar == "U") result += "u";
+                else if (currentChar == "V") result += "v";
+                else if (currentChar == "W") result += "w";
+                else if (currentChar == "X") result += "x";
+                else if (currentChar == "Y") result += "y";
+                else if (currentChar == "Z") result += "z";
+                else result += currentChar; // Fallback
+            }
+            else
+            {
+                result += currentChar;
+            }
+        }
+        return result;
+    }
+
     // Run a comprehensive test of the recipe system
     static void RunTest()
     {
@@ -111,7 +206,7 @@ class TestRecipeSystem
             }
             
             // Test case sensitivity
-            string upperSkillType = skillType.ToUpper();
+            string upperSkillType = ConvertToUpperCase(skillType);
             array<ref SkillRecipeData> upperRecipes = recipeManager.GetRecipesForSkill(upperSkillType);
             
             if (upperRecipes && upperRecipes.Count() > 0)
