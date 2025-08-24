@@ -142,9 +142,9 @@ class RecipeSystemDebugger
             {
                 Print("[RecipeDebugger] ERROR: Invalid skill type: " + skillType);
                 Print("[RecipeDebugger] Valid skill types are:");
-                foreach (string type : skillTypes)
+                foreach (string type2 : skillTypes)
                 {
-                    Print("[RecipeDebugger]   - " + type);
+                    Print("[RecipeDebugger]   - " + type2);
                 }
             }
         }

@@ -1,28 +1,10 @@
 
 /**
- * NotificationSystemBypass.c
+ * SausageNotificationSystem.c
  * 
- * This file creates a modded version of the NotificationUI class to prevent NULL pointer errors
- * when the skill book menu is open. It also provides a complete custom notification system.
+ * This file creates a standalone notification system for the SausageCo mod
+ * without modifying the base game's NotificationUI class.
  */
-
-// First, let's mod the NotificationUI class to prevent the NULL pointer error
-modded class NotificationUI
-{
-    // Override the UpdateOffset method to add a safety check
-    override void UpdateOffset()
-    {
-        // First check if our skill book menu is open
-        if (SkillBookMenu.AreNotificationsSuppressed())
-        {
-            // Skip the problematic code entirely when our menu is open
-            return;
-        }
-        
-        // Call the original method only if our menu is not open
-        super.UpdateOffset();
-    }
-}
 
 // Notification types for our custom system
 enum SausageNotificationType
@@ -73,7 +55,7 @@ class SausageNotificationMessage
             return;
         
         // Create the root widget
-        m_RootWidget = GetGame().GetWorkspace().CreateWidgets("SausageCo/GUI/Layouts/Notification.layout");
+        m_RootWidget = GetGame().GetWorkspace().CreateWidgets("SausageCo/GUI/layouts/Notification.layout");
         if (!m_RootWidget)
             return;
         
@@ -252,6 +234,13 @@ class SausageNotificationSystem
     {
         // Log to script log
         Print("[SausageNotification] " + text);
+        
+        // Check if notifications should be suppressed
+        if (SkillBookMenu.AreNotificationsSuppressed())
+        {
+            Print("[SausageNotification] Notifications suppressed by SkillBookMenu");
+            return;
+        }
         
         // Limit the number of notifications
         if (m_Notifications.Count() >= MAX_NOTIFICATIONS)
