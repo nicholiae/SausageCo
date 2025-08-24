@@ -62,18 +62,16 @@ class SausageCo_Vehicle_Kit_Base extends ItemBase
 	// ItemBase slotCast17;
 	// ItemBase slotCast18;
 	
-	void SausageCo_Vehicle_Kit_Base()
-	{	
-		RegisterNetSyncVariableBool("m_IsSoundSynchRemote");
-	}
-	bool hasProperPrep()
+	override void EEInit()
 	{
-		return false;
+		super.EEInit();
 	}
-	string j_Vehicle()
+	
+	override void OnItemLocationChanged( EntityAI old_owner, EntityAI new_owner ) 
 	{
-		return "Guts";
+		super.OnItemLocationChanged( old_owner, new_owner );
 	}	
+	
 	override void OnVariablesSynchronized()
 	{
 		super.OnVariablesSynchronized();
@@ -93,6 +91,19 @@ class SausageCo_Vehicle_Kit_Base extends ItemBase
 			StopDeployLoopSound();
 		}
 	}
+	
+	void SausageCo_Vehicle_Kit_Base()
+	{	
+		RegisterNetSyncVariableBool("m_IsSoundSynchRemote");
+	}
+	bool hasProperPrep()
+	{
+		return false;
+	}
+	string j_Vehicle()
+	{
+		return "Guts";
+	}	
 	override bool CanPutInCargo( EntityAI parent )
 	{		
 		if ( IsEmpty() )

@@ -1,7 +1,7 @@
 
 /**
  * SausageCo Skills System
- * RPC Handlers
+ * RPC Handlers - Fixed Version
  */
 
 class SausageSkillsRPC
@@ -133,10 +133,13 @@ class SausageSkillsRPC
                 {
                     // Get skill display name
                     PluginSausageSkillsConfig config = PluginSausageSkillsConfig.Cast(GetPlugin(PluginSausageSkillsConfig));
-                    string skillDisplayName = config.GetSkillDisplayName(skillType);
-                    
-                    // Show level up notification
-                    SausageSkillsNotification.AddNotification(SausageSkillsNotification.NOTIFICATION_PLAIN, 5, "Skill Level Up: " + skillDisplayName + " reached level " + level + "!");
+                    if (config)
+                    {
+                        string skillDisplayName = config.GetSkillDisplayName(skillType);
+                        
+                        // FIX: Use our safe notification system instead of NotificationUI
+                        SausageNotification.Show("Skill Level Up: " + skillDisplayName + " reached level " + level + "!", SausageNotification.TYPE_SUCCESS);
+                    }
                 }
             }
         }
@@ -153,8 +156,8 @@ class SausageSkillsRPC
         {
             string message = data.param1;
             
-            // Show notification
-            SausageSkillsNotification.AddNotification(SausageSkillsNotification.NOTIFICATION_PLAIN, 5, message);
+            // FIX: Use our safe notification system instead of NotificationUI
+            SausageNotification.Show(message);
         }
     }
     
@@ -179,24 +182,5 @@ class SausageSkillsRPC
         }
         
         return null;
-    }
-}
-
-// Notification system for client messages - renamed to avoid conflicts
-class SausageSkillsNotification
-{
-    // Constants instead of enum to avoid conflicts
-    const static int NOTIFICATION_PLAIN = 0;
-    const static int NOTIFICATION_SUCCESS = 1;
-    const static int NOTIFICATION_WARNING = 2;
-    const static int NOTIFICATION_ERROR = 3;
-    
-    static void AddNotification(int type, float duration, string message)
-    {
-        // In a real implementation, this would show a UI notification
-        // For now, we'll just print to the screen
-        Print("[SausageSkills] " + message);
-        
-        // TODO: Implement actual UI notifications
     }
 }

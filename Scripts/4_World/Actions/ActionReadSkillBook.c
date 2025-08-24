@@ -1,6 +1,7 @@
+
 /**
  * SausageCo Skills System
- * Action to read skill books
+ * Action to read skill books - FIXED VERSION
  */
 
 class ActionReadSkillBookCB : ActionContinuousBaseCB
@@ -62,7 +63,11 @@ class ActionReadSkillBook : ActionContinuousBase
         if (!player || !player.GetIdentity())
             return;
             
+        // FIX: Send RPC to client using a single Param3 object instead of individual strings
+        // This prevents string corruption issues during RPC transmission
+        Param3<string, string, string> bookData = new Param3<string, string, string>(skillType, bookTitle, bookDescription);
+        
         // Send RPC to client to open the skill book menu
-        GetGame().RPCSingleParam(player, SausageSkillsRPCCommands.OPEN_SKILLBOOK_MENU, new Param3<string, string, string>(skillType, bookTitle, bookDescription), true, player.GetIdentity());
+        GetGame().RPCSingleParam(player, SausageSkillsRPCCommands.OPEN_SKILLBOOK_MENU, bookData, true, player.GetIdentity());
     }
 }

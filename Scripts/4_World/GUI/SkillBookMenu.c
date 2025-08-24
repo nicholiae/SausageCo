@@ -1,7 +1,7 @@
 
 /**
  * SausageCo Skills System
- * Skill Book Menu Controller
+ * Skill Book Menu Controller - Fixed Version
  */
 
 class SkillBookMenu extends UIScriptedMenu
@@ -25,15 +25,28 @@ class SkillBookMenu extends UIScriptedMenu
     
     void SkillBookMenu()
     {
+        Print("[SausageCo] SkillBookMenu constructor called");
         m_Recipes = new array<ref SkillRecipeData>();
         m_RecipeManager = new SausageSkillsRecipeManager();
-        m_RecipeManager.Init();
+        if (m_RecipeManager)
+        {
+            Print("[SausageCo] Recipe manager created, initializing...");
+            m_RecipeManager.Init();
+            Print("[SausageCo] Recipe manager initialized");
+        }
+        else
+        {
+            Print("[SausageCo] ERROR: Failed to create recipe manager");
+        }
     }
     
     void ~SkillBookMenu()
     {
         // Clean up
-        m_Recipes.Clear();
+        if (m_Recipes)
+        {
+            m_Recipes.Clear();
+        }
     }
     
     // Initialize the menu
@@ -41,6 +54,11 @@ class SkillBookMenu extends UIScriptedMenu
     {
         // Load the layout
         m_Root = GetGame().GetWorkspace().CreateWidgets("SausageCo/GUI/layouts/skillbook/skillbook_menu.layout");
+        if (!m_Root)
+        {
+            Print("[SausageCo] ERROR: Failed to load skillbook_menu.layout");
+            return null;
+        }
         
         // Get widgets
         m_TitleText = TextWidget.Cast(m_Root.FindAnyWidget("TitleText"));
@@ -53,10 +71,15 @@ class SkillBookMenu extends UIScriptedMenu
         if (recipesScroll)
         {
             m_RecipesGrid = GridSpacerWidget.Cast(recipesScroll.FindAnyWidget("RecipesGrid"));
+            if (!m_RecipesGrid)
+            {
+                Print("[SausageCo] ERROR: Failed to find RecipesGrid in skillbook_menu.layout");
+            }
         }
-        
-        // Set up event handlers - UIScriptedMenu already extends ScriptedWidgetEventHandler
-        // so we don't need to set a separate handler
+        else
+        {
+            Print("[SausageCo] ERROR: Failed to find RecipesScroll in skillbook_menu.layout");
+        }
         
         return m_Root;
     }
@@ -64,6 +87,9 @@ class SkillBookMenu extends UIScriptedMenu
     // Set the book data
     void SetBookData(string skillType, string bookTitle, string bookDescription)
     {
+        Print("[SausageCo] Setting book data: " + skillType + ", " + bookTitle);
+        
+        // Store data
         m_SkillType = skillType;
         m_BookTitle = bookTitle;
         m_BookDescription = bookDescription;
@@ -91,13 +117,40 @@ class SkillBookMenu extends UIScriptedMenu
     // Load recipes for the current skill type
     void LoadRecipes()
     {
+        Print("[SausageCo] Loading recipes for skill type: " + m_SkillType);
+        
         // Clear existing recipes
-        m_Recipes.Clear();
+        if (m_Recipes)
+        {
+            m_Recipes.Clear();
+        }
+        else
+        {
+            m_Recipes = new array<ref SkillRecipeData>();
+        }
         
         // Get recipes for this skill type
         if (m_RecipeManager)
         {
-            m_Recipes = m_RecipeManager.GetRecipesForSkill(m_SkillType);
+            array<ref SkillRecipeData> recipes = m_RecipeManager.GetRecipesForSkill(m_SkillType);
+            if (recipes && recipes.Count() > 0)
+            {
+                // Copy recipes to our array
+                foreach (SkillRecipeData recipe : recipes)
+                {
+                    m_Recipes.Insert(recipe);
+                }
+                
+                Print("[SausageCo] Loaded " + m_Recipes.Count() + " recipes for skill type: " + m_SkillType);
+            }
+            else
+            {
+                Print("[SausageCo] No recipes found for skill type: " + m_SkillType);
+            }
+        }
+        else
+        {
+            Print("[SausageCo] ERROR: Recipe manager is null in LoadRecipes");
         }
         
         // Update the UI
@@ -107,54 +160,96 @@ class SkillBookMenu extends UIScriptedMenu
     // Update the recipes grid
     void UpdateRecipesGrid()
     {
-        // Clear the grid
-        if (m_RecipesGrid)
+        Print("[SausageCo] Updating recipes grid");
+        
+        // Check if grid exists
+        if (!m_RecipesGrid)
         {
-            // Clear existing items
-            Widget child = m_RecipesGrid.GetChildren();
-            while (child)
+            Print("[SausageCo] ERROR: RecipesGrid is null in UpdateRecipesGrid");
+            return;
+        }
+        
+        // Clear the grid
+        Widget child = m_RecipesGrid.GetChildren();
+        while (child)
+        {
+            Widget nextChild = child.GetSibling();
+            child.Unlink();
+            child = nextChild;
+        }
+        
+        // Check if we have recipes
+        if (!m_Recipes || m_Recipes.Count() == 0)
+        {
+            Print("[SausageCo] No recipes to display, creating no recipes message");
+            
+            // Create a simple text widget directly
+            TextWidget noRecipesText = TextWidget.Cast(GetGame().GetWorkspace().CreateWidgets("SausageCo/GUI/layouts/text_widget.layout", m_RecipesGrid));
+            if (noRecipesText)
             {
-                Widget nextChild = child.GetSibling();
-                child.Unlink();
-                child = nextChild;
+                noRecipesText.SetText("No recipes available for this skill type.");
+                noRecipesText.SetColor(ARGB(255, 200, 200, 200));
+                Print("[SausageCo] No recipes message created successfully");
+            }
+            else
+            {
+                Print("[SausageCo] ERROR: Failed to create no recipes message");
+            }
+            return;
+        }
+        
+        // Add recipes to the grid
+        Print("[SausageCo] Adding " + m_Recipes.Count() + " recipes to grid");
+        int recipeCount = 0;
+        
+        foreach (SkillRecipeData recipe : m_Recipes)
+        {
+            if (!recipe)
+            {
+                Print("[SausageCo] ERROR: Null recipe in UpdateRecipesGrid");
+                continue;
             }
             
-            // Add recipes to the grid
-            foreach (SkillRecipeData recipe : m_Recipes)
+            // Create a recipe item widget
+            // FIX: Corrected layout path from "ecipe_item.layout" to "recipe_item.layout"
+            Widget recipeWidget = GetGame().GetWorkspace().CreateWidgets("SausageCo/GUI/layouts/recipe_item.layout", m_RecipesGrid);
+            if (!recipeWidget)
             {
-                // Create a recipe item widget
-                Widget recipeWidget = GetGame().GetWorkspace().CreateWidgets("SausageCo/GUI/layouts/recipe_item.layout", m_RecipesGrid);
-                if (recipeWidget)
-                {
-                    // Set recipe data
-                    TextWidget recipeName = TextWidget.Cast(recipeWidget.FindAnyWidget("RecipeName"));
-                    TextWidget recipeDescription = TextWidget.Cast(recipeWidget.FindAnyWidget("RecipeDescription"));
-                    TextWidget requiredLevel = TextWidget.Cast(recipeWidget.FindAnyWidget("RequiredLevel"));
-                    ButtonWidget craftButton = ButtonWidget.Cast(recipeWidget.FindAnyWidget("CraftButton"));
-                    
-                    if (recipeName)
-                    {
-                        recipeName.SetText(recipe.displayName);
-                    }
-                    
-                    if (recipeDescription)
-                    {
-                        recipeDescription.SetText(recipe.description);
-                    }
-                    
-                    if (requiredLevel)
-                    {
-                        requiredLevel.SetText("Level " + recipe.requiredLevel);
-                    }
-                    
-                    if (craftButton)
-                    {
-                        // Disable craft button in the book view
-                        craftButton.Show(false);
-                    }
-                }
+                Print("[SausageCo] ERROR: Failed to create recipe_item.layout widget");
+                continue;
             }
+            
+            // Set recipe data
+            TextWidget recipeName = TextWidget.Cast(recipeWidget.FindAnyWidget("RecipeName"));
+            TextWidget recipeDescription = TextWidget.Cast(recipeWidget.FindAnyWidget("RecipeDescription"));
+            TextWidget requiredLevel = TextWidget.Cast(recipeWidget.FindAnyWidget("RequiredLevel"));
+            ButtonWidget craftButton = ButtonWidget.Cast(recipeWidget.FindAnyWidget("CraftButton"));
+            
+            if (recipeName)
+            {
+                recipeName.SetText(recipe.displayName);
+            }
+            
+            if (recipeDescription)
+            {
+                recipeDescription.SetText(recipe.description);
+            }
+            
+            if (requiredLevel)
+            {
+                requiredLevel.SetText("Level " + recipe.requiredLevel.ToString());
+            }
+            
+            if (craftButton)
+            {
+                // Disable craft button in the book view
+                craftButton.Show(false);
+            }
+            
+            recipeCount++;
         }
+        
+        Print("[SausageCo] Successfully added " + recipeCount + " recipes to grid");
     }
     
     // Get display name for skill type
@@ -221,19 +316,23 @@ class SkillBookMenu extends UIScriptedMenu
         return false;
     }
     
-    // Open the menu
-    void Open(string skillType, string bookTitle, string bookDescription)
+    // Override OnShow to handle any setup needed when the menu is shown
+    override void OnShow()
     {
-        // Set book data
-        SetBookData(skillType, bookTitle, bookDescription);
+        super.OnShow();
+        Print("[SausageCo] SkillBookMenu OnShow called");
         
-        // Show the menu
-        GetGame().GetUIManager().ShowScriptedMenu(this, NULL);
+        // Disable notifications while this menu is open
+        // This is handled by our modded NotificationSystem class
     }
     
-    // Close the menu
-    // void Close()
-    // {
-        // GetGame().GetUIManager().Back();
-    // }
+    // Override OnHide to handle any cleanup needed when the menu is hidden
+    override void OnHide()
+    {
+        super.OnHide();
+        Print("[SausageCo] SkillBookMenu OnHide called");
+        
+        // Notifications will automatically be re-enabled when this menu closes
+        // This is handled by our modded NotificationSystem class
+    }
 }

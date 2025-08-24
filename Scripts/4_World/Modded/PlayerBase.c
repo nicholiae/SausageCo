@@ -1,5 +1,4 @@
 
-
 modded class PlayerBase
 {
     // Add skills data
@@ -167,7 +166,7 @@ modded class PlayerBase
         }
     }
     
-    // Override OnRPC to handle skill-related RPCs
+    // Override OnRPC to handle skill-related RPCs with improved string handling
     override void OnRPC(PlayerIdentity sender, int rpc_type, ParamsReadContext ctx)
     {
         super.OnRPC(sender, rpc_type, ctx);
@@ -204,52 +203,30 @@ modded class PlayerBase
         }
         else if (rpc_type == SausageSkillsRPCCommands.OPEN_SKILLBOOK_MENU)
         {
-            // Open the skillbook menu
-            // Use a different variable name to avoid multiple declaration
-            string bookSkillType;
-            string bookTitle;
-            string bookDescription;
-            if (ctx.Read(bookSkillType) && ctx.Read(bookTitle) && ctx.Read(bookDescription))
+            // FIX: Improved string handling for the skillbook menu
+            // Use a single Param3 object instead of individual string reads
+            Param3<string, string, string> bookData;
+            if (ctx.Read(bookData))
             {
-                OpenSkillBookMenu(bookSkillType, bookTitle, bookDescription);
+                string bookSkillType = bookData.param1;
+                string bookTitle = bookData.param2;
+                string bookDescription = bookData.param3;
+                
+                // Validate strings to prevent corruption
+                if (bookSkillType && bookTitle && bookDescription)
+                {
+                    OpenSkillBookMenu(bookSkillType, bookTitle, bookDescription);
+                }
+                else
+                {
+                    // Log error if strings are invalid
+                    Print("[SausageSkills] ERROR: Invalid book data received in RPC");
+                }
             }
-        }
-    }
-}
-
-// Action to open skills menu
-class ActionOpenSkillsMenu: ActionInteractBase
-{
-    // Removed m_CommandUID declaration as it's already defined in ActionInteractBase
-    
-    void ActionOpenSkillsMenu()
-    {
-        m_CommandUID = DayZPlayerConstants.CMD_ACTIONMOD_OPENDOORFW;
-        m_StanceMask = DayZPlayerConstants.STANCEMASK_CROUCH | DayZPlayerConstants.STANCEMASK_ERECT;
-    }
-    
-    override void CreateConditionComponents()
-    {
-        m_ConditionItem = new CCINone;
-        m_ConditionTarget = new CCTNone;
-    }
-    
-    override string GetText()
-    {
-        return "Open Skills Menu";
-    }
-    
-    override bool ActionCondition(PlayerBase player, ActionTarget target, ItemBase item)
-    {
-        return true;
-    }
-    
-    // Changed from OnExecuteClient to StartAction to match ActionInteractBase
-    void StartAction(PlayerBase player, ActionTarget target, ItemBase item)
-    {
-        if (player)
-        {
-            player.OpenSkillsMenu();
+            else
+            {
+                Print("[SausageSkills] ERROR: Failed to read book data from RPC");
+            }
         }
     }
 }

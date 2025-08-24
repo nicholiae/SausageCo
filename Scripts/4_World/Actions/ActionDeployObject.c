@@ -2,6 +2,8 @@ modded class ActionDeployObject
 {
     override void OnEndServer(ActionData action_data)
     {
+		super.OnEndServer(action_data);
+		
 		ref array<string> m_MyKits = 
 		{
 			"SausageCo_Vehicle_ADA4x4Base_Kit","SausageCo_Vehicle_OlgaBase_Kit","SausageCo_Vehicle_GunterBase_Kit","SausageCo_Vehicle_SarkaBase_Kit",

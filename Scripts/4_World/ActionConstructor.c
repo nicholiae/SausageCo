@@ -3,6 +3,7 @@ modded class ActionConstructor
     override void RegisterActions(TTypenameArray actions)
     {
         super.RegisterActions(actions);                	// This executes the original so you dont mess anything up
+		actions.Insert(ActionDeploySCObject);
 		actions.Insert(ActionReadSkillBook);
 		actions.Insert(ActionDeployObject);
 		actions.Insert(ActionGiveHealthTarget);
@@ -22,6 +23,7 @@ modded class ActionConstructor
 		actions.Insert(ActionTurnOffComputer);
 		actions.Insert(ActionTurnOnSolarPanel);
 		actions.Insert(ActionTurnOffSolarPanel);
+        actions.Insert(ActionRaidCodelockOnSC);
 		actions.Insert(ActionOpenBuildingDoors);
 		actions.Insert(ActionCloseBuildingDoors);
         actions.Insert(ActionDestroyCodeLockOnSC);

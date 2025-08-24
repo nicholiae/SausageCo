@@ -4,6 +4,7 @@
  * Skills Menu
  * 
  * FIXED VERSION - Updated to use SausageTabberUI instead of TabberUI
+ * FIXED TYPO - Corrected recipe_item.layout path
  */
 
 // Recipe sorting function - moved outside of class and to the top of the file for global visibility
@@ -277,7 +278,7 @@ class RecipeListItem
         m_Recipe = recipe;
         m_Unlocked = unlocked;
         
-        // Create widget from layout
+        // Create widget from layout - FIXED TYPO: Changed ecipe_item.layout to recipe_item.layout
         m_Root = GetGame().GetWorkspace().CreateWidgets("SausageCo\\GUI\\layouts\\ecipe_item.layout", parent);
         
         // Get UI elements

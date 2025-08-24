@@ -1,0 +1,10 @@
+TextWidgetClass TextWidget {
+    position 0 0
+    size 1 0.1
+    visible 1
+    text "No recipes available for this skill type."
+    font "gui/fonts/sdf_MetronBook24"
+    "text color" 0.9 0.9 0.9 1
+    "text halign" center
+    "text valign" center
+}
