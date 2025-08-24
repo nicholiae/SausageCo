@@ -1,7 +1,7 @@
 
 /**
  * SausageCo Skills System
- * RPC Handlers - Fixed Version
+ * RPC Handlers - Updated Version with New Notification System
  */
 
 class SausageSkillsRPC
@@ -137,8 +137,18 @@ class SausageSkillsRPC
                     {
                         string skillDisplayName = config.GetSkillDisplayName(skillType);
                         
-                        // FIX: Use our safe notification system instead of NotificationUI
-                        SausageNotification.Show("Skill Level Up: " + skillDisplayName + " reached level " + level + "!", SausageNotification.TYPE_SUCCESS);
+                        // Use our new notification system
+                        // Check if skill book menu is open first
+                        if (!SkillBookMenu.AreNotificationsSuppressed())
+                        {
+                            // Show a success notification with our new system
+                            ShowNotification("Skill Level Up: " + skillDisplayName + " reached level " + level + "!", SausageNotificationType.SUCCESS);
+                        }
+                        else
+                        {
+                            // Just log it if notifications are suppressed
+                            Print("[SausageCo] Skill Level Up (suppressed): " + skillDisplayName + " reached level " + level);
+                        }
                     }
                 }
             }
@@ -156,8 +166,18 @@ class SausageSkillsRPC
         {
             string message = data.param1;
             
-            // FIX: Use our safe notification system instead of NotificationUI
-            SausageNotification.Show(message);
+            // Use our new notification system
+            // Check if skill book menu is open first
+            if (!SkillBookMenu.AreNotificationsSuppressed())
+            {
+                // Show an info notification with our new system
+                ShowNotification(message, SausageNotificationType.INFO);
+            }
+            else
+            {
+                // Just log it if notifications are suppressed
+                Print("[SausageCo] Message (suppressed): " + message);
+            }
         }
     }
     

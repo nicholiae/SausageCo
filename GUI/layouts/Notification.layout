@@ -1,0 +1,65 @@
+FrameWidgetClass NotificationFrame {
+ position 0 0
+ size 300 80
+ hexactpos 1
+ vexactpos 1
+ hexactsize 1
+ vexactsize 1
+ {
+  ImageWidgetClass NotificationBackground {
+   ignorepointer 1
+   position 0 0
+   size 1 1
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 0
+   imageTexture "{00000000000000000000000000000000}"
+   mode blend
+   "src alpha" 1
+   "no wrap" 1
+   stretch 1
+   filter 1
+   nocache 0
+  }
+  PanelWidgetClass NotificationContent {
+   ignorepointer 1
+   position 0 0
+   size 1 1
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 0
+   {
+    ImageWidgetClass NotificationIcon {
+     ignorepointer 1
+     position 10 10
+     size 32 32
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     mode blend
+     "src alpha" 1
+     stretch 1
+    }
+    TextWidgetClass NotificationText {
+     ignorepointer 1
+     position 52 10
+     size 238 60
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     text "Notification Text"
+     font "gui/fonts/sdf_MetronBook24"
+     "exact text" 0
+     "size to text h" 0
+     "size to text v" 0
+     "text valign" center
+     wrap 1
+    }
+   }
+  }
+ }
+}

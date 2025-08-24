@@ -4,6 +4,7 @@ modded class ActionConstructor
     {
         super.RegisterActions(actions);                	// This executes the original so you dont mess anything up
 		actions.Insert(ActionDeploySCObject);
+		actions.Insert(ActionDeploySCVehicle);
 		actions.Insert(ActionReadSkillBook);
 		actions.Insert(ActionDeployObject);
 		actions.Insert(ActionGiveHealthTarget);

@@ -1,7 +1,7 @@
 
 /**
  * SausageCo Skills System
- * Skill Book Menu Controller - Fixed Version
+ * Skill Book Menu Controller - Enhanced Version with Debug Logging
  */
 
 class SkillBookMenu extends UIScriptedMenu
@@ -23,21 +23,35 @@ class SkillBookMenu extends UIScriptedMenu
     // Recipe manager
     private ref SausageSkillsRecipeManager m_RecipeManager;
     
+    // Static flag to track if notifications should be suppressed
+    private static bool m_NotificationsSuppressed = false;
+    
+    // Debug helper
+    private ref RecipeSystemDebugger m_Debugger;
+    
     void SkillBookMenu()
     {
         Print("[SausageCo] SkillBookMenu constructor called");
         m_Recipes = new array<ref SkillRecipeData>();
+        
+        // Create recipe manager - IMPORTANT: This must be created here to ensure it's available
         m_RecipeManager = new SausageSkillsRecipeManager();
         if (m_RecipeManager)
         {
             Print("[SausageCo] Recipe manager created, initializing...");
             m_RecipeManager.Init();
             Print("[SausageCo] Recipe manager initialized");
+            
+            // Verify recipe manager has data
+            VerifyRecipeManagerData();
         }
         else
         {
             Print("[SausageCo] ERROR: Failed to create recipe manager");
         }
+        
+        // Create debugger
+        m_Debugger = RecipeSystemDebugger.GetInstance();
     }
     
     void ~SkillBookMenu()
@@ -110,6 +124,12 @@ class SkillBookMenu extends UIScriptedMenu
             m_DescriptionText.SetText(m_BookDescription);
         }
         
+        // Debug: Check skill type string
+        if (m_Debugger)
+        {
+            m_Debugger.CheckSkillTypeStrings(m_SkillType);
+        }
+        
         // Load recipes for this skill type
         LoadRecipes();
     }
@@ -129,10 +149,87 @@ class SkillBookMenu extends UIScriptedMenu
             m_Recipes = new array<ref SkillRecipeData>();
         }
         
-        // Get recipes for this skill type
-        if (m_RecipeManager)
+        // Verify recipe manager is initialized
+        if (!m_RecipeManager)
         {
-            array<ref SkillRecipeData> recipes = m_RecipeManager.GetRecipesForSkill(m_SkillType);
+            Print("[SausageCo] ERROR: Recipe manager is null, recreating...");
+            m_RecipeManager = new SausageSkillsRecipeManager();
+            if (m_RecipeManager)
+            {
+                m_RecipeManager.Init();
+                Print("[SausageCo] Recipe manager recreated and initialized");
+            }
+            else
+            {
+                Print("[SausageCo] CRITICAL ERROR: Failed to recreate recipe manager");
+                // Try to get recipe manager from plugin
+                m_RecipeManager = GetRecipeManagerFromPlugin();
+                if (!m_RecipeManager)
+                {
+                    Print("[SausageCo] CRITICAL ERROR: Could not get recipe manager from plugin");
+                    // Show error notification
+                    SausageNotification.Show("Error loading recipes. Please restart the game.", SausageNotification.TYPE_ERROR);
+                    return;
+                }
+            }
+        }
+        
+        // Get recipes for this skill type
+        array<ref SkillRecipeData> recipes = m_RecipeManager.GetRecipesForSkill(m_SkillType);
+        if (recipes && recipes.Count() > 0)
+        {
+            // Copy recipes to our array
+            foreach (SkillRecipeData recipe : recipes)
+            {
+                m_Recipes.Insert(recipe);
+            }
+            
+            Print("[SausageCo] Loaded " + m_Recipes.Count() + " recipes for skill type: " + m_SkillType);
+        }
+        else
+        {
+            Print("[SausageCo] No recipes found for skill type: " + m_SkillType);
+            
+            // Debug: Test recipe loading with debugger
+            if (m_Debugger)
+            {
+                m_Debugger.TestRecipeLoading(m_SkillType);
+            }
+            
+            // Try to normalize skill type case
+            TryNormalizedSkillType();
+        }
+        
+        // Update the UI
+        UpdateRecipesGrid();
+    }
+    
+    // Try to load recipes with normalized skill type case
+    void TryNormalizedSkillType()
+    {
+        Print("[SausageCo] Trying to load recipes with normalized skill type case");
+        
+        // Get all skill types
+        array<string> skillTypes = SkillTypes.GetAllTypes();
+        
+        // Find matching skill type (case insensitive)
+        string normalizedType = "";
+        foreach (string type : skillTypes)
+        {
+            if (m_SkillType.ToLower() == type.ToLower())
+            {
+                normalizedType = type;
+                break;
+            }
+        }
+        
+        // If found, try loading with normalized type
+        if (normalizedType != "" && normalizedType != m_SkillType)
+        {
+            Print("[SausageCo] Found normalized skill type: " + normalizedType);
+            
+            // Get recipes for normalized skill type
+            array<ref SkillRecipeData> recipes = m_RecipeManager.GetRecipesForSkill(normalizedType);
             if (recipes && recipes.Count() > 0)
             {
                 // Copy recipes to our array
@@ -141,20 +238,9 @@ class SkillBookMenu extends UIScriptedMenu
                     m_Recipes.Insert(recipe);
                 }
                 
-                Print("[SausageCo] Loaded " + m_Recipes.Count() + " recipes for skill type: " + m_SkillType);
-            }
-            else
-            {
-                Print("[SausageCo] No recipes found for skill type: " + m_SkillType);
+                Print("[SausageCo] Loaded " + m_Recipes.Count() + " recipes using normalized skill type");
             }
         }
-        else
-        {
-            Print("[SausageCo] ERROR: Recipe manager is null in LoadRecipes");
-        }
-        
-        // Update the UI
-        UpdateRecipesGrid();
     }
     
     // Update the recipes grid
@@ -211,7 +297,6 @@ class SkillBookMenu extends UIScriptedMenu
             }
             
             // Create a recipe item widget
-            // FIX: Corrected layout path from "ecipe_item.layout" to "recipe_item.layout"
             Widget recipeWidget = GetGame().GetWorkspace().CreateWidgets("SausageCo/GUI/layouts/recipe_item.layout", m_RecipesGrid);
             if (!recipeWidget)
             {
@@ -322,8 +407,12 @@ class SkillBookMenu extends UIScriptedMenu
         super.OnShow();
         Print("[SausageCo] SkillBookMenu OnShow called");
         
-        // Disable notifications while this menu is open
-        // This is handled by our modded NotificationSystem class
+        // Set the static flag to suppress notifications
+        m_NotificationsSuppressed = true;
+        
+        // Show a notification using our new system to inform the player
+        // We use SausageNotification.Show directly to bypass the suppression check
+        SausageNotification.Show("Skill Book opened. Regular notifications will be suppressed.", SausageNotification.TYPE_INFO, 3.0);
     }
     
     // Override OnHide to handle any cleanup needed when the menu is hidden
@@ -332,7 +421,83 @@ class SkillBookMenu extends UIScriptedMenu
         super.OnHide();
         Print("[SausageCo] SkillBookMenu OnHide called");
         
-        // Notifications will automatically be re-enabled when this menu closes
-        // This is handled by our modded NotificationSystem class
+        // Clear the static flag to allow notifications again
+        m_NotificationsSuppressed = false;
+        
+        // Show a notification using our new system to inform the player
+        SausageNotification.Show("Skill Book closed. Regular notifications restored.", SausageNotification.TYPE_INFO, 3.0);
+    }
+    
+    // Static method to check if notifications are currently suppressed
+    static bool AreNotificationsSuppressed()
+    {
+        return m_NotificationsSuppressed;
+    }
+    
+    // Verify recipe manager has data
+    private void VerifyRecipeManagerData()
+    {
+        if (!m_RecipeManager)
+            return;
+            
+        // Check if recipe manager has recipes
+        int recipeCount = 0;
+        array<string> skillTypes = SkillTypes.GetAllTypes();
+        
+        foreach (string skillType : skillTypes)
+        {
+            array<ref SkillRecipeData> recipes = m_RecipeManager.GetRecipesForSkill(skillType);
+            if (recipes)
+            {
+                recipeCount += recipes.Count();
+            }
+        }
+        
+        Print("[SausageCo] Recipe manager has " + recipeCount + " total recipes");
+        
+        if (recipeCount == 0)
+        {
+            Print("[SausageCo] WARNING: Recipe manager has no recipes, reinitializing...");
+            m_RecipeManager.Init();
+            
+            // Check again
+            recipeCount = 0;
+            foreach (string skillType : skillTypes)
+            {
+                array<ref SkillRecipeData> recipes = m_RecipeManager.GetRecipesForSkill(skillType);
+                if (recipes)
+                {
+                    recipeCount += recipes.Count();
+                }
+            }
+            
+            Print("[SausageCo] After reinitialization, recipe manager has " + recipeCount + " total recipes");
+        }
+    }
+    
+    // Try to get recipe manager from plugin
+    private SausageSkillsRecipeManager GetRecipeManagerFromPlugin()
+    {
+        Print("[SausageCo] Attempting to get recipe manager from plugin");
+        
+        // Try to get the skills manager plugin
+        PluginSausageSkillsManager skillsManager = PluginSausageSkillsManager.Cast(GetPlugin(PluginSausageSkillsManager));
+        if (skillsManager)
+        {
+            Print("[SausageCo] Found skills manager plugin");
+            
+            // Access the recipe manager through reflection (this is a hack, but might work)
+            // Note: This assumes the recipe manager is stored in a field called m_RecipeManager
+            // This is just for debugging purposes
+            
+            // For now, just create a new one
+            SausageSkillsRecipeManager recipeManager = new SausageSkillsRecipeManager();
+            recipeManager.Init();
+            
+            return recipeManager;
+        }
+        
+        Print("[SausageCo] Could not find skills manager plugin");
+        return null;
     }
 }

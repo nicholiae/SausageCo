@@ -1,60 +1,127 @@
 
-class ActionDeploySCObject: ActionDeployObject
+class ActionDeploySCObject : ActionDeployObject
 {
-    void ActionDeploySCObject()
-    {
-        m_Text = "#deploy_object";
-    }
-    
     override void OnEndServer(ActionData action_data)
     {
-        if (!action_data || !action_data.m_MainItem || !action_data.m_MainItem.IsKindOf("SausageCo_Vehicle_Kit_Base"))
-            return;
-        
-        // Cast first
-        SausageCo_Vehicle_Kit_Base kit = SausageCo_Vehicle_Kit_Base.Cast(action_data.m_MainItem);
-        
-        if (!kit)
-            return;
-            
-        // Store necessary information before deletion
-        string vehicleType = kit.GetVehicleType();
-        
-        if (vehicleType == "" || vehicleType == "SausageCo_Vehicle_Kit_Base")
+		
+		super.OnEndServer(action_data);
+		
+        if (!action_data || !action_data.m_MainItem)
         {
-            Error("[ActionDeploySCObject] Invalid vehicle type: " + vehicleType);
-            return;
+            Print("[SausageCo] ERROR: Invalid action_data in ActionDeploySCObject.OnEndServer");
+            return; // Early return to prevent NULL pointer exception
+        }
+
+        ref array<string> m_MyKits = 
+        {
+            "SausageCo_Vehicle_Kit_Base",
+			"SausageCo_Vehicle_ADA4x4Base_Kit",
+			"SausageCo_Vehicle_OlgaBase_Kit",
+			"SausageCo_Vehicle_GunterBase_Kit",
+			"SausageCo_Vehicle_SarkaBase_Kit",
+			"SausageCo_PrefabHouse2_Kit",
+			"SausageCo_PrefabHouse1_Kit",
+			"SausageCo_PrefabHouse3_Kit",
+			"SausageCo_PrefabHouse3_Camo_Kit",
+			"SausageCo_PrefabHouse5_Kit",
+			"SausageAnvil_Kit",
+			"SausageFurnace_Kit",
+			"SausageCo_Vehicle_HummerBase_Kit",
+			"SausageCo_Vehicle_M3SBase_Kit",
+			"SausageBuilding_Storage_Kit",
+			"SausageBuilding_VendMachine_Kit",
+			"SausageBuilding_Sign0_Kit",
+			"SausageBuilding_Sign1_Kit",
+			"SausageCrateWood1_Storage_Kit",
+			"SausageCrateWood2_Storage_Kit",
+			"SausageCrateWood3_Storage_Kit",
+			"SausageGear_Storage_Kit",
+			"SausageDecor_Picture1_Kit",
+			"SausageStorage_Shed_Kit",
+			"SausageGarden_CompostBin_Kit",
+			"SausageBuilding_Well_Kit",
+			"SausageBathroom_Toilet_Kit",
+			"SausageBathroom_Sink_Kit",
+			"SausageBathroom_Cabinet_Kit",
+			"SausageBathroom_Bath_Kit",
+			"SausageBuilding_WatchTower_Kit",
+			"SausageBedroom_Dressor_Kit",
+			"SausageBedroom_BunkBed_Kit",
+			"SausageBedroom_NightStand_Kit",
+			"SausageBedroom_Hopechest_Kit",
+			"SausageLivingroom_Shelf_Kit",
+			"SausageLivingroom_EndTable_Kit",
+			"SausageLivingroom_CoffeeTable_Kit",
+			"SausageLivingroom_Couch_Kit",
+			"SausageOffice_Computer_Kit",
+			"SausageOffice_Chair_Kit",
+			"SausageOffice_Desk_Kit",
+			"SausageOffice_Shelves_Kit",
+			"SausageKitchen_Cabinets_Kit",
+			"SausageKitchen_Sink_Kit",
+			"SausageKitchen_Fridge_Kit",
+			"SausageKitchen_Stove_Kit",
+			"SausageGarage_TrashCan_Kit",
+			"SausageAmmo_Packer_Kit",
+			"SausageGarden_Plot_Kit",
+			"SausageLights_Torch_Kit",
+			"SausageMedical_Tent_Kit",
+			"SausageGarage_Gunrack_Kit",
+			"SausageCo_CasingsProcessor_Kit",
+			"SausageBuilding_DyerHouse_Kit",
+			"SausageBuilding_Smokehouse_Kit",
+			"SausageBook_Storage_Kit",
+			"SausageHelipad_Single_Kit",
+			"SausageBuilding_GasPump_Kit",
+			"SausageBuilding_SignKind_Kit",
+			"SC_SolarPanel_Kit",
+			"SC_DryingRack_Kit",
+			"SausageWeed_Processor_Kit",
+			"SausagePlank_Processor_Kit"
+		
+		};
+
+        bool kitFound = false;
+        
+        for (int i = 0; i < m_MyKits.Count(); i++)
+        {
+            string mykits = m_MyKits[i];
+            if (action_data.m_MainItem.IsKindOf(mykits))
+            {
+                kitFound = true;
+                PlaceObjectActionData poActionData;
+                poActionData = PlaceObjectActionData.Cast(action_data);
+                if (poActionData && !poActionData.m_AlreadyPlaced)
+                {
+                    EntityAI entity_for_placing = action_data.m_MainItem;
+                    GetGame().ClearJuncture(action_data.m_Player, entity_for_placing);
+                    action_data.m_MainItem.SetIsBeingPlaced(false);
+                
+                    if (GetGame().IsMultiplayer())
+                    {
+                        action_data.m_Player.PlacingCancelServer();
+                        action_data.m_MainItem.SoundSynchRemoteReset();
+                    }
+                    else
+                    {
+                        action_data.m_Player.PlacingCancelLocal();
+                        action_data.m_Player.LocalTakeEntityToHands(entity_for_placing);
+                    }
+                }
+                else if (poActionData)
+                {
+                    GetGame().ObjectDelete(action_data.m_MainItem);
+                    action_data.m_MainItem.SetIsDeploySound(false);
+                    action_data.m_MainItem.SetIsPlaceSound(false);
+                    action_data.m_MainItem.SoundSynchRemoteReset();
+                }
+                break;
+            }
         }
         
-        Print("[ActionDeploySCObject] Deploying vehicle: " + vehicleType);
-        
-        // Calculate position and orientation
-        vector position = action_data.m_Player.GetPosition();
-        vector direction = action_data.m_Player.GetDirection();
-        position = position + (direction * 2); // 2 meters in front of player
-        position[1] = GetGame().SurfaceY(position[0], position[2]) + 0.3; // Place slightly above ground
-        
-        vector orientation = action_data.m_Player.GetOrientation();
-        
-        // Delete the item
-        GetGame().ObjectDelete(action_data.m_MainItem);
-        
-        // Create the vehicle using stored information
-        Car vehicle = Car.Cast(GetGame().CreateObject(vehicleType, position, false, false, true));
-        
-        if (vehicle)
+        if (!kitFound)
         {
-            vehicle.SetOrientation(orientation);
-            vehicle.SetHealth("", "", 1);
-            vehicle.Fill(CarFluid.FUEL, vehicle.GetFluidCapacity(CarFluid.FUEL) * 0.2);
-            Print("[ActionDeploySCObject] Successfully created vehicle: " + vehicleType);
+            super.OnEndServer(action_data);
         }
-        else
-        {
-            Error("[ActionDeploySCObject] Failed to create vehicle: " + vehicleType);
-        }
-        
-        // Call parent method for proper cleanup
-        super.OnEndServer(action_data);
     }
 }
