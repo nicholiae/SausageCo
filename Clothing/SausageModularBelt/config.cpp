@@ -30,7 +30,10 @@ class CfgVehicles
 {
 	class Inventory_Base;
 	class Clothing_Base;
-	class SausageCo_ModularBeltSystem: Clothing_Base
+	class Clothing: Clothing_Base
+	{
+	};
+	class SausageCo_ModularBeltSystem: Clothing
 	{
 		scope=2;
 		displayName="SausageCo ModularBelt";

@@ -8,13 +8,21 @@ class ActionDeploySCVehicle: ActionDeployObject
     
     override void OnEndServer(ActionData action_data)
     {
-        if (!action_data || !action_data.m_MainItem || !action_data.m_MainItem.IsKindOf("SausageCo_Vehicle_Kit_Base"))
+        if (!action_data)
+			Print("[ActionDeploySCVehicle] No action_data: " + action_data);
+            return;
+        if (!action_data.m_MainItem)
+			Print("[ActionDeploySCVehicle] No action_data.m_MainItem: " + action_data.m_MainItem);
+            return;
+        if (!action_data.m_MainItem.IsKindOf("SausageCo_Vehicle_Kit_Base"))
+			Print("[ActionDeploySCVehicle] No action_data.m_MainItem.IsKindOf(SausageCo_Vehicle_Kit_Base): " + action_data.m_MainItem.IsKindOf("SausageCo_Vehicle_Kit_Base"));
             return;
         
         // Cast first
         SausageCo_Vehicle_Kit_Base kit = SausageCo_Vehicle_Kit_Base.Cast(action_data.m_MainItem);
         
         if (!kit)
+			Print("[ActionDeploySCVehicle] No kit: " + kit);
             return;
             
         // Store necessary information before deletion
