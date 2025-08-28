@@ -233,34 +233,29 @@ class RecipeScanner
      */
     private string GetSkillDirectoryName(string skillType)
     {
-		if (skillType)
+		switch (skillType)
 		{
-			switch (skillType)
-			{
-				case SkillTypes.ENGINEERING:
-					return "SkillEngineering";
-				case SkillTypes.FARMING:
-					return "SkillFarmer";
-				case SkillTypes.FIREARM:
-					return "SkillFireArms";
-				case SkillTypes.LEATHER:
-					return "SkillLeather";
-				case SkillTypes.MECHANIC:
-					return "SkillMechanic";
-				case SkillTypes.MEDIC:
-					return "SkillMedic";
-				case SkillTypes.HUNTER:
-					return "SkillHunter";
-				case SkillTypes.COOK:
-					return "SkillCook";
-				default:
-					return "";
-			}
+			case SkillTypes.ENGINEERING:
+				return "SkillEngineering";
+			case SkillTypes.FARMING:
+				return "SkillFarmer";
+			case SkillTypes.FIREARM:
+				return "SkillFireArms";
+			case SkillTypes.LEATHER:
+				return "SkillLeather";
+			case SkillTypes.MECHANIC:
+				return "SkillMechanic";
+			case SkillTypes.MEDIC:
+				return "SkillMedic";
+			case SkillTypes.HUNTER:
+				return "SkillHunter";
+			case SkillTypes.COOK:
+				return "SkillCook";
+			default:
+				return "";
 		}
-		else
-		{
-			return "";
-		}
+		return "";
+		
     }
     
     /**
