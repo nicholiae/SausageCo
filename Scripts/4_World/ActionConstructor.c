@@ -3,6 +3,14 @@ modded class ActionConstructor
     override void RegisterActions(TTypenameArray actions)
     {
         super.RegisterActions(actions);                	// This executes the original so you dont mess anything up
+		
+		// MVS ADDITIONS
+		
+        actions.Insert( ActionLiftVisor );
+        actions.Insert( ActionLowerVisor );
+		
+		// END MVS ADDITIONS
+		
 		actions.Insert(ActionDeploySCObject);
 		actions.Insert(ActionDeploySCVehicle);
 		actions.Insert(ActionReadSkillBook);

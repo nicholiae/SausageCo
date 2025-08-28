@@ -1,1 +1,1 @@
-class SC_DuffleBag extends Clothing {};
+class SC_DuffleBag extends Backpack_Base {};

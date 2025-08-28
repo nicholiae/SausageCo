@@ -83,7 +83,76 @@ class SausageSkillsMenu extends UIScriptedMenu
         
         return m_Root;
     }
-    
+    // Handle RPC from server
+    void OnRPC(PlayerBase player, int rpc_type, ParamsReadContext ctx)
+    {
+        // Check RPC type
+        switch (rpc_type)
+        {
+            case SausageSkillsRPCCommands.SYNC_PLAYER_SKILLS:
+                // Handle sync player skills RPC
+                HandleSyncPlayerSkills(ctx);
+                break;
+                
+            case SausageSkillsRPCCommands.OPEN_SKILLBOOK_MENU:
+                // Handle open skillbook menu RPC
+                HandleOpenSkillBookMenu(ctx);
+                break;
+                
+            // ... [other RPC handlers would be here] ...
+        }
+    }
+
+    // Handle open skillbook menu RPC
+    void HandleOpenSkillBookMenu(ParamsReadContext ctx)
+    {
+        Print("[SausageCo] Handling open skillbook menu RPC");
+        
+        // Try to read the parameters
+        Param4<string, string, string, string> data;
+        if (!ctx.Read(data))
+        {
+            // Try the old format (Param3)
+            Param3<string, string, string> oldData;
+            if (!ctx.Read(oldData))
+            {
+                Print("[SausageCo] ERROR: Failed to read skillbook menu data from RPC");
+                return;
+            }
+            
+            // Use old data format
+            OpenSkillBookMenu(oldData.param1, oldData.param2, oldData.param3, "");
+            return;
+        }
+        
+        // Use new data format with skill book type
+        OpenSkillBookMenu(data.param1, data.param2, data.param3, data.param4);
+    }
+
+    // Open the skill book menu
+    void OpenSkillBookMenu(string skillType, string bookTitle, string bookDescription, string skillBookType)
+    {
+        Print("[SausageCo] Opening skill book menu: " + skillType + ", " + bookTitle + ", book type: " + skillBookType);
+        
+        // Create the menu
+        SkillBookMenu menu = SkillBookMenu.Cast(GetGame().GetUIManager().EnterScriptedMenu(MENU_SAUSAGE_SKILLBOOK, null));
+        if (menu)
+        {
+            // Set the book data with the skill book type
+            if (skillBookType && skillBookType != "")
+            {
+                menu.SetBookDataWithType(skillType, bookTitle, bookDescription, skillBookType);
+            }
+            else
+            {
+                menu.SetBookData(skillType, bookTitle, bookDescription);
+            }
+        }
+        else
+        {
+            Print("[SausageCo] ERROR: Failed to create skill book menu");
+        }
+    }
     override bool OnClick(Widget w, int x, int y, int button)
     {
         if (w == m_CloseButton)

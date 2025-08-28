@@ -45,5 +45,5 @@ class SausageCo_ModularBeltSystem extends Belt_Base
 	
 }
 
-class SC_DuffleSling : Backpack_Base {};
-class SC_DuffleBag : Backpack_Base {};
+// class SC_DuffleSling : Backpack_Base {};
+// class SC_DuffleBag : Backpack_Base {};

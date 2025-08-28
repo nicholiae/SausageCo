@@ -6,115 +6,118 @@
 
 class SausageSkillsRecipeManager
 {
-    // Recipe database
+// Recipe database
     private ref map<string, ref SkillRecipeData> m_Recipes;
 
+    // Recipe scanner
+    private ref RecipeScanner m_RecipeScanner;
 
-	// Debug flags
-	private bool m_Debug = true;
-	private bool m_Initialized = false;
+    // Debug flags
+    private bool m_Debug = true;
+    private bool m_Initialized = false;
 
-	void SausageSkillsRecipeManager()
-	{
-		m_Recipes = new map<string, ref SkillRecipeData>();
-		DebugLog("SausageSkillsRecipeManager constructor called");
-	}
+    void SausageSkillsRecipeManager()
+    {
+        m_Recipes = new map<string, ref SkillRecipeData>();
+        m_RecipeScanner = new RecipeScanner();
+        DebugLog("SausageSkillsRecipeManager constructor called");
+    }
 
-	void Init()
-	{
-		DebugLog("Initializing Recipe Manager");
-		
-		// Create default recipes
-		CreateDefaultRecipes();
-		
-		// Mark as initialized
-		m_Initialized = true;
-		
-		// Log recipe count
-		DebugLog("Recipe Manager initialized with " + m_Recipes.Count() + " recipes");
-		
-		// Log recipes per skill type
-		LogRecipesPerSkillType();
-	}
+    void Init()
+    {
+        DebugLog("Initializing Recipe Manager");
+        
+        // Create default recipes
+        CreateDefaultRecipes();
+        
+        // Mark as initialized
+        m_Initialized = true;
+        
+        // Log recipe count
+        DebugLog("Recipe Manager initialized with " + m_Recipes.Count() + " recipes");
+        
+        // Log recipes per skill type
+        LogRecipesPerSkillType();
+    }
 
-	void CreateDefaultRecipes()
-	{
-		// Engineering recipes
-		CreateWoodenPlankRecipe();
-		CreateBasicShelterRecipe();
-		CreateImprovedShelterRecipe();
-		CreateWoodenCrateRecipe();
-		CreateMiningFurnaceRecipe();
-		CreateWorkBenchRecipe();
-		
-		// Farming recipes
-		CreatePlantTomatoRecipe();
-		CreatePlantZucchiniRecipe();
-		CreatePlantPumpkinRecipe();
-		CreateImprovedCompostRecipe();
-		
-		// Firearm recipes
-		CreateBasicAmmoRecipe();
-		CreateWeaponCleaningRecipe();
-		CreateImprovedAmmoRecipe();
-		
-		// Leather recipes
-		CreateBasicTanningRecipe();
-		CreateLeatherPouchRecipe();
-		
-		// Mechanic recipes
-		CreateBasicRepairRecipe();
-		CreateTireChangeRecipe();
-		
-		// Medic recipes
-		CreateBasicBandageRecipe();
-		CreateHerbalTeaRecipe();
-		
-		// Hunter recipes
-		CreateBasicButcheringRecipe();
-		CreateSimpleSnareRecipe();
-		
-		// Cook recipes
-		CreateBasicCookingRecipe();
-		CreateSimplePreservationRecipe();
-		
-		DebugLog("Created " + m_Recipes.Count() + " recipes");
-	}
+    void CreateDefaultRecipes()
+    {
+        // Engineering recipes
+        CreateWoodenPlankRecipe();
+        CreateBasicShelterRecipe();
+        CreateImprovedShelterRecipe();
+        CreateWoodenCrateRecipe();
+        CreateMiningFurnaceRecipe();
+        CreateWorkBenchRecipe();
+        
+        // Farming recipes
+        CreatePlantTomatoRecipe();
+        CreatePlantZucchiniRecipe();
+        CreatePlantPumpkinRecipe();
+        CreateImprovedCompostRecipe();
+        
+        // Firearm recipes
+        CreateBasicAmmoRecipe();
+        CreateWeaponCleaningRecipe();
+        CreateImprovedAmmoRecipe();
+        
+        // Leather recipes
+        CreateBasicTanningRecipe();
+        CreateLeatherPouchRecipe();
+        
+        // Mechanic recipes
+        CreateBasicRepairRecipe();
+        CreateTireChangeRecipe();
+        
+        // Medic recipes
+        CreateBasicBandageRecipe();
+        CreateHerbalTeaRecipe();
+        
+        // Hunter recipes
+        CreateBasicButcheringRecipe();
+        CreateSimpleSnareRecipe();
+        
+        // Cook recipes
+        CreateBasicCookingRecipe();
+        CreateSimplePreservationRecipe();
+        
+        DebugLog("Created " + m_Recipes.Count() + " recipes");
+    }
 
-	// Engineering Recipes
-	void CreateWoodenPlankRecipe()
-	{
-		ref SkillRecipeData recipe = new SkillRecipeData();
-		recipe.recipeName = "WoodenPlank";
-		recipe.displayName = "Wooden Planks";
-		recipe.description = "Process logs into wooden planks for building.";
-		recipe.skillType = SkillTypes.ENGINEERING;
-		recipe.requiredLevel = 1;
-		recipe.ingredients.Insert(new Param2<string, int>("WoodenLog", 1));
-		recipe.results.Insert(new Param2<string, int>("WoodenPlank", 4));
-		recipe.craftingTime = 5.0;
-		recipe.xpReward = 15; // Added XP reward
-		
-		m_Recipes.Set(recipe.recipeName, recipe);
-	}
+    // Engineering Recipes
+    void CreateWoodenPlankRecipe()
+    {
+        ref SkillRecipeData recipe = new SkillRecipeData();
+        recipe.recipeName = "WoodenPlank";
+        recipe.displayName = "Wooden Planks";
+        recipe.description = "Process logs into wooden planks for building.";
+        recipe.skillType = SkillTypes.ENGINEERING;
+        recipe.requiredLevel = 1;
+        recipe.ingredients.Insert(new Param2<string, int>("WoodenLog", 1));
+        recipe.results.Insert(new Param2<string, int>("WoodenPlank", 4));
+        recipe.craftingTime = 5.0;
+        recipe.xpReward = 15; // Added XP reward
+        
+        m_Recipes.Set(recipe.recipeName, recipe);
+    }
 
-	// Added missing recipe methods
-	void CreateBasicShelterRecipe()
-	{
-		ref SkillRecipeData recipe = new SkillRecipeData();
-		recipe.recipeName = "BasicShelter";
-		recipe.displayName = "Basic Shelter";
-		recipe.description = "Construct a simple shelter for protection.";
-		recipe.skillType = SkillTypes.ENGINEERING;
-		recipe.requiredLevel = 1;
-		recipe.ingredients.Insert(new Param2<string, int>("WoodenPlank", 6));
-		recipe.ingredients.Insert(new Param2<string, int>("Rope", 2));
-		recipe.results.Insert(new Param2<string, int>("BasicShelter_Kit", 1));
-		recipe.craftingTime = 15.0;
-		recipe.xpReward = 30;
-		
-		m_Recipes.Set(recipe.recipeName, recipe);
-	}
+    // Added missing recipe methods
+    void CreateBasicShelterRecipe()
+    {
+        ref SkillRecipeData recipe = new SkillRecipeData();
+        recipe.recipeName = "BasicShelter";
+        recipe.displayName = "Basic Shelter";
+        recipe.description = "Construct a simple shelter for protection.";
+        recipe.skillType = SkillTypes.ENGINEERING;
+        recipe.requiredLevel = 1;
+        recipe.ingredients.Insert(new Param2<string, int>("WoodenPlank", 6));
+        recipe.ingredients.Insert(new Param2<string, int>("Rope", 2));
+        recipe.results.Insert(new Param2<string, int>("BasicShelter_Kit", 1));
+        recipe.craftingTime = 15.0;
+        recipe.xpReward = 30;
+        
+        m_Recipes.Set(recipe.recipeName, recipe);
+    }
 
 	void CreateImprovedShelterRecipe()
 	{
@@ -481,242 +484,332 @@ class SausageSkillsRecipeManager
 		
 		m_Recipes.Set(recipe.recipeName, recipe);
 	}
-
+	
 	// Get a recipe by name
-	ref SkillRecipeData GetRecipe(string recipeName)
-	{
-		// Check if initialized
-		if (!m_Initialized)
-		{
-			DebugLog("WARNING: GetRecipe called before initialization, initializing now...");
-			Init();
-		}
-		
-		if (m_Recipes.Contains(recipeName))
-		{
-			return m_Recipes.Get(recipeName);
-		}
-		
-		DebugLog("Recipe not found: " + recipeName);
-		return null;
-	}
+    ref SkillRecipeData GetRecipe(string recipeName)
+    {
+        // Check if initialized
+        if (!m_Initialized)
+        {
+            DebugLog("WARNING: GetRecipe called before initialization, initializing now...");
+            Init();
+        }
+        
+        if (m_Recipes.Contains(recipeName))
+        {
+            return m_Recipes.Get(recipeName);
+        }
+        
+        DebugLog("Recipe not found: " + recipeName);
+        return null;
+    }
 
-	// Custom string conversion to lowercase
-	private string ConvertToLowerCase(string input)
-	{
-		string result = "";
-		for (int i = 0; i < input.Length(); i++)
-		{
-			string currentChar = input.Substring(i, 1);
-			
-			// Check if the character is uppercase (A-Z)
-			if (currentChar >= "A" && currentChar <= "Z")
-			{
-				// Convert to lowercase using a simple mapping
-				if (currentChar == "A") result += "a";
-				else if (currentChar == "B") result += "b";
-				else if (currentChar == "C") result += "c";
-				else if (currentChar == "D") result += "d";
-				else if (currentChar == "E") result += "e";
-				else if (currentChar == "F") result += "f";
-				else if (currentChar == "G") result += "g";
-				else if (currentChar == "H") result += "h";
-				else if (currentChar == "I") result += "i";
-				else if (currentChar == "J") result += "j";
-				else if (currentChar == "K") result += "k";
-				else if (currentChar == "L") result += "l";
-				else if (currentChar == "M") result += "m";
-				else if (currentChar == "N") result += "n";
-				else if (currentChar == "O") result += "o";
-				else if (currentChar == "P") result += "p";
-				else if (currentChar == "Q") result += "q";
-				else if (currentChar == "R") result += "r";
-				else if (currentChar == "S") result += "s";
-				else if (currentChar == "T") result += "t";
-				else if (currentChar == "U") result += "u";
-				else if (currentChar == "V") result += "v";
-				else if (currentChar == "W") result += "w";
-				else if (currentChar == "X") result += "x";
-				else if (currentChar == "Y") result += "y";
-				else if (currentChar == "Z") result += "z";
-				else result += currentChar; // Fallback
-			}
-			else
-			{
-				result += currentChar;
-			}
-		}
-		return result;
-	}
+    // Custom string conversion to lowercase
+    private string ConvertToLowerCase(string input)
+    {
+        string result = "";
+        for (int i = 0; i < input.Length(); i++)
+        {
+            string currentChar = input.Substring(i, 1);
+            
+            // Check if the character is uppercase (A-Z)
+            if (currentChar >= "A" && currentChar <= "Z")
+            {
+                // Convert to lowercase using a simple mapping
+                if (currentChar == "A") result += "a";
+                else if (currentChar == "B") result += "b";
+                else if (currentChar == "C") result += "c";
+                else if (currentChar == "D") result += "d";
+                else if (currentChar == "E") result += "e";
+                else if (currentChar == "F") result += "f";
+                else if (currentChar == "G") result += "g";
+                else if (currentChar == "H") result += "h";
+                else if (currentChar == "I") result += "i";
+                else if (currentChar == "J") result += "j";
+                else if (currentChar == "K") result += "k";
+                else if (currentChar == "L") result += "l";
+                else if (currentChar == "M") result += "m";
+                else if (currentChar == "N") result += "n";
+                else if (currentChar == "O") result += "o";
+                else if (currentChar == "P") result += "p";
+                else if (currentChar == "Q") result += "q";
+                else if (currentChar == "R") result += "r";
+                else if (currentChar == "S") result += "s";
+                else if (currentChar == "T") result += "t";
+                else if (currentChar == "U") result += "u";
+                else if (currentChar == "V") result += "v";
+                else if (currentChar == "W") result += "w";
+                else if (currentChar == "X") result += "x";
+                else if (currentChar == "Y") result += "y";
+                else if (currentChar == "Z") result += "z";
+                else result += currentChar; // Fallback
+            }
+            else
+            {
+                result += currentChar;
+            }
+        }
+        return result;
+    }
 
-	// Get all recipes for a skill type
-	array<ref SkillRecipeData> GetRecipesForSkill(string skillType)
-	{
-		// Check if initialized
-		if (!m_Initialized)
-		{
-			DebugLog("WARNING: GetRecipesForSkill called before initialization, initializing now...");
-			Init();
-		}
-		
-		array<ref SkillRecipeData> recipes = new array<ref SkillRecipeData>();
-		
-		// Debug log
-		DebugLog("Getting recipes for skill type: '" + skillType + "'");
-		
-		// Try case-sensitive match first
-		int exactMatchCount = 0;
-		foreach (string recipeNameExact, ref SkillRecipeData recipeExact : m_Recipes)
-		{
-			if (recipeExact.skillType == skillType)
-			{
-				recipes.Insert(recipeExact);
-				exactMatchCount++;
-			}
-		}
-		
-		DebugLog("Found " + exactMatchCount + " recipes with exact match for skill type: '" + skillType + "'");
-		
-		// If no exact matches, try case-insensitive match
-		if (exactMatchCount == 0)
-		{
-			DebugLog("No exact matches, trying case-insensitive match for: '" + skillType + "'");
-			
-			string lowerSkillTypeStr = ConvertToLowerCase(skillType);
-			foreach (string recipeNameLower, ref SkillRecipeData recipeLower : m_Recipes)
-			{
-				string lowerRecipeSkillType = ConvertToLowerCase(recipeLower.skillType);
-				if (lowerRecipeSkillType == lowerSkillTypeStr)
-				{
-					recipes.Insert(recipeLower);
-					DebugLog("Found case-insensitive match: '" + recipeLower.skillType + "' for '" + skillType + "'");
-				}
-			}
-			
-			DebugLog("Found " + recipes.Count() + " recipes with case-insensitive match");
-		}
-		
-		// Check if we found any recipes
-		if (recipes.Count() == 0)
-		{
-			// Check if this is a valid skill type
-			bool isValidSkillType = false;
-			array<string> skillTypes = SkillTypes.GetAllTypes();
-			foreach (string typeCheck : skillTypes)
-			{
-				if (typeCheck == skillType)
-				{
-					isValidSkillType = true;
-					break;
-				}
-			}
-			
-			if (!isValidSkillType)
-			{
-				DebugLog("WARNING: Invalid skill type: '" + skillType + "'");
-				DebugLog("Valid skill types are:");
-				foreach (string typeList : skillTypes)
-				{
-					DebugLog("  - '" + typeList + "'");
-				}
-			}
-		}
-		
-		return recipes;
-	}
+    // Get all recipes for a skill type
+    array<ref SkillRecipeData> GetRecipesForSkill(string skillType)
+    {
+        // Check if initialized
+        if (!m_Initialized)
+        {
+            DebugLog("WARNING: GetRecipesForSkill called before initialization, initializing now...");
+            Init();
+        }
+        
+        array<ref SkillRecipeData> recipes = new array<ref SkillRecipeData>();
+        
+        // Debug log
+        DebugLog("Getting recipes for skill type: '" + skillType + "'");
+        
+        // Try case-sensitive match first
+        int exactMatchCount = 0;
+        foreach (string recipeNameExact, ref SkillRecipeData recipeExact : m_Recipes)
+        {
+            if (recipeExact.skillType == skillType)
+            {
+                recipes.Insert(recipeExact);
+                exactMatchCount++;
+            }
+        }
+        
+        DebugLog("Found " + exactMatchCount + " recipes with exact match for skill type: '" + skillType + "'");
+        
+        // If no exact matches, try case-insensitive match
+        if (exactMatchCount == 0)
+        {
+            DebugLog("No exact matches, trying case-insensitive match for: '" + skillType + "'");
+            
+            string lowerSkillTypeStr = ConvertToLowerCase(skillType);
+            foreach (string recipeNameLower, ref SkillRecipeData recipeLower : m_Recipes)
+            {
+                string lowerRecipeSkillType = ConvertToLowerCase(recipeLower.skillType);
+                if (lowerRecipeSkillType == lowerSkillTypeStr)
+                {
+                    recipes.Insert(recipeLower);
+                    DebugLog("Found case-insensitive match: '" + recipeLower.skillType + "' for '" + skillType + "'");
+                }
+            }
+            
+            DebugLog("Found " + recipes.Count() + " recipes with case-insensitive match");
+        }
+        
+        // Check if we found any recipes
+        if (recipes.Count() == 0)
+        {
+            // Check if this is a valid skill type
+            bool isValidSkillType = false;
+            array<string> skillTypes = SkillTypes.GetAllTypes();
+            foreach (string typeCheck : skillTypes)
+            {
+                if (typeCheck == skillType)
+                {
+                    isValidSkillType = true;
+                    break;
+                }
+            }
+            
+            if (!isValidSkillType)
+            {
+                DebugLog("WARNING: Invalid skill type: '" + skillType + "'");
+                DebugLog("Valid skill types are:");
+                foreach (string typeList : skillTypes)
+                {
+                    DebugLog("  - '" + typeList + "'");
+                }
+            }
+        }
+        
+        return recipes;
+    }
 
-	// Get recipes for a specific skill level
-	array<ref SkillRecipeData> GetRecipesForSkillLevel(string skillType, int level)
-	{
-		// Check if initialized
-		if (!m_Initialized)
-		{
-			DebugLog("WARNING: GetRecipesForSkillLevel called before initialization, initializing now...");
-			Init();
-		}
-		
-		array<ref SkillRecipeData> recipes = new array<ref SkillRecipeData>();
-		
-		foreach (string recipeNameLevel, ref SkillRecipeData recipeLevel : m_Recipes)
-		{
-			if (recipeLevel.skillType == skillType && recipeLevel.requiredLevel == level)
-			{
-				recipes.Insert(recipeLevel);
-			}
-		}
-		
-		return recipes;
-	}
+    // NEW METHOD: Get recipes for a specific skill book
+    array<ref SkillRecipeData> GetRecipesForSkillBook(string skillBookType)
+    {
+        DebugLog("Getting recipes for skill book: '" + skillBookType + "'");
+        
+        // Use the recipe scanner to find recipes for this skill book
+        if (m_RecipeScanner)
+        {
+            array<ref SkillRecipeData> scannedRecipes = m_RecipeScanner.ScanRecipesForSkillBook(skillBookType);
+            
+            if (scannedRecipes && scannedRecipes.Count() > 0)
+            {
+                DebugLog("Found " + scannedRecipes.Count() + " recipes for skill book: '" + skillBookType + "' using scanner");
+                return scannedRecipes;
+            }
+            else
+            {
+                DebugLog("No recipes found for skill book: '" + skillBookType + "' using scanner");
+            }
+        }
+        else
+        {
+            DebugLog("ERROR: Recipe scanner is null");
+        }
+        
+        // If scanner didn't find any recipes, fall back to the old method
+        string skillType = GetSkillTypeFromBookType(skillBookType);
+        if (skillType != "")
+        {
+            DebugLog("Falling back to skill type: '" + skillType + "' for book: '" + skillBookType + "'");
+            return GetRecipesForSkill(skillType);
+        }
+        
+        // If all else fails, return an empty array
+        return new array<ref SkillRecipeData>();
+    }
 
-	// Award XP for crafting a recipe
-	void AwardRecipeXP(PlayerBase player, string recipeName)
-	{
-		if (!GetGame().IsServer() || !player)
-			return;
-			
-		ref SkillRecipeData recipe = GetRecipe(recipeName);
-		if (recipe)
-		{
-			// Use the XP events system to award XP
-			SkillXPEvents.AwardRecipeXP(player, recipeName, recipe.xpReward, recipe.skillType);
-		}
-	}
+    // Helper method to get skill type from book type
+    private string GetSkillTypeFromBookType(string bookType)
+    {
+        // Check for farming tools
+        if (bookType.Contains("FarmersTool") || bookType.Contains("SkillBook_Farming"))
+        {
+            return SkillTypes.FARMING;
+        }
+        
+        // Check for engineering tools
+        if (bookType.Contains("EngineersTool") || bookType.Contains("SkillBook_Engineering"))
+        {
+            return SkillTypes.ENGINEERING;
+        }
+        
+        // Check for firearm tools
+        if (bookType.Contains("FirearmsTool") || bookType.Contains("SkillBook_Firearm"))
+        {
+            return SkillTypes.FIREARM;
+        }
+        
+        // Check for leather tools
+        if (bookType.Contains("LeatherWorkersTool") || bookType.Contains("SkillBook_Leather"))
+        {
+            return SkillTypes.LEATHER;
+        }
+        
+        // Check for mechanic tools
+        if (bookType.Contains("MechanicsTool") || bookType.Contains("SkillBook_Mechanic"))
+        {
+            return SkillTypes.MECHANIC;
+        }
+        
+        // Check for medic tools
+        if (bookType.Contains("MedicsTool") || bookType.Contains("SkillBook_Medic"))
+        {
+            return SkillTypes.MEDIC;
+        }
+        
+        // Check for hunter tools
+        if (bookType.Contains("HuntersTool") || bookType.Contains("SkillBook_Hunter"))
+        {
+            return SkillTypes.HUNTER;
+        }
+        
+        // Check for cook tools
+        if (bookType.Contains("CooksTool") || bookType.Contains("SkillBook_Cook"))
+        {
+            return SkillTypes.COOK;
+        }
+        
+        return "";
+    }
 
-	// Debug logging
-	private void DebugLog(string message)
-	{
-		if (m_Debug)
-		{
-			Print("[SausageSkillsRecipeManager] " + message);
-		}
-	}
+    // Get recipes for a specific skill level
+    array<ref SkillRecipeData> GetRecipesForSkillLevel(string skillType, int level)
+    {
+        // Check if initialized
+        if (!m_Initialized)
+        {
+            DebugLog("WARNING: GetRecipesForSkillLevel called before initialization, initializing now...");
+            Init();
+        }
+        
+        array<ref SkillRecipeData> recipes = new array<ref SkillRecipeData>();
+        
+        foreach (string recipeNameLevel, ref SkillRecipeData recipeLevel : m_Recipes)
+        {
+            if (recipeLevel.skillType == skillType && recipeLevel.requiredLevel == level)
+            {
+                recipes.Insert(recipeLevel);
+            }
+        }
+        
+        return recipes;
+    }
 
-	// Log recipes per skill type
-	private void LogRecipesPerSkillType()
-	{
-		if (!m_Debug)
-			return;
-			
-		DebugLog("Logging recipes per skill type:");
-		
-		// Get all skill types
-		array<string> skillTypes = SkillTypes.GetAllTypes();
-		
-		// Count recipes for each skill type
-		foreach (string skillTypeLog : skillTypes)
-		{
-			int count = 0;
-			foreach (string recipeNameCount, ref SkillRecipeData recipeCount : m_Recipes)
-			{
-				if (recipeCount.skillType == skillTypeLog)
-				{
-					count++;
-				}
-			}
-			
-			DebugLog("  - Skill type '" + skillTypeLog + "' has " + count + " recipes");
-		}
-	}
+    // Award XP for crafting a recipe
+    void AwardRecipeXP(PlayerBase player, string recipeName)
+    {
+        if (!GetGame().IsServer() || !player)
+            return;
+            
+        ref SkillRecipeData recipe = GetRecipe(recipeName);
+        if (recipe)
+        {
+            // Use the XP events system to award XP
+            SkillXPEvents.AwardRecipeXP(player, recipeName, recipe.xpReward, recipe.skillType);
+        }
+    }
 
-	// Check if initialized
-	bool IsInitialized()
-	{
-		return m_Initialized;
-	}
+    // Debug logging
+    private void DebugLog(string message)
+    {
+        if (m_Debug)
+        {
+            Print("[SausageSkillsRecipeManager] " + message);
+        }
+    }
 
-	// Get total recipe count
-	int GetTotalRecipeCount()
-	{
-		return m_Recipes.Count();
-	}
+    // Log recipes per skill type
+    private void LogRecipesPerSkillType()
+    {
+        if (!m_Debug)
+            return;
+            
+        DebugLog("Logging recipes per skill type:");
+        
+        // Get all skill types
+        array<string> skillTypes = SkillTypes.GetAllTypes();
+        
+        // Count recipes for each skill type
+        foreach (string skillTypeLog : skillTypes)
+        {
+            int count = 0;
+            foreach (string recipeNameCount, ref SkillRecipeData recipeCount : m_Recipes)
+            {
+                if (recipeCount.skillType == skillTypeLog)
+                {
+                    count++;
+                }
+            }
+            
+            DebugLog("  - Skill type '" + skillTypeLog + "' has " + count + " recipes");
+        }
+    }
 
-	// Force reinitialization
-	void ForceReinit()
-	{
-		DebugLog("Forcing reinitialization of recipe manager");
-		m_Recipes.Clear();
-		m_Initialized = false;
-		Init();
-	}
+    // Check if initialized
+    bool IsInitialized()
+    {
+        return m_Initialized;
+    }
 
+    // Get total recipe count
+    int GetTotalRecipeCount()
+    {
+        return m_Recipes.Count();
+    }
+
+    // Force reinitialization
+    void ForceReinit()
+    {
+        DebugLog("Forcing reinitialization of recipe manager");
+        m_Recipes.Clear();
+        m_Initialized = false;
+        Init();
+    }
 }

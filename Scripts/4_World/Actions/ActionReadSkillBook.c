@@ -1,4 +1,3 @@
-
 /**
  * SausageCo Skills System
  * Action to read skill books - FIXED VERSION

@@ -50,5 +50,15 @@ modded class ItemBase
 		}
 		return super.CanBePlaced(player, position);
 	}
+	
+	void Base_Destroy()
+	{
+		GetGame().ObjectDelete( this );
+	}    
+
+    string Get_MVSItemName()
+    {
+        return "Armor_Rack";
+    }
 
 };
