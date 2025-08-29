@@ -14,7 +14,7 @@ modded class ActionConstructor
 		actions.Insert(ActionDeploySCObject);
 		actions.Insert(ActionDeploySCVehicle);
 		actions.Insert(ActionReadSkillBook);
-		actions.Insert(ActionDeployObject);
+		// actions.Insert(ActionDeployObject);
 		actions.Insert(ActionGiveHealthTarget);
 		actions.Insert(ActionGiveHealthSelf);
 		actions.Insert(ActionEmptyGardenBox);

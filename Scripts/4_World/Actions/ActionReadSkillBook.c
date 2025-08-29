@@ -1,7 +1,8 @@
 
+
 /**
  * SausageCo Skills System
- * Action to read skill books - UPDATED VERSION with Skill Book Type
+ * Action to read skill books - UPDATED VERSION with Skill Book Type and Debug Logging
  */
 
 class ActionReadSkillBookCB : ActionContinuousBaseCB
@@ -42,20 +43,30 @@ class ActionReadSkillBook : ActionContinuousBase
     
     override void OnFinishProgressServer(ActionData action_data)
     {
+        Print("[SausageCo] ActionReadSkillBook: OnFinishProgressServer called");
+        
         PlayerBase player = PlayerBase.Cast(action_data.m_Player);
         if (!player)
+        {
+            Print("[SausageCo] ActionReadSkillBook: Player is null");
             return;
+        }
             
         // Get the skill book
         SausageCo_SkillBook_Base skillBook = SausageCo_SkillBook_Base.Cast(action_data.m_MainItem);
         if (!skillBook)
+        {
+            Print("[SausageCo] ActionReadSkillBook: Skill book is null");
             return;
+        }
             
         // Get the skill type from the book
         string skillType = skillBook.GetSkillType();
         
         // Get the actual skill book type/class name
         string skillBookType = skillBook.GetType();
+        
+        Print("[SausageCo] ActionReadSkillBook: Reading skill book - Type: " + skillBookType + ", Skill: " + skillType);
         
         // Open the skill book menu on the client with the skill book type
         OpenSkillBookMenuOnClient(player, skillType, skillBook.GetBookTitle(), skillBook.GetBookDescription(), skillBookType);
@@ -64,12 +75,19 @@ class ActionReadSkillBook : ActionContinuousBase
     void OpenSkillBookMenuOnClient(PlayerBase player, string skillType, string bookTitle, string bookDescription, string skillBookType)
     {
         if (!player || !player.GetIdentity())
+        {
+            Print("[SausageCo] ActionReadSkillBook: Player or identity is null");
             return;
+        }
             
+        Print("[SausageCo] ActionReadSkillBook: Opening skill book menu on client - Type: " + skillBookType + ", Skill: " + skillType);
+        
         // Send RPC to client using a Param4 object to include the skill book type
         Param4<string, string, string, string> bookData = new Param4<string, string, string, string>(skillType, bookTitle, bookDescription, skillBookType);
         
         // Send RPC to client to open the skill book menu
         GetGame().RPCSingleParam(player, SausageSkillsRPCCommands.OPEN_SKILLBOOK_MENU, bookData, true, player.GetIdentity());
+        
+        Print("[SausageCo] ActionReadSkillBook: RPC sent to client");
     }
 }

@@ -1,4 +1,3 @@
-
 modded class PlayerBase
 {
     // Add skills data
@@ -124,7 +123,7 @@ modded class PlayerBase
     }
     
     // Open the skillbook menu
-    void OpenSkillBookMenu(string skillType, string bookTitle, string bookDescription)
+    void OpenSkillBookMenu(string skillType, string bookTitle, string bookDescription, string skillBookType = "")
     {
         if (GetGame().IsClient())
         {
@@ -132,7 +131,21 @@ modded class PlayerBase
             SkillBookMenu skillBookMenu = SkillBookMenu.Cast(GetGame().GetUIManager().EnterScriptedMenu(MENU_SAUSAGE_SKILLBOOK, null));
             if (skillBookMenu)
             {
-                skillBookMenu.SetBookData(skillType, bookTitle, bookDescription);
+                // Use the SetBookDataWithType method if skillBookType is provided
+                if (skillBookType && skillBookType != "")
+                {
+                    Print("[SausageCo] Opening skill book menu with type: " + skillType + ", " + bookTitle + ", book type: " + skillBookType);
+                    skillBookMenu.SetBookDataWithType(skillType, bookTitle, bookDescription, skillBookType);
+                }
+                else
+                {
+                    Print("[SausageCo] Opening skill book menu: " + skillType + ", " + bookTitle);
+                    skillBookMenu.SetBookData(skillType, bookTitle, bookDescription);
+                }
+            }
+            else
+            {
+                Print("[SausageCo] ERROR: Failed to create skill book menu");
             }
         }
     }
@@ -203,14 +216,41 @@ modded class PlayerBase
         }
         else if (rpc_type == SausageSkillsRPCCommands.OPEN_SKILLBOOK_MENU)
         {
-            // FIX: Improved string handling for the skillbook menu
-            // Use a single Param3 object instead of individual string reads
-            Param3<string, string, string> bookData;
-            if (ctx.Read(bookData))
+            Print("[SausageCo] Received OPEN_SKILLBOOK_MENU RPC");
+            
+            // Try to read the parameters as Param4 first (new format)
+            Param4<string, string, string, string> bookData4;
+            if (ctx.Read(bookData4))
             {
-                string bookSkillType = bookData.param1;
-                string bookTitle = bookData.param2;
-                string bookDescription = bookData.param3;
+                string bookSkillType = bookData4.param1;
+                string bookTitle = bookData4.param2;
+                string bookDescription = bookData4.param3;
+                string skillBookType = bookData4.param4;
+                
+                Print("[SausageCo] Read Param4 data: " + bookSkillType + ", " + bookTitle + ", " + skillBookType);
+                
+                // Validate strings to prevent corruption
+                if (bookSkillType && bookTitle && bookDescription)
+                {
+                    OpenSkillBookMenu(bookSkillType, bookTitle, bookDescription, skillBookType);
+                }
+                else
+                {
+                    // Log error if strings are invalid
+                    Print("[SausageSkills] ERROR: Invalid book data received in RPC (Param4)");
+                }
+                return;
+            }
+            
+            // If Param4 failed, try Param3 (old format)
+            Param3<string, string, string> bookData3;
+            if (ctx.Read(bookData3))
+            {
+                string bookSkillType = bookData3.param1;
+                string bookTitle = bookData3.param2;
+                string bookDescription = bookData3.param3;
+                
+                Print("[SausageCo] Read Param3 data: " + bookSkillType + ", " + bookTitle);
                 
                 // Validate strings to prevent corruption
                 if (bookSkillType && bookTitle && bookDescription)
@@ -220,7 +260,7 @@ modded class PlayerBase
                 else
                 {
                     // Log error if strings are invalid
-                    Print("[SausageSkills] ERROR: Invalid book data received in RPC");
+                    Print("[SausageSkills] ERROR: Invalid book data received in RPC (Param3)");
                 }
             }
             else
