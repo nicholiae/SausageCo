@@ -89,10 +89,10 @@ class SausageSkillsMenu extends UIScriptedMenu
         // Check RPC type
         switch (rpc_type)
         {
-            case SausageSkillsRPCCommands.SYNC_PLAYER_SKILLS:
+            // case SausageSkillsRPCCommands.SYNC_PLAYER_SKILLS:
                 // Handle sync player skills RPC
-                HandleSyncPlayerSkills(ctx);
-                break;
+                // HandleSyncPlayerSkills(ctx);
+                // break;
                 
             case SausageSkillsRPCCommands.OPEN_SKILLBOOK_MENU:
                 // Handle open skillbook menu RPC
