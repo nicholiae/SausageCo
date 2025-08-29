@@ -193,7 +193,7 @@ class SausageSkillsRPC
         
 		string bookSkillType;
 		string bookTitle;
-		string bookDescription3;
+		string bookDescription;
 		string skillBookType;
 		
         if (type == CallType.Client)
@@ -206,11 +206,12 @@ class SausageSkillsRPC
                 bookTitle = bookData4.param2;
                 bookDescription = bookData4.param3;
                 skillBookType = bookData4.param4;
+                PlayerBase player;
                 
                 Print("[SausageCo] Read Param4 data: " + bookSkillType + ", " + bookTitle + ", " + skillBookType);
                 
                 // Open the skill book menu
-                PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+                player = PlayerBase.Cast(GetGame().GetPlayer());
                 if (player)
                 {
                     player.OpenSkillBookMenu(bookSkillType, bookTitle, bookDescription, skillBookType);
@@ -229,7 +230,7 @@ class SausageSkillsRPC
                 Print("[SausageCo] Read Param3 data: " + bookSkillType + ", " + bookTitle);
                 
                 // Open the skill book menu
-                PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+                player = PlayerBase.Cast(GetGame().GetPlayer());
                 if (player)
                 {
                     player.OpenSkillBookMenu(bookSkillType, bookTitle, bookDescription);
