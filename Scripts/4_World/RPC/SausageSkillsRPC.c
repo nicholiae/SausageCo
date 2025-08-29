@@ -191,16 +191,21 @@ class SausageSkillsRPC
     {
         Print("[SausageCo] OPEN_SKILLBOOK_MENU RPC handler called");
         
+		string bookSkillType;
+		string bookTitle;
+		string bookDescription3;
+		string skillBookType;
+		
         if (type == CallType.Client)
         {
             // Try to read the parameters as Param4 first (new format)
             Param4<string, string, string, string> bookData4;
             if (ctx.Read(bookData4))
             {
-                string bookSkillType = bookData4.param1;
-                string bookTitle = bookData4.param2;
-                string bookDescription = bookData4.param3;
-                string skillBookType = bookData4.param4;
+                bookSkillType = bookData4.param1;
+                bookTitle = bookData4.param2;
+                bookDescription = bookData4.param3;
+                skillBookType = bookData4.param4;
                 
                 Print("[SausageCo] Read Param4 data: " + bookSkillType + ", " + bookTitle + ", " + skillBookType);
                 
@@ -217,9 +222,9 @@ class SausageSkillsRPC
             Param3<string, string, string> bookData3;
             if (ctx.Read(bookData3))
             {
-                string bookSkillType = bookData3.param1;
-                string bookTitle = bookData3.param2;
-                string bookDescription = bookData3.param3;
+                bookSkillType = bookData3.param1;
+                bookTitle = bookData3.param2;
+                bookDescription = bookData3.param3;
                 
                 Print("[SausageCo] Read Param3 data: " + bookSkillType + ", " + bookTitle);
                 
