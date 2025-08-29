@@ -29,7 +29,7 @@ class SausageSkillsRPC
         
         // Add direct registration for the OPEN_SKILLBOOK_MENU RPC
         Print("[SausageCo] Registering OPEN_SKILLBOOK_MENU RPC");
-        GetGame().GetRPCManager().RegisterRPC("SausageSkills", "OPEN_SKILLBOOK_MENU", rpcInstance, SingleplayerExecutionType.Client);
+        GetGame().GetRPCManager().AddRPC("SausageSkills", "OPEN_SKILLBOOK_MENU", rpcInstance, SingleplayerExecutionType.Client);
     }
     
     // Server RPC Handlers
