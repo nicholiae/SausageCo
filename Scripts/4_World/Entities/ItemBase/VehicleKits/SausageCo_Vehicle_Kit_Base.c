@@ -1,7 +1,7 @@
 class SausageCo_Vehicle_Kit_Base extends ItemBase
 {
-	ref protected EffectSound 						m_DeployLoopSound;
-	Object											SausageCo_Vehicle_Kit;
+	ref protected EffectSound 				m_DeployLoopSound;
+	Object									SausageCo_Vehicle_Kit;
 	
 	// string slotTire;
 	// string slotTire1;
@@ -67,26 +67,26 @@ class SausageCo_Vehicle_Kit_Base extends ItemBase
 		super.EEInit();
 	}
 	
-	override void OnItemLocationChanged( EntityAI old_owner, EntityAI new_owner ) 
+	override void OnItemLocationChanged(EntityAI old_owner, EntityAI new_owner) 
 	{
-		super.OnItemLocationChanged( old_owner, new_owner );
+		super.OnItemLocationChanged(old_owner, new_owner);
 	}	
 	
 	override void OnVariablesSynchronized()
 	{
 		super.OnVariablesSynchronized();
 		
-		if ( IsDeploySound() )
+		if (IsDeploySound())
 		{
 			PlayDeploySound();
 		}
 				
-		if ( CanPlayDeployLoopSound() )
+		if (CanPlayDeployLoopSound())
 		{
 			PlayDeployLoopSound();
 		}
 					
-		if ( m_DeployLoopSound && !CanPlayDeployLoopSound() )
+		if (m_DeployLoopSound && !CanPlayDeployLoopSound())
 		{
 			StopDeployLoopSound();
 		}
@@ -104,9 +104,9 @@ class SausageCo_Vehicle_Kit_Base extends ItemBase
 	{
 		return "Guts";
 	}	
-	override bool CanPutInCargo( EntityAI parent )
+	override bool CanPutInCargo(EntityAI parent)
 	{		
-		if ( IsEmpty() )
+		if (IsEmpty())
 		{
 			return true;
 		}
@@ -128,25 +128,48 @@ class SausageCo_Vehicle_Kit_Base extends ItemBase
 	// ADVANCED PLACEMENT
 	//================================================================			
 		
-	override void OnPlacementComplete( Man player, vector position = "0 0 0", vector orientation = "0 0 0" )
+	override void OnPlacementComplete(Man player, vector position, vector orientation)
 	{
-		super.OnPlacementComplete( player );
+		// DO NOT call super.OnPlacementComplete(player) here
 		
-		if ( GetGame().IsServer() && hasProperPrep() )
+		if (GetGame().IsServer() && hasProperPrep())
 		{
-			PlayerBase player_base = PlayerBase.Cast( player );
-			vector newPosition = player_base.GetLocalProjectionPosition();
-			vector newOrientation = player_base.GetLocalProjectionOrientation();
-				
-			SausageCo_Vehicle_Kit = GetGame().CreateObject("", newPosition, false );
-			SausageCo_Vehicle_Kit.SetPosition( newPosition );
-			SausageCo_Vehicle_Kit.SetOrientation( newOrientation );
+			PlayerBase player_base = PlayerBase.Cast(player);
+			// PlayerBase player_base;
+			vector newPosition;
+			vector newOrientation;
 			
-		}	
+			if (player) 
+			{
+				newPosition = player.GetPosition();
+				newOrientation = player.GetOrientation();
+				newPosition = newPosition + (player.GetDirection() * 2);
+			}
+			else
+			{
+				newPosition = player_base.GetLocalProjectionPosition();
+				newOrientation = player_base.GetLocalProjectionOrientation();	
+			}
+			// Call the CreateVehicle method which will be overridden by derived classes
+			Print("[" + this.GetType() + "] DATA: Calling CreateVehicle with 3params{player_base: " + player_base + " ,newposition: " + newPosition + " ,newOrientation: " + newOrientation);
+			CreateVehicle(player_base, newPosition, newOrientation);
+		}
+		else if (!hasProperPrep())
+		{
+			Print("[" + this.GetType() + "] Vehicle not created - hasProperPrep() returned false");
+		}
 		
-		SetIsDeploySound( true );
+		SetIsDeploySound(true);
 		this.Delete();
 	}
+	
+	// This method will be overridden by derived classes
+	void CreateVehicle(PlayerBase player_base, vector position, vector orientation)
+	{
+		// Empty implementation in base class
+		Print("[" + this.GetType() + "] WARNING: CreateVehicle method not implemented in derived class");
+	}
+	
 	override bool IsDeployable()
 	{
 		return true;
@@ -161,14 +184,14 @@ class SausageCo_Vehicle_Kit_Base extends ItemBase
 	}
 	void PlayDeployLoopSound()
 	{		
-		if ( GetGame().IsMultiplayer() && GetGame().IsClient() || !GetGame().IsMultiplayer() )
+		if (GetGame().IsMultiplayer() && GetGame().IsClient() || !GetGame().IsMultiplayer())
 		{		
-			m_DeployLoopSound = SEffectManager.PlaySound( GetLoopDeploySoundset(), GetPosition() );
+			m_DeployLoopSound = SEffectManager.PlaySound(GetLoopDeploySoundset(), GetPosition());
 		}
 	}
 	void StopDeployLoopSound()
 	{
-		if ( GetGame().IsMultiplayer() && GetGame().IsClient() || !GetGame().IsMultiplayer() )
+		if (GetGame().IsMultiplayer() && GetGame().IsClient() || !GetGame().IsMultiplayer())
 		{	
 			m_DeployLoopSound.SoundStop();
 			delete m_DeployLoopSound;
@@ -185,6 +208,7 @@ class SausageCo_Vehicle_Kit_Base extends ItemBase
 		AddAction(ActionDeploySCObject);
 	}
 };
+
 class SausageCo_Vehicle_SarkaBase_Kit extends SausageCo_Vehicle_Kit_Base
 {	
 	Car craftedCar;	
@@ -257,73 +281,93 @@ class SausageCo_Vehicle_SarkaBase_Kit extends SausageCo_Vehicle_Kit_Base
 		slot_id13 = InventorySlots.GetSlotIdFromString(slotEngine3);
 		slot_id14 = InventorySlots.GetSlotIdFromString(slotEngine4);
 		
-		slotCast = ItemBase.Cast( GetInventory().FindAttachment(slot_id) );
-		slotCast2 = ItemBase.Cast( GetInventory().FindAttachment(slot_id1) );
-		slotCast3 = ItemBase.Cast( GetInventory().FindAttachment(slot_id2) );
-		slotCast4 = ItemBase.Cast( GetInventory().FindAttachment(slot_id3) );
-		slotCast5 = ItemBase.Cast( GetInventory().FindAttachment(slot_id4) );
-		slotCast6 = ItemBase.Cast( GetInventory().FindAttachment(slot_id5) );
-		slotCast7 = ItemBase.Cast( GetInventory().FindAttachment(slot_id6) );
-		slotCast8 = ItemBase.Cast( GetInventory().FindAttachment(slot_id7) );
-		slotCast9 = ItemBase.Cast( GetInventory().FindAttachment(slot_id8) );
-		slotCast10 = ItemBase.Cast( GetInventory().FindAttachment(slot_id9) );
-		slotCast11 = ItemBase.Cast( GetInventory().FindAttachment(slot_id10) );
-		slotCast12 = ItemBase.Cast( GetInventory().FindAttachment(slot_id11) );
-		slotCast13 = ItemBase.Cast( GetInventory().FindAttachment(slot_id12) );
-		slotCast14 = ItemBase.Cast( GetInventory().FindAttachment(slot_id13) );
-		slotCast15 = ItemBase.Cast( GetInventory().FindAttachment(slot_id14) );
+		slotCast = ItemBase.Cast(GetInventory().FindAttachment(slot_id));
+		slotCast2 = ItemBase.Cast(GetInventory().FindAttachment(slot_id1));
+		slotCast3 = ItemBase.Cast(GetInventory().FindAttachment(slot_id2));
+		slotCast4 = ItemBase.Cast(GetInventory().FindAttachment(slot_id3));
+		slotCast5 = ItemBase.Cast(GetInventory().FindAttachment(slot_id4));
+		slotCast6 = ItemBase.Cast(GetInventory().FindAttachment(slot_id5));
+		slotCast7 = ItemBase.Cast(GetInventory().FindAttachment(slot_id6));
+		slotCast8 = ItemBase.Cast(GetInventory().FindAttachment(slot_id7));
+		slotCast9 = ItemBase.Cast(GetInventory().FindAttachment(slot_id8));
+		slotCast10 = ItemBase.Cast(GetInventory().FindAttachment(slot_id9));
+		slotCast11 = ItemBase.Cast(GetInventory().FindAttachment(slot_id10));
+		slotCast12 = ItemBase.Cast(GetInventory().FindAttachment(slot_id11));
+		slotCast13 = ItemBase.Cast(GetInventory().FindAttachment(slot_id12));
+		slotCast14 = ItemBase.Cast(GetInventory().FindAttachment(slot_id13));
+		slotCast15 = ItemBase.Cast(GetInventory().FindAttachment(slot_id14));
 		
-		if( slotCast != NULL && slotCast2 != NULL && slotCast3 != NULL && slotCast4 != NULL && slotCast5 != NULL && slotCast6 != NULL && slotCast7 != NULL && slotCast8 != NULL && slotCast9 != NULL && slotCast10 != NULL && slotCast11 != NULL && slotCast12 != NULL && slotCast13 != NULL && slotCast14 != NULL && slotCast15 != NULL)
+		// Add debug prints to check which attachments are missing
+		if (!slotCast) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotTire);
+		if (!slotCast2) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotTire1);
+		if (!slotCast3) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotTire2);
+		if (!slotCast4) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotTire3);
+		if (!slotCast5) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotDoor);
+		if (!slotCast6) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotDoor1);
+		if (!slotCast7) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotDoor2);
+		if (!slotCast8) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotDoor3);
+		if (!slotCast9) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotDoor4);
+		if (!slotCast10) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotDoor5);
+		if (!slotCast11) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotEngine);
+		if (!slotCast12) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotEngine1);
+		if (!slotCast13) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotEngine2);
+		if (!slotCast14) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotEngine3);
+		if (!slotCast15) Print("[SausageCo_Vehicle_SarkaBase_Kit] Missing attachment: " + slotEngine4);
+		
+		if(slotCast != NULL && slotCast2 != NULL && slotCast3 != NULL && slotCast4 != NULL && slotCast5 != NULL && slotCast6 != NULL && slotCast7 != NULL && slotCast8 != NULL && slotCast9 != NULL && slotCast10 != NULL && slotCast11 != NULL && slotCast12 != NULL && slotCast13 != NULL && slotCast14 != NULL && slotCast15 != NULL)
 		{
+			Print("[SausageCo_Vehicle_SarkaBase_Kit] hasProperPrep() returned true - all attachments found");
 			return true;
 		}
-		return false;
 		
+		Print("[SausageCo_Vehicle_SarkaBase_Kit] hasProperPrep() returned false - missing attachments");
+		return false;
 	}
+	
 	override string j_Vehicle()
 	{
-		if ( hasProperPrep() )
+		if (hasProperPrep())
 		{
 			return "Sedan_02";
 		}
 		return "SausageCo_Vehicle_SarkaBase_Kit";
 	}	
-	override void OnPlacementComplete( Man player, vector position = "0 0 0", vector orientation = "0 0 0" )
+	
+	// Override the CreateVehicle method from the base class
+	override void CreateVehicle(PlayerBase player_base, vector position, vector orientation)
 	{
-		super.OnPlacementComplete( player );
+		Print("[SausageCo_Vehicle_SarkaBase_Kit] Attempting to create vehicle at position: " + position);
 		
-		if ( GetGame().IsServer() && hasProperPrep() )
+		EntityAI SausageCo_Vehicle_Kit = GetGame().CreateObjectEx(this.j_Vehicle(), position, ECE_PLACE_ON_SURFACE);
+		if (SausageCo_Vehicle_Kit)
 		{
-			PlayerBase player_base = PlayerBase.Cast( player );
-			vector newPosition = player_base.GetLocalProjectionPosition();
-			vector newOrientation = player_base.GetLocalProjectionOrientation();
-				
-			EntityAI SausageCo_Vehicle_Kit = GetGame().CreateObjectEx(this.j_Vehicle(), newPosition, ECE_PLACE_ON_SURFACE );
-			SausageCo_Vehicle_Kit.SetPosition( newPosition );
-			SausageCo_Vehicle_Kit.SetOrientation( newOrientation );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Sedan_02_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Sedan_02_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Sedan_02_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Sedan_02_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Sedan_02_Hood" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Sedan_02_Trunk" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Sedan_02_Door_1_1" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Sedan_02_Door_2_1" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Sedan_02_Door_1_2" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Sedan_02_Door_2_2" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CarBattery" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HeadlightH7" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HeadlightH7" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CarRadiator" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "SparkPlug" );
+			Print("[SausageCo_Vehicle_SarkaBase_Kit] Vehicle created successfully");
 			
-			
-		}	
-		
-		SetIsDeploySound( true );
-		this.Delete();
+			SausageCo_Vehicle_Kit.SetPosition(position);
+			SausageCo_Vehicle_Kit.SetOrientation(orientation);
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Sedan_02_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Sedan_02_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Sedan_02_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Sedan_02_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Sedan_02_Hood");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Sedan_02_Trunk");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Sedan_02_Door_1_1");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Sedan_02_Door_2_1");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Sedan_02_Door_1_2");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Sedan_02_Door_2_2");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CarBattery");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HeadlightH7");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HeadlightH7");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CarRadiator");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("SparkPlug");
+		}
+		else
+		{
+			Print("[SausageCo_Vehicle_SarkaBase_Kit] ERROR: Failed to create vehicle!");
+		}
 	}
 };
+
 class SausageCo_Vehicle_OlgaBase_Kit extends SausageCo_Vehicle_Kit_Base
 {	
 	Car craftedCar;	
@@ -396,73 +440,93 @@ class SausageCo_Vehicle_OlgaBase_Kit extends SausageCo_Vehicle_Kit_Base
 		slot_id13 = InventorySlots.GetSlotIdFromString(slotEngine3);
 		slot_id14 = InventorySlots.GetSlotIdFromString(slotEngine4);
 		
-		slotCast = ItemBase.Cast( GetInventory().FindAttachment(slot_id) );
-		slotCast2 = ItemBase.Cast( GetInventory().FindAttachment(slot_id1) );
-		slotCast3 = ItemBase.Cast( GetInventory().FindAttachment(slot_id2) );
-		slotCast4 = ItemBase.Cast( GetInventory().FindAttachment(slot_id3) );
-		slotCast5 = ItemBase.Cast( GetInventory().FindAttachment(slot_id4) );
-		slotCast6 = ItemBase.Cast( GetInventory().FindAttachment(slot_id5) );
-		slotCast7 = ItemBase.Cast( GetInventory().FindAttachment(slot_id6) );
-		slotCast8 = ItemBase.Cast( GetInventory().FindAttachment(slot_id7) );
-		slotCast9 = ItemBase.Cast( GetInventory().FindAttachment(slot_id8) );
-		slotCast10 = ItemBase.Cast( GetInventory().FindAttachment(slot_id9) );
-		slotCast11 = ItemBase.Cast( GetInventory().FindAttachment(slot_id10) );
-		slotCast12 = ItemBase.Cast( GetInventory().FindAttachment(slot_id11) );
-		slotCast13 = ItemBase.Cast( GetInventory().FindAttachment(slot_id12) );
-		slotCast14 = ItemBase.Cast( GetInventory().FindAttachment(slot_id13) );
-		slotCast15 = ItemBase.Cast( GetInventory().FindAttachment(slot_id14) );
+		slotCast = ItemBase.Cast(GetInventory().FindAttachment(slot_id));
+		slotCast2 = ItemBase.Cast(GetInventory().FindAttachment(slot_id1));
+		slotCast3 = ItemBase.Cast(GetInventory().FindAttachment(slot_id2));
+		slotCast4 = ItemBase.Cast(GetInventory().FindAttachment(slot_id3));
+		slotCast5 = ItemBase.Cast(GetInventory().FindAttachment(slot_id4));
+		slotCast6 = ItemBase.Cast(GetInventory().FindAttachment(slot_id5));
+		slotCast7 = ItemBase.Cast(GetInventory().FindAttachment(slot_id6));
+		slotCast8 = ItemBase.Cast(GetInventory().FindAttachment(slot_id7));
+		slotCast9 = ItemBase.Cast(GetInventory().FindAttachment(slot_id8));
+		slotCast10 = ItemBase.Cast(GetInventory().FindAttachment(slot_id9));
+		slotCast11 = ItemBase.Cast(GetInventory().FindAttachment(slot_id10));
+		slotCast12 = ItemBase.Cast(GetInventory().FindAttachment(slot_id11));
+		slotCast13 = ItemBase.Cast(GetInventory().FindAttachment(slot_id12));
+		slotCast14 = ItemBase.Cast(GetInventory().FindAttachment(slot_id13));
+		slotCast15 = ItemBase.Cast(GetInventory().FindAttachment(slot_id14));
 		
-		if( slotCast != NULL && slotCast2 != NULL && slotCast3 != NULL && slotCast4 != NULL && slotCast5 != NULL && slotCast6 != NULL && slotCast7 != NULL && slotCast8 != NULL && slotCast9 != NULL && slotCast10 != NULL && slotCast11 != NULL && slotCast12 != NULL && slotCast13 != NULL && slotCast14 != NULL && slotCast15 != NULL)
+		// Add debug prints to check which attachments are missing
+		if (!slotCast) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotTire);
+		if (!slotCast2) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotTire1);
+		if (!slotCast3) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotTire2);
+		if (!slotCast4) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotTire3);
+		if (!slotCast5) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotDoor);
+		if (!slotCast6) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotDoor1);
+		if (!slotCast7) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotDoor2);
+		if (!slotCast8) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotDoor3);
+		if (!slotCast9) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotDoor4);
+		if (!slotCast10) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotDoor5);
+		if (!slotCast11) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotEngine);
+		if (!slotCast12) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotEngine1);
+		if (!slotCast13) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotEngine2);
+		if (!slotCast14) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotEngine3);
+		if (!slotCast15) Print("[SausageCo_Vehicle_OlgaBase_Kit] Missing attachment: " + slotEngine4);
+		
+		if(slotCast != NULL && slotCast2 != NULL && slotCast3 != NULL && slotCast4 != NULL && slotCast5 != NULL && slotCast6 != NULL && slotCast7 != NULL && slotCast8 != NULL && slotCast9 != NULL && slotCast10 != NULL && slotCast11 != NULL && slotCast12 != NULL && slotCast13 != NULL && slotCast14 != NULL && slotCast15 != NULL)
 		{
+			Print("[SausageCo_Vehicle_OlgaBase_Kit] hasProperPrep() returned true - all attachments found");
 			return true;
 		}
-		return false;
 		
+		Print("[SausageCo_Vehicle_OlgaBase_Kit] hasProperPrep() returned false - missing attachments");
+		return false;
 	}
+	
 	override string j_Vehicle()
 	{
-		if ( hasProperPrep() )
+		if (hasProperPrep())
 		{
 			return "CivilianSedan";
 		}
 		return "SausageCo_Vehicle_OlgaBase_Kit";
 	}	
-	override void OnPlacementComplete( Man player, vector position = "0 0 0", vector orientation = "0 0 0" )
+	
+	// Override the CreateVehicle method from the base class
+	override void CreateVehicle(PlayerBase player_base, vector position, vector orientation)
 	{
-		super.OnPlacementComplete( player );
+		Print("[SausageCo_Vehicle_OlgaBase_Kit] Attempting to create vehicle at position: " + position);
 		
-		if ( GetGame().IsServer() && hasProperPrep() )
+		EntityAI SausageCo_Vehicle_Kit = GetGame().CreateObjectEx(this.j_Vehicle(), position, ECE_PLACE_ON_SURFACE);
+		if (SausageCo_Vehicle_Kit)
 		{
-			PlayerBase player_base = PlayerBase.Cast( player );
-			vector newPosition = player_base.GetLocalProjectionPosition();
-			vector newOrientation = player_base.GetLocalProjectionOrientation();
-				
-			EntityAI SausageCo_Vehicle_Kit = GetGame().CreateObjectEx(this.j_Vehicle(), newPosition, ECE_PLACE_ON_SURFACE );
-			SausageCo_Vehicle_Kit.SetPosition( newPosition );
-			SausageCo_Vehicle_Kit.SetOrientation( newOrientation );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CivSedanWheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CivSedanWheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CivSedanWheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CivSedanWheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CivSedanHood" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CivSedanTrunk" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CivSedanDoors_Driver" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CivSedanDoors_CoDriver" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CivSedanDoors_BackLeft" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CivSedanDoors_BackRight" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CarBattery" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HeadlightH7" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HeadlightH7" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CarRadiator" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "SparkPlug" );
+			Print("[SausageCo_Vehicle_OlgaBase_Kit] Vehicle created successfully");
 			
-			
-		}	
-		
-		SetIsDeploySound( true );
-		this.Delete();
+			SausageCo_Vehicle_Kit.SetPosition(position);
+			SausageCo_Vehicle_Kit.SetOrientation(orientation);
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CivSedanWheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CivSedanWheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CivSedanWheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CivSedanWheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CivSedanHood");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CivSedanTrunk");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CivSedanDoors_Driver");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CivSedanDoors_CoDriver");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CivSedanDoors_BackLeft");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CivSedanDoors_BackRight");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CarBattery");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HeadlightH7");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HeadlightH7");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CarRadiator");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("SparkPlug");
+		}
+		else
+		{
+			Print("[SausageCo_Vehicle_OlgaBase_Kit] ERROR: Failed to create vehicle!");
+		}
 	}
 };
+
 class SausageCo_Vehicle_GunterBase_Kit extends SausageCo_Vehicle_Kit_Base
 {	
 	Car craftedCar;	
@@ -535,73 +599,93 @@ class SausageCo_Vehicle_GunterBase_Kit extends SausageCo_Vehicle_Kit_Base
 		slot_id13 = InventorySlots.GetSlotIdFromString(slotEngine3);
 		slot_id14 = InventorySlots.GetSlotIdFromString(slotEngine4);
 		
-		slotCast = ItemBase.Cast( GetInventory().FindAttachment(slot_id) );
-		slotCast2 = ItemBase.Cast( GetInventory().FindAttachment(slot_id1) );
-		slotCast3 = ItemBase.Cast( GetInventory().FindAttachment(slot_id2) );
-		slotCast4 = ItemBase.Cast( GetInventory().FindAttachment(slot_id3) );
-		slotCast5 = ItemBase.Cast( GetInventory().FindAttachment(slot_id4) );
-		slotCast6 = ItemBase.Cast( GetInventory().FindAttachment(slot_id5) );
-		slotCast7 = ItemBase.Cast( GetInventory().FindAttachment(slot_id6) );
-		slotCast8 = ItemBase.Cast( GetInventory().FindAttachment(slot_id7) );
-		slotCast9 = ItemBase.Cast( GetInventory().FindAttachment(slot_id8) );
-		slotCast10 = ItemBase.Cast( GetInventory().FindAttachment(slot_id9) );
-		slotCast11 = ItemBase.Cast( GetInventory().FindAttachment(slot_id10) );
-		slotCast12 = ItemBase.Cast( GetInventory().FindAttachment(slot_id11) );
-		slotCast13 = ItemBase.Cast( GetInventory().FindAttachment(slot_id12) );
-		slotCast14 = ItemBase.Cast( GetInventory().FindAttachment(slot_id13) );
-		slotCast15 = ItemBase.Cast( GetInventory().FindAttachment(slot_id14) );
+		slotCast = ItemBase.Cast(GetInventory().FindAttachment(slot_id));
+		slotCast2 = ItemBase.Cast(GetInventory().FindAttachment(slot_id1));
+		slotCast3 = ItemBase.Cast(GetInventory().FindAttachment(slot_id2));
+		slotCast4 = ItemBase.Cast(GetInventory().FindAttachment(slot_id3));
+		slotCast5 = ItemBase.Cast(GetInventory().FindAttachment(slot_id4));
+		slotCast6 = ItemBase.Cast(GetInventory().FindAttachment(slot_id5));
+		slotCast7 = ItemBase.Cast(GetInventory().FindAttachment(slot_id6));
+		slotCast8 = ItemBase.Cast(GetInventory().FindAttachment(slot_id7));
+		slotCast9 = ItemBase.Cast(GetInventory().FindAttachment(slot_id8));
+		slotCast10 = ItemBase.Cast(GetInventory().FindAttachment(slot_id9));
+		slotCast11 = ItemBase.Cast(GetInventory().FindAttachment(slot_id10));
+		slotCast12 = ItemBase.Cast(GetInventory().FindAttachment(slot_id11));
+		slotCast13 = ItemBase.Cast(GetInventory().FindAttachment(slot_id12));
+		slotCast14 = ItemBase.Cast(GetInventory().FindAttachment(slot_id13));
+		slotCast15 = ItemBase.Cast(GetInventory().FindAttachment(slot_id14));
 		
-		if( slotCast != NULL && slotCast2 != NULL && slotCast3 != NULL && slotCast4 != NULL && slotCast5 != NULL && slotCast6 != NULL && slotCast7 != NULL && slotCast8 != NULL && slotCast9 != NULL && slotCast10 != NULL && slotCast11 != NULL && slotCast12 != NULL && slotCast13 != NULL && slotCast14 != NULL && slotCast15 != NULL)
+		// Add debug prints to check which attachments are missing
+		if (!slotCast) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotTire);
+		if (!slotCast2) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotTire1);
+		if (!slotCast3) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotTire2);
+		if (!slotCast4) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotTire3);
+		if (!slotCast5) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotDoor);
+		if (!slotCast6) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotDoor1);
+		if (!slotCast7) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotDoor2);
+		if (!slotCast8) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotDoor3);
+		if (!slotCast9) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotDoor4);
+		if (!slotCast10) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotDoor5);
+		if (!slotCast11) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotEngine);
+		if (!slotCast12) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotEngine1);
+		if (!slotCast13) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotEngine2);
+		if (!slotCast14) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotEngine3);
+		if (!slotCast15) Print("[SausageCo_Vehicle_GunterBase_Kit] Missing attachment: " + slotEngine4);
+		
+		if(slotCast != NULL && slotCast2 != NULL && slotCast3 != NULL && slotCast4 != NULL && slotCast5 != NULL && slotCast6 != NULL && slotCast7 != NULL && slotCast8 != NULL && slotCast9 != NULL && slotCast10 != NULL && slotCast11 != NULL && slotCast12 != NULL && slotCast13 != NULL && slotCast14 != NULL && slotCast15 != NULL)
 		{
+			Print("[SausageCo_Vehicle_GunterBase_Kit] hasProperPrep() returned true - all attachments found");
 			return true;
 		}
-		return false;
 		
+		Print("[SausageCo_Vehicle_GunterBase_Kit] hasProperPrep() returned false - missing attachments");
+		return false;
 	}
+	
 	override string j_Vehicle()
 	{
-		if ( hasProperPrep() )
+		if (hasProperPrep())
 		{
 			return "Hatchback_02";
 		}
 		return "SausageCo_Vehicle_GunterBase_Kit";
 	}	
-	override void OnPlacementComplete( Man player, vector position = "0 0 0", vector orientation = "0 0 0" )
+	
+	// Override the CreateVehicle method from the base class
+	override void CreateVehicle(PlayerBase player_base, vector position, vector orientation)
 	{
-		super.OnPlacementComplete( player );
+		Print("[SausageCo_Vehicle_GunterBase_Kit] Attempting to create vehicle at position: " + position);
 		
-		if ( GetGame().IsServer() && hasProperPrep() )
+		EntityAI SausageCo_Vehicle_Kit = GetGame().CreateObjectEx(this.j_Vehicle(), position, ECE_PLACE_ON_SURFACE);
+		if (SausageCo_Vehicle_Kit)
 		{
-			PlayerBase player_base = PlayerBase.Cast( player );
-			vector newPosition = player_base.GetLocalProjectionPosition();
-			vector newOrientation = player_base.GetLocalProjectionOrientation();
-				
-			EntityAI SausageCo_Vehicle_Kit = GetGame().CreateObjectEx(this.j_Vehicle(), newPosition, ECE_PLACE_ON_SURFACE );
-			SausageCo_Vehicle_Kit.SetPosition( newPosition );
-			SausageCo_Vehicle_Kit.SetOrientation( newOrientation );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Hatchback_02_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Hatchback_02_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Hatchback_02_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Hatchback_02_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Hatchback_02_Hood" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Hatchback_02_Trunk" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Hatchback_02_Door_1_1" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Hatchback_02_Door_1_2" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Hatchback_02_Door_2_1" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Hatchback_02_Door_2_2" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CarBattery" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HeadlightH7" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HeadlightH7" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CarRadiator" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "SparkPlug" );
+			Print("[SausageCo_Vehicle_GunterBase_Kit] Vehicle created successfully");
 			
-			
-		}	
-		
-		SetIsDeploySound( true );
-		this.Delete();
+			SausageCo_Vehicle_Kit.SetPosition(position);
+			SausageCo_Vehicle_Kit.SetOrientation(orientation);
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Hatchback_02_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Hatchback_02_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Hatchback_02_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Hatchback_02_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Hatchback_02_Hood");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Hatchback_02_Trunk");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Hatchback_02_Door_1_1");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Hatchback_02_Door_1_2");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Hatchback_02_Door_2_1");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Hatchback_02_Door_2_2");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CarBattery");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HeadlightH7");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HeadlightH7");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CarRadiator");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("SparkPlug");
+		}
+		else
+		{
+			Print("[SausageCo_Vehicle_GunterBase_Kit] ERROR: Failed to create vehicle!");
+		}
 	}
 };
+
 class SausageCo_Vehicle_ADA4x4Base_Kit extends SausageCo_Vehicle_Kit_Base
 {	
 	Car craftedCar;	
@@ -670,71 +754,90 @@ class SausageCo_Vehicle_ADA4x4Base_Kit extends SausageCo_Vehicle_Kit_Base
 		slot_id12 = InventorySlots.GetSlotIdFromString(slotEngine3);
 		slot_id13 = InventorySlots.GetSlotIdFromString(slotEngine4);
 		
-		slotCast = ItemBase.Cast( GetInventory().FindAttachment(slot_id) );
-		slotCast2 = ItemBase.Cast( GetInventory().FindAttachment(slot_id1) );
-		slotCast3 = ItemBase.Cast( GetInventory().FindAttachment(slot_id2) );
-		slotCast4 = ItemBase.Cast( GetInventory().FindAttachment(slot_id3) );
-		slotCast5 = ItemBase.Cast( GetInventory().FindAttachment(slot_id4) );
-		slotCast6 = ItemBase.Cast( GetInventory().FindAttachment(slot_id5) );
-		slotCast7 = ItemBase.Cast( GetInventory().FindAttachment(slot_id6) );
-		slotCast8 = ItemBase.Cast( GetInventory().FindAttachment(slot_id7) );
-		slotCast9 = ItemBase.Cast( GetInventory().FindAttachment(slot_id8) );
-		slotCast10 = ItemBase.Cast( GetInventory().FindAttachment(slot_id9) );
-		slotCast11 = ItemBase.Cast( GetInventory().FindAttachment(slot_id10) );
-		slotCast12 = ItemBase.Cast( GetInventory().FindAttachment(slot_id11) );
-		slotCast13 = ItemBase.Cast( GetInventory().FindAttachment(slot_id12) );
-		slotCast14 = ItemBase.Cast( GetInventory().FindAttachment(slot_id13) );
+		slotCast = ItemBase.Cast(GetInventory().FindAttachment(slot_id));
+		slotCast2 = ItemBase.Cast(GetInventory().FindAttachment(slot_id1));
+		slotCast3 = ItemBase.Cast(GetInventory().FindAttachment(slot_id2));
+		slotCast4 = ItemBase.Cast(GetInventory().FindAttachment(slot_id3));
+		slotCast5 = ItemBase.Cast(GetInventory().FindAttachment(slot_id4));
+		slotCast6 = ItemBase.Cast(GetInventory().FindAttachment(slot_id5));
+		slotCast7 = ItemBase.Cast(GetInventory().FindAttachment(slot_id6));
+		slotCast8 = ItemBase.Cast(GetInventory().FindAttachment(slot_id7));
+		slotCast9 = ItemBase.Cast(GetInventory().FindAttachment(slot_id8));
+		slotCast10 = ItemBase.Cast(GetInventory().FindAttachment(slot_id9));
+		slotCast11 = ItemBase.Cast(GetInventory().FindAttachment(slot_id10));
+		slotCast12 = ItemBase.Cast(GetInventory().FindAttachment(slot_id11));
+		slotCast13 = ItemBase.Cast(GetInventory().FindAttachment(slot_id12));
+		slotCast14 = ItemBase.Cast(GetInventory().FindAttachment(slot_id13));
 		
-		if( slotCast != NULL && slotCast2 != NULL && slotCast3 != NULL && slotCast4 != NULL && slotCast5 != NULL && slotCast6 != NULL && slotCast7 != NULL && slotCast8 != NULL && slotCast9 != NULL && slotCast10 != NULL && slotCast11 != NULL && slotCast12 != NULL && slotCast13 != NULL && slotCast14 != NULL)
+		// Add debug prints to check which attachments are missing
+		if (!slotCast) Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Missing attachment: " + slotTire);
+		if (!slotCast2) Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Missing attachment: " + slotTire1);
+		if (!slotCast3) Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Missing attachment: " + slotTire2);
+		if (!slotCast4) Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Missing attachment: " + slotTire3);
+		if (!slotCast5) Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Missing attachment: " + slotTire4);
+		if (!slotCast6) Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Missing attachment: " + slotDoor);
+		if (!slotCast7) Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Missing attachment: " + slotDoor1);
+		if (!slotCast8) Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Missing attachment: " + slotDoor2);
+		if (!slotCast9) Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Missing attachment: " + slotDoor3);
+		if (!slotCast10) Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Missing attachment: " + slotEngine);
+		if (!slotCast11) Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Missing attachment: " + slotEngine1);
+		if (!slotCast12) Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Missing attachment: " + slotEngine2);
+		if (!slotCast13) Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Missing attachment: " + slotEngine3);
+		if (!slotCast14) Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Missing attachment: " + slotEngine4);
+		
+		if(slotCast != NULL && slotCast2 != NULL && slotCast3 != NULL && slotCast4 != NULL && slotCast5 != NULL && slotCast6 != NULL && slotCast7 != NULL && slotCast8 != NULL && slotCast9 != NULL && slotCast10 != NULL && slotCast11 != NULL && slotCast12 != NULL && slotCast13 != NULL && slotCast14 != NULL)
 		{
+			Print("[SausageCo_Vehicle_ADA4x4Base_Kit] hasProperPrep() returned true - all attachments found");
 			return true;
 		}
-		return false;
 		
+		Print("[SausageCo_Vehicle_ADA4x4Base_Kit] hasProperPrep() returned false - missing attachments");
+		return false;
 	}
+	
 	override string j_Vehicle()
 	{
-		if ( hasProperPrep() )
+		if (hasProperPrep())
 		{
 			return "OffroadHatchback";
 		}
 		return "SausageCo_Vehicle_ADA4x4Base_Kit";
 	}	
-	override void OnPlacementComplete( Man player, vector position = "0 0 0", vector orientation = "0 0 0" )
+	
+	// Override the CreateVehicle method from the base class
+	override void CreateVehicle(PlayerBase player_base, vector position, vector orientation)
 	{
-		super.OnPlacementComplete( player );
+		Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Attempting to create vehicle at position: " + position);
 		
-		if ( GetGame().IsServer() && hasProperPrep() )
+		EntityAI SausageCo_Vehicle_Kit = GetGame().CreateObjectEx(this.j_Vehicle(), position, ECE_PLACE_ON_SURFACE);
+		if (SausageCo_Vehicle_Kit)
 		{
-			PlayerBase player_base = PlayerBase.Cast( player );
-			vector newPosition = player_base.GetLocalProjectionPosition();
-			vector newOrientation = player_base.GetLocalProjectionOrientation();
-				
-			EntityAI SausageCo_Vehicle_Kit = GetGame().CreateObjectEx(this.j_Vehicle(), newPosition, ECE_PLACE_ON_SURFACE );
-			SausageCo_Vehicle_Kit.SetPosition( newPosition );
-			SausageCo_Vehicle_Kit.SetOrientation( newOrientation );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HatchbackWheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HatchbackWheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HatchbackWheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HatchbackWheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HatchbackHood" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HatchbackTrunk" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HatchbackDoors_Driver" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HatchbackDoors_CoDriver" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HatchbackWheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CarBattery" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HeadlightH7" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HeadlightH7" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CarRadiator" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "SparkPlug" );
+			Print("[SausageCo_Vehicle_ADA4x4Base_Kit] Vehicle created successfully");
 			
-			
-		}	
-		
-		SetIsDeploySound( true );
-		this.Delete();
+			SausageCo_Vehicle_Kit.SetPosition(position);
+			SausageCo_Vehicle_Kit.SetOrientation(orientation);
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HatchbackWheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HatchbackWheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HatchbackWheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HatchbackWheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HatchbackHood");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HatchbackTrunk");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HatchbackDoors_Driver");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HatchbackDoors_CoDriver");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HatchbackWheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CarBattery");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HeadlightH7");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HeadlightH7");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CarRadiator");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("SparkPlug");
+		}
+		else
+		{
+			Print("[SausageCo_Vehicle_ADA4x4Base_Kit] ERROR: Failed to create vehicle!");
+		}
 	}
 };
+
 class SausageCo_Vehicle_M3SBase_Kit extends SausageCo_Vehicle_Kit_Base
 {	
 	Car craftedCar;	
@@ -803,71 +906,90 @@ class SausageCo_Vehicle_M3SBase_Kit extends SausageCo_Vehicle_Kit_Base
 		slot_id12 = InventorySlots.GetSlotIdFromString(slotEngine1);
 		slot_id13 = InventorySlots.GetSlotIdFromString(slotEngine2);
 		
-		slotCast = ItemBase.Cast( GetInventory().FindAttachment(slot_id) );
-		slotCast2 = ItemBase.Cast( GetInventory().FindAttachment(slot_id1) );
-		slotCast3 = ItemBase.Cast( GetInventory().FindAttachment(slot_id2) );
-		slotCast4 = ItemBase.Cast( GetInventory().FindAttachment(slot_id3) );
-		slotCast5 = ItemBase.Cast( GetInventory().FindAttachment(slot_id4) );
-		slotCast6 = ItemBase.Cast( GetInventory().FindAttachment(slot_id5) );
-		slotCast7 = ItemBase.Cast( GetInventory().FindAttachment(slot_id6) );
-		slotCast8 = ItemBase.Cast( GetInventory().FindAttachment(slot_id7) );
-		slotCast9 = ItemBase.Cast( GetInventory().FindAttachment(slot_id8) );
-		slotCast10 = ItemBase.Cast( GetInventory().FindAttachment(slot_id9) );
-		slotCast11 = ItemBase.Cast( GetInventory().FindAttachment(slot_id10) );
-		slotCast12 = ItemBase.Cast( GetInventory().FindAttachment(slot_id11) );
-		slotCast13 = ItemBase.Cast( GetInventory().FindAttachment(slot_id12) );
-		slotCast14 = ItemBase.Cast( GetInventory().FindAttachment(slot_id13) );
+		slotCast = ItemBase.Cast(GetInventory().FindAttachment(slot_id));
+		slotCast2 = ItemBase.Cast(GetInventory().FindAttachment(slot_id1));
+		slotCast3 = ItemBase.Cast(GetInventory().FindAttachment(slot_id2));
+		slotCast4 = ItemBase.Cast(GetInventory().FindAttachment(slot_id3));
+		slotCast5 = ItemBase.Cast(GetInventory().FindAttachment(slot_id4));
+		slotCast6 = ItemBase.Cast(GetInventory().FindAttachment(slot_id5));
+		slotCast7 = ItemBase.Cast(GetInventory().FindAttachment(slot_id6));
+		slotCast8 = ItemBase.Cast(GetInventory().FindAttachment(slot_id7));
+		slotCast9 = ItemBase.Cast(GetInventory().FindAttachment(slot_id8));
+		slotCast10 = ItemBase.Cast(GetInventory().FindAttachment(slot_id9));
+		slotCast11 = ItemBase.Cast(GetInventory().FindAttachment(slot_id10));
+		slotCast12 = ItemBase.Cast(GetInventory().FindAttachment(slot_id11));
+		slotCast13 = ItemBase.Cast(GetInventory().FindAttachment(slot_id12));
+		slotCast14 = ItemBase.Cast(GetInventory().FindAttachment(slot_id13));
 		
-		if( slotCast != NULL && slotCast2 != NULL && slotCast3 != NULL && slotCast4 != NULL && slotCast5 != NULL && slotCast6 != NULL && slotCast7 != NULL && slotCast8 != NULL && slotCast9 != NULL && slotCast10 != NULL && slotCast11 != NULL && slotCast12 != NULL && slotCast13 != NULL && slotCast14 != NULL)
+		// Add debug prints to check which attachments are missing
+		if (!slotCast) Print("[SausageCo_Vehicle_M3SBase_Kit] Missing attachment: " + slotTire);
+		if (!slotCast2) Print("[SausageCo_Vehicle_M3SBase_Kit] Missing attachment: " + slotTire1);
+		if (!slotCast3) Print("[SausageCo_Vehicle_M3SBase_Kit] Missing attachment: " + slotTire2);
+		if (!slotCast4) Print("[SausageCo_Vehicle_M3SBase_Kit] Missing attachment: " + slotTire3);
+		if (!slotCast5) Print("[SausageCo_Vehicle_M3SBase_Kit] Missing attachment: " + slotTire4);
+		if (!slotCast6) Print("[SausageCo_Vehicle_M3SBase_Kit] Missing attachment: " + slotTire5);
+		if (!slotCast7) Print("[SausageCo_Vehicle_M3SBase_Kit] Missing attachment: " + slotTire6);
+		if (!slotCast8) Print("[SausageCo_Vehicle_M3SBase_Kit] Missing attachment: " + slotTire7);
+		if (!slotCast9) Print("[SausageCo_Vehicle_M3SBase_Kit] Missing attachment: " + slotDoor);
+		if (!slotCast10) Print("[SausageCo_Vehicle_M3SBase_Kit] Missing attachment: " + slotDoor1);
+		if (!slotCast11) Print("[SausageCo_Vehicle_M3SBase_Kit] Missing attachment: " + slotDoor2);
+		if (!slotCast12) Print("[SausageCo_Vehicle_M3SBase_Kit] Missing attachment: " + slotEngine);
+		if (!slotCast13) Print("[SausageCo_Vehicle_M3SBase_Kit] Missing attachment: " + slotEngine1);
+		if (!slotCast14) Print("[SausageCo_Vehicle_M3SBase_Kit] Missing attachment: " + slotEngine2);
+		
+		if(slotCast != NULL && slotCast2 != NULL && slotCast3 != NULL && slotCast4 != NULL && slotCast5 != NULL && slotCast6 != NULL && slotCast7 != NULL && slotCast8 != NULL && slotCast9 != NULL && slotCast10 != NULL && slotCast11 != NULL && slotCast12 != NULL && slotCast13 != NULL && slotCast14 != NULL)
 		{
+			Print("[SausageCo_Vehicle_M3SBase_Kit] hasProperPrep() returned true - all attachments found");
 			return true;
 		}
-		return false;
 		
+		Print("[SausageCo_Vehicle_M3SBase_Kit] hasProperPrep() returned false - missing attachments");
+		return false;
 	}
+	
 	override string j_Vehicle()
 	{
-		if ( hasProperPrep() )
+		if (hasProperPrep())
 		{
 			return "SausageCo_Truck_Nomadic";
 		}
 		return "SausageCo_Vehicle_M3SBase_Kit";
 	}	
-	override void OnPlacementComplete( Man player, vector position = "0 0 0", vector orientation = "0 0 0" )
+	
+	// Override the CreateVehicle method from the base class
+	override void CreateVehicle(PlayerBase player_base, vector position, vector orientation)
 	{
-		super.OnPlacementComplete( player );
+		Print("[SausageCo_Vehicle_M3SBase_Kit] Attempting to create vehicle at position: " + position);
 		
-		if ( GetGame().IsServer() && hasProperPrep() )
+		EntityAI SausageCo_Vehicle_Kit = GetGame().CreateObjectEx(this.j_Vehicle(), position, ECE_PLACE_ON_SURFACE);
+		if (SausageCo_Vehicle_Kit)
 		{
-			PlayerBase player_base = PlayerBase.Cast( player );
-			vector newPosition = player_base.GetLocalProjectionPosition();
-			vector newOrientation = player_base.GetLocalProjectionOrientation();
-				
-			EntityAI SausageCo_Vehicle_Kit = GetGame().CreateObjectEx(this.j_Vehicle(), newPosition, ECE_PLACE_ON_SURFACE );
-			SausageCo_Vehicle_Kit.SetPosition( newPosition );
-			SausageCo_Vehicle_Kit.SetOrientation( newOrientation );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Truck_01_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Truck_01_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Truck_01_WheelDouble" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Truck_01_WheelDouble" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Truck_01_WheelDouble" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Truck_01_WheelDouble" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Truck_01_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Truck_01_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Truck_01_Hood" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Truck_01_Door_2_1" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Truck_01_Door_1_1" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HeadlightH7" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HeadlightH7" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "TruckBattery" );
+			Print("[SausageCo_Vehicle_M3SBase_Kit] Vehicle created successfully");
 			
-			
-		}	
-		
-		SetIsDeploySound( true );
-		this.Delete();
+			SausageCo_Vehicle_Kit.SetPosition(position);
+			SausageCo_Vehicle_Kit.SetOrientation(orientation);
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Truck_01_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Truck_01_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Truck_01_WheelDouble");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Truck_01_WheelDouble");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Truck_01_WheelDouble");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Truck_01_WheelDouble");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Truck_01_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Truck_01_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Truck_01_Hood");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Truck_01_Door_2_1");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Truck_01_Door_1_1");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HeadlightH7");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HeadlightH7");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("TruckBattery");
+		}
+		else
+		{
+			Print("[SausageCo_Vehicle_M3SBase_Kit] ERROR: Failed to create vehicle!");
+		}
 	}
 };
+
 class SausageCo_Vehicle_HummerBase_Kit extends SausageCo_Vehicle_Kit_Base
 {	
 	Car craftedCar;	
@@ -940,70 +1062,89 @@ class SausageCo_Vehicle_HummerBase_Kit extends SausageCo_Vehicle_Kit_Base
 		slot_id13 = InventorySlots.GetSlotIdFromString(slotEngine2);
 		slot_id14 = InventorySlots.GetSlotIdFromString(slotEngine3);
 		
-		slotCast = ItemBase.Cast( GetInventory().FindAttachment(slot_id) );
-		slotCast1 = ItemBase.Cast( GetInventory().FindAttachment(slot_id1) );
-		slotCast2 = ItemBase.Cast( GetInventory().FindAttachment(slot_id2) );
-		slotCast3 = ItemBase.Cast( GetInventory().FindAttachment(slot_id3) );
-		slotCast4 = ItemBase.Cast( GetInventory().FindAttachment(slot_id4) );
-		slotCast5 = ItemBase.Cast( GetInventory().FindAttachment(slot_id5) );
-		slotCast6 = ItemBase.Cast( GetInventory().FindAttachment(slot_id6) );
-		slotCast7 = ItemBase.Cast( GetInventory().FindAttachment(slot_id7) );
-		slotCast8 = ItemBase.Cast( GetInventory().FindAttachment(slot_id8) );
-		slotCast9 = ItemBase.Cast( GetInventory().FindAttachment(slot_id9) );
-		slotCast10 = ItemBase.Cast( GetInventory().FindAttachment(slot_id10) );
-		slotCast11 = ItemBase.Cast( GetInventory().FindAttachment(slot_id11) );
-		slotCast12 = ItemBase.Cast( GetInventory().FindAttachment(slot_id12) );
-		slotCast13 = ItemBase.Cast( GetInventory().FindAttachment(slot_id13) );
-		slotCast14 = ItemBase.Cast( GetInventory().FindAttachment(slot_id14) );
+		slotCast = ItemBase.Cast(GetInventory().FindAttachment(slot_id));
+		slotCast1 = ItemBase.Cast(GetInventory().FindAttachment(slot_id1));
+		slotCast2 = ItemBase.Cast(GetInventory().FindAttachment(slot_id2));
+		slotCast3 = ItemBase.Cast(GetInventory().FindAttachment(slot_id3));
+		slotCast4 = ItemBase.Cast(GetInventory().FindAttachment(slot_id4));
+		slotCast5 = ItemBase.Cast(GetInventory().FindAttachment(slot_id5));
+		slotCast6 = ItemBase.Cast(GetInventory().FindAttachment(slot_id6));
+		slotCast7 = ItemBase.Cast(GetInventory().FindAttachment(slot_id7));
+		slotCast8 = ItemBase.Cast(GetInventory().FindAttachment(slot_id8));
+		slotCast9 = ItemBase.Cast(GetInventory().FindAttachment(slot_id9));
+		slotCast10 = ItemBase.Cast(GetInventory().FindAttachment(slot_id10));
+		slotCast11 = ItemBase.Cast(GetInventory().FindAttachment(slot_id11));
+		slotCast12 = ItemBase.Cast(GetInventory().FindAttachment(slot_id12));
+		slotCast13 = ItemBase.Cast(GetInventory().FindAttachment(slot_id13));
+		slotCast14 = ItemBase.Cast(GetInventory().FindAttachment(slot_id14));
 		
-		if( slotCast != NULL && slotCast2 != NULL && slotCast3 != NULL && slotCast4 != NULL && slotCast5 != NULL && slotCast6 != NULL && slotCast7 != NULL && slotCast8 != NULL && slotCast9 != NULL && slotCast10 != NULL && slotCast11 != NULL && slotCast12 != NULL && slotCast13 != NULL && slotCast14 != NULL)
+		// Add debug prints to check which attachments are missing
+		if (!slotCast) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotTire);
+		if (!slotCast1) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotTire1);
+		if (!slotCast2) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotTire2);
+		if (!slotCast3) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotTire3);
+		if (!slotCast4) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotTire4);
+		if (!slotCast5) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotDoor);
+		if (!slotCast6) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotDoor1);
+		if (!slotCast7) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotDoor2);
+		if (!slotCast8) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotDoor3);
+		if (!slotCast9) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotDoor4);
+		if (!slotCast10) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotDoor5);
+		if (!slotCast11) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotEngine);
+		if (!slotCast12) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotEngine1);
+		if (!slotCast13) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotEngine2);
+		if (!slotCast14) Print("[SausageCo_Vehicle_HummerBase_Kit] Missing attachment: " + slotEngine3);
+		
+		if(slotCast != NULL && slotCast2 != NULL && slotCast3 != NULL && slotCast4 != NULL && slotCast5 != NULL && slotCast6 != NULL && slotCast7 != NULL && slotCast8 != NULL && slotCast9 != NULL && slotCast10 != NULL && slotCast11 != NULL && slotCast12 != NULL && slotCast13 != NULL && slotCast14 != NULL)
 		{
+			Print("[SausageCo_Vehicle_HummerBase_Kit] hasProperPrep() returned true - all attachments found");
 			return true;
 		}
-		return false;
 		
+		Print("[SausageCo_Vehicle_HummerBase_Kit] hasProperPrep() returned false - missing attachments");
+		return false;
 	}
+	
 	override string j_Vehicle()
 	{
-		if ( hasProperPrep() )
+		if (hasProperPrep())
 		{
 			return "Offroad_02";
 		}
 		return "SausageCo_Vehicle_HummerBase_Kit";
 	}	
-	override void OnPlacementComplete( Man player, vector position = "0 0 0", vector orientation = "0 0 0" )
+	
+	// Override the CreateVehicle method from the base class
+	override void CreateVehicle(PlayerBase player_base, vector position, vector orientation)
 	{
-		// super.OnPlacementComplete( player );
+		Print("[SausageCo_Vehicle_HummerBase_Kit] Attempting to create vehicle at position: " + position);
 		
-		if ( GetGame().IsServer() && hasProperPrep() )
+		EntityAI SausageCo_Vehicle_Kit = GetGame().CreateObjectEx(this.j_Vehicle(), position, ECE_PLACE_ON_SURFACE);
+		if (SausageCo_Vehicle_Kit)
 		{
-			PlayerBase player_base = PlayerBase.Cast( player );
-			vector newPosition = player_base.GetLocalProjectionPosition();
-			vector newOrientation = player_base.GetLocalProjectionOrientation();
-				
-			EntityAI SausageCo_Vehicle_Kit = GetGame().CreateObjectEx(this.j_Vehicle(), newPosition, ECE_PLACE_ON_SURFACE );
-			SausageCo_Vehicle_Kit.SetPosition( newPosition );
-			SausageCo_Vehicle_Kit.SetOrientation( newOrientation );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Offroad_02_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Offroad_02_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Offroad_02_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Offroad_02_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Offroad_02_Hood" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Offroad_02_Trunk" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Offroad_02_Door_1_1" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Offroad_02_Door_2_1" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Offroad_02_Door_2_2" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Offroad_02_Door_1_2" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "Offroad_02_Wheel" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "CarBattery" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HeadlightH7" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "HeadlightH7" );
-			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment( "GlowPlug" );
+			Print("[SausageCo_Vehicle_HummerBase_Kit] Vehicle created successfully");
 			
-			
-		}	
-		
-		SetIsDeploySound( true );
-		this.Delete();
+			SausageCo_Vehicle_Kit.SetPosition(position);
+			SausageCo_Vehicle_Kit.SetOrientation(orientation);
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Offroad_02_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Offroad_02_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Offroad_02_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Offroad_02_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Offroad_02_Hood");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Offroad_02_Trunk");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Offroad_02_Door_1_1");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Offroad_02_Door_2_1");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Offroad_02_Door_2_2");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Offroad_02_Door_1_2");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("Offroad_02_Wheel");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("CarBattery");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HeadlightH7");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("HeadlightH7");
+			SausageCo_Vehicle_Kit.GetInventory().CreateAttachment("GlowPlug");
+		}
+		else
+		{
+			Print("[SausageCo_Vehicle_HummerBase_Kit] ERROR: Failed to create vehicle!");
+		}
 	}
 };

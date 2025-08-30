@@ -347,8 +347,8 @@ class RecipeListItem
         m_Recipe = recipe;
         m_Unlocked = unlocked;
         
-        // Create widget from layout - FIXED TYPO: Changed ecipe_item.layout to recipe_item.layout
-        m_Root = GetGame().GetWorkspace().CreateWidgets("SausageCo\\GUI\\layouts\\ecipe_item.layout", parent);
+        // Create widget from layout - FIXED TYPO: Changed recipe_item.layout to recipe_item.layout
+        m_Root = GetGame().GetWorkspace().CreateWidgets("SausageCo\\GUI\\layouts\\recipe_item.layout", parent);
         
         // Get UI elements
         m_RecipeName = TextWidget.Cast(m_Root.FindAnyWidget("RecipeName"));

@@ -628,15 +628,24 @@ class SausageSkillsRecipeManager
         return recipes;
     }
 
-    // NEW METHOD: Get recipes for a specific skill book
+    // Get recipes for a specific skill book
     array<ref SkillRecipeData> GetRecipesForSkillBook(string skillBookType)
     {
         DebugLog("Getting recipes for skill book: '" + skillBookType + "'");
-        
+        array<ref SkillRecipeData> scannedRecipes;
+		
         // Use the recipe scanner to find recipes for this skill book
         if (m_RecipeScanner)
         {
-            array<ref SkillRecipeData> scannedRecipes = m_RecipeScanner.ScanRecipesForSkillBook(skillBookType);
+            // Initialize the recipe scanner if needed
+            if (!m_RecipeScanner)
+            {
+                DebugLog("Recipe scanner is null, creating a new one");
+                m_RecipeScanner = new RecipeScanner();
+            }
+            
+            // Scan for recipes
+            scannedRecipes = m_RecipeScanner.ScanRecipesForSkillBook(skillBookType);
             
             if (scannedRecipes && scannedRecipes.Count() > 0)
             {
@@ -650,7 +659,17 @@ class SausageSkillsRecipeManager
         }
         else
         {
-            DebugLog("ERROR: Recipe scanner is null");
+            DebugLog("ERROR: Recipe scanner is null, creating a new one");
+            m_RecipeScanner = new RecipeScanner();
+            
+            // Try again with the new scanner
+            scannedRecipes = m_RecipeScanner.ScanRecipesForSkillBook(skillBookType);
+            
+            if (scannedRecipes && scannedRecipes.Count() > 0)
+            {
+                DebugLog("Found " + scannedRecipes.Count() + " recipes for skill book: '" + skillBookType + "' using new scanner");
+                return scannedRecipes;
+            }
         }
         
         // If scanner didn't find any recipes, fall back to the old method
@@ -662,6 +681,7 @@ class SausageSkillsRecipeManager
         }
         
         // If all else fails, return an empty array
+        DebugLog("WARNING: Could not find any recipes for skill book: '" + skillBookType + "', returning empty array");
         return new array<ref SkillRecipeData>();
     }
 

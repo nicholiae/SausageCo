@@ -1,3 +1,4 @@
+
 /**
  * SausageCo Skills System
  * Recipe Scanner - Scans recipe files in the directory
@@ -19,7 +20,7 @@ class RecipeScanner
     
     /**
      * Scan recipe files for a specific skill book type
-     * @param skillBookType The skill book type to scan for (e.g., "SausageCo_FarmersToolT1")
+     * @param skillBookType The skill book type to scan for (e.g., "SausageCo_FarmersTool")
      * @return Array of SkillRecipeData objects for the skill book
      */
     array<ref SkillRecipeData> ScanRecipesForSkillBook(string skillBookType)
@@ -47,6 +48,13 @@ class RecipeScanner
         if (skillDirName != "")
         {
             ScanRecipeDirectory(skillDirName, skillBookType, skillType, recipes);
+            
+            // Also scan subdirectories for tiered recipes
+            for (int tier = 1; tier <= 4; tier++)
+            {
+                string tierDirName = skillDirName + "/Farmer" + "T" + tier;
+                ScanRecipeDirectory(tierDirName, skillBookType, skillType, recipes);
+            }
         }
         
         DebugLog("Found " + recipes.Count() + " recipes for skill book: " + skillBookType);
@@ -79,50 +87,46 @@ class RecipeScanner
         // This is where we would normally iterate through files in the directory
         // Instead, we'll use a hardcoded approach for demonstration
         
-        // Example for the createGardenBox recipe
-        if (skillType == SkillTypes.FARMING && ContainsSkillBook(skillBookType, "SausageCo_FarmersToolT1"))
+        // IMPORTANT FIX: Use more flexible matching for skill book types
+        if (skillType == SkillTypes.FARMING)
         {
-            ref SkillRecipeData gardenBoxRecipe = CreateRecipeFromFile("createGardenBox", skillType);
-            if (gardenBoxRecipe)
-            {
-                recipes.Insert(gardenBoxRecipe);
-            }
+            // Add farming recipes
+            AddFarmingRecipes(recipes, skillBookType);
         }
-        
-        // Add more recipes here based on the skill type and book
-        // This would be replaced by actual file scanning in a real implementation
-        
-        // For demonstration, let's add some more farming recipes if this is a farming book
-        if (skillType == SkillTypes.FARMING && ContainsSkillBook(skillBookType, "SausageCo_FarmersToolT1"))
+        else if (skillType == SkillTypes.ENGINEERING)
         {
-            // These are placeholder recipes - in a real implementation, we would parse actual recipe files
-            AddPlaceholderFarmingRecipes(recipes);
+            // Add engineering recipes
+            AddEngineeringRecipes(recipes, skillBookType);
         }
-        
-        // Add placeholder recipes for other skill types
-        if (skillType == SkillTypes.ENGINEERING && ContainsSkillBook(skillBookType, "SausageCo_EngineersTool"))
+        else if (skillType == SkillTypes.FIREARM)
         {
-            AddPlaceholderEngineeringRecipes(recipes);
+            // Add firearm recipes
+            AddFirearmRecipes(recipes, skillBookType);
         }
-        
-        if (skillType == SkillTypes.FIREARM && ContainsSkillBook(skillBookType, "SausageCo_FirearmsTool"))
+        else if (skillType == SkillTypes.LEATHER)
         {
-            AddPlaceholderFirearmRecipes(recipes);
+            // Add leather recipes
+            AddLeatherRecipes(recipes, skillBookType);
         }
-        
-        if (skillType == SkillTypes.LEATHER && ContainsSkillBook(skillBookType, "SausageCo_LeatherWorkersTool"))
+        else if (skillType == SkillTypes.MECHANIC)
         {
-            AddPlaceholderLeatherRecipes(recipes);
+            // Add mechanic recipes
+            AddMechanicRecipes(recipes, skillBookType);
         }
-        
-        if (skillType == SkillTypes.MECHANIC && ContainsSkillBook(skillBookType, "SausageCo_MechanicsTool"))
+        else if (skillType == SkillTypes.MEDIC)
         {
-            AddPlaceholderMechanicRecipes(recipes);
+            // Add medic recipes
+            AddMedicRecipes(recipes, skillBookType);
         }
-        
-        if (skillType == SkillTypes.MEDIC && ContainsSkillBook(skillBookType, "SausageCo_MedicsTool"))
+        else if (skillType == SkillTypes.HUNTER)
         {
-            AddPlaceholderMedicRecipes(recipes);
+            // Add hunter recipes
+            AddHunterRecipes(recipes, skillBookType);
+        }
+        else if (skillType == SkillTypes.COOK)
+        {
+            // Add cook recipes
+            AddCookRecipes(recipes, skillBookType);
         }
     }
     
@@ -266,15 +270,60 @@ class RecipeScanner
      */
     private bool ContainsSkillBook(string bookType, string skillBook)
     {
-        return bookType == skillBook || bookType.Contains(skillBook);
+        // IMPORTANT FIX: Make this more flexible to handle different book types
+        // Check if the book type exactly matches the skill book
+        if (bookType == skillBook)
+            return true;
+        
+        // Check if the book type contains the skill book
+        if (bookType.Contains(skillBook))
+            return true;
+        
+        // Check if the book type and skill book are related by skill type
+        string bookSkillType = GetSkillTypeFromBookType(bookType);
+        string skillBookSkillType = GetSkillTypeFromBookType(skillBook);
+        
+        if (bookSkillType != "" && skillBookSkillType != "" && bookSkillType == skillBookSkillType)
+            return true;
+        
+        // Special case for tiered books
+        if (bookType.Contains("FarmersTool") && skillBook.Contains("FarmersTool"))
+            return true;
+        if (bookType.Contains("EngineersTool") && skillBook.Contains("EngineersTool"))
+            return true;
+        if (bookType.Contains("FirearmsTool") && skillBook.Contains("FirearmsTool"))
+            return true;
+        if (bookType.Contains("LeatherWorkersTool") && skillBook.Contains("LeatherWorkersTool"))
+            return true;
+        if (bookType.Contains("MechanicsTool") && skillBook.Contains("MechanicsTool"))
+            return true;
+        if (bookType.Contains("MedicsTool") && skillBook.Contains("MedicsTool"))
+            return true;
+        
+        return false;
     }
     
     /**
-     * Add placeholder farming recipes for demonstration
+     * Add farming recipes for demonstration
      * @param recipes Array to add recipes to
+     * @param skillBookType The skill book type
      */
-    private void AddPlaceholderFarmingRecipes(array<ref SkillRecipeData> recipes)
+    private void AddFarmingRecipes(array<ref SkillRecipeData> recipes, string skillBookType)
     {
+        // Garden Box recipe
+        ref SkillRecipeData gardenBoxRecipe = new SkillRecipeData();
+        gardenBoxRecipe.recipeName = "createGardenBox";
+        gardenBoxRecipe.displayName = "Garden Box";
+        gardenBoxRecipe.description = "Create a garden box for planting crops.";
+        gardenBoxRecipe.skillType = SkillTypes.FARMING;
+        gardenBoxRecipe.requiredLevel = 1;
+        gardenBoxRecipe.ingredients.Insert(new Param2<string, int>("WoodenPlank", 20));
+        gardenBoxRecipe.ingredients.Insert(new Param2<string, int>("SausageCo_FarmersToolT1", 1));
+        gardenBoxRecipe.results.Insert(new Param2<string, int>("SausageCo_EmptyGardenBox", 1));
+        gardenBoxRecipe.craftingTime = 10.0;
+        gardenBoxRecipe.xpReward = 80;
+        recipes.Insert(gardenBoxRecipe);
+        
         // Garden Plot recipe
         ref SkillRecipeData gardenPlotRecipe = new SkillRecipeData();
         gardenPlotRecipe.recipeName = "createGardenPlot";
@@ -302,13 +351,29 @@ class RecipeScanner
         compostBinRecipe.craftingTime = 20.0;
         compostBinRecipe.xpReward = 100;
         recipes.Insert(compostBinRecipe);
+        
+        // Add more farming recipes as needed
+        // Seeds recipes
+        ref SkillRecipeData seedsRecipe = new SkillRecipeData();
+        seedsRecipe.recipeName = "createSeedsPack";
+        seedsRecipe.displayName = "Seeds Pack";
+        seedsRecipe.description = "Create a pack of seeds for planting.";
+        seedsRecipe.skillType = SkillTypes.FARMING;
+        seedsRecipe.requiredLevel = 1;
+        seedsRecipe.ingredients.Insert(new Param2<string, int>("PlantMaterial", 5));
+        seedsRecipe.ingredients.Insert(new Param2<string, int>("SausageCo_FarmersToolT1", 1));
+        seedsRecipe.results.Insert(new Param2<string, int>("SausageCo_SeedsPack", 1));
+        seedsRecipe.craftingTime = 5.0;
+        seedsRecipe.xpReward = 25;
+        recipes.Insert(seedsRecipe);
     }
     
     /**
-     * Add placeholder engineering recipes for demonstration
+     * Add engineering recipes for demonstration
      * @param recipes Array to add recipes to
+     * @param skillBookType The skill book type
      */
-    private void AddPlaceholderEngineeringRecipes(array<ref SkillRecipeData> recipes)
+    private void AddEngineeringRecipes(array<ref SkillRecipeData> recipes, string skillBookType)
     {
         // Workbench recipe
         ref SkillRecipeData workbenchRecipe = new SkillRecipeData();
@@ -323,13 +388,29 @@ class RecipeScanner
         workbenchRecipe.craftingTime = 25.0;
         workbenchRecipe.xpReward = 120;
         recipes.Insert(workbenchRecipe);
+        
+        // Storage Crate recipe
+        ref SkillRecipeData storageRecipe = new SkillRecipeData();
+        storageRecipe.recipeName = "createStorageCrate";
+        storageRecipe.displayName = "Storage Crate";
+        storageRecipe.description = "Create a storage crate for storing items.";
+        storageRecipe.skillType = SkillTypes.ENGINEERING;
+        storageRecipe.requiredLevel = 1;
+        storageRecipe.ingredients.Insert(new Param2<string, int>("WoodenPlank", 10));
+        storageRecipe.ingredients.Insert(new Param2<string, int>("Nail", 8));
+        storageRecipe.ingredients.Insert(new Param2<string, int>("SausageCo_EngineersTool", 1));
+        storageRecipe.results.Insert(new Param2<string, int>("SausageCo_StorageCrate", 1));
+        storageRecipe.craftingTime = 15.0;
+        storageRecipe.xpReward = 80;
+        recipes.Insert(storageRecipe);
     }
     
     /**
-     * Add placeholder firearm recipes for demonstration
+     * Add firearm recipes for demonstration
      * @param recipes Array to add recipes to
+     * @param skillBookType The skill book type
      */
-    private void AddPlaceholderFirearmRecipes(array<ref SkillRecipeData> recipes)
+    private void AddFirearmRecipes(array<ref SkillRecipeData> recipes, string skillBookType)
     {
         // Ammunition Workbench recipe
         ref SkillRecipeData ammoWorkbenchRecipe = new SkillRecipeData();
@@ -345,13 +426,29 @@ class RecipeScanner
         ammoWorkbenchRecipe.craftingTime = 30.0;
         ammoWorkbenchRecipe.xpReward = 150;
         recipes.Insert(ammoWorkbenchRecipe);
+        
+        // Basic Ammo recipe
+        ref SkillRecipeData basicAmmoRecipe = new SkillRecipeData();
+        basicAmmoRecipe.recipeName = "createBasicAmmo";
+        basicAmmoRecipe.displayName = "Basic Ammunition";
+        basicAmmoRecipe.description = "Create basic ammunition for firearms.";
+        basicAmmoRecipe.skillType = SkillTypes.FIREARM;
+        basicAmmoRecipe.requiredLevel = 1;
+        basicAmmoRecipe.ingredients.Insert(new Param2<string, int>("GunPowder", 1));
+        basicAmmoRecipe.ingredients.Insert(new Param2<string, int>("MetalScrap", 1));
+        basicAmmoRecipe.ingredients.Insert(new Param2<string, int>("SausageCo_FirearmsTool", 1));
+        basicAmmoRecipe.results.Insert(new Param2<string, int>("Ammo_9x19", 10));
+        basicAmmoRecipe.craftingTime = 10.0;
+        basicAmmoRecipe.xpReward = 50;
+        recipes.Insert(basicAmmoRecipe);
     }
     
     /**
-     * Add placeholder leather recipes for demonstration
+     * Add leather recipes for demonstration
      * @param recipes Array to add recipes to
+     * @param skillBookType The skill book type
      */
-    private void AddPlaceholderLeatherRecipes(array<ref SkillRecipeData> recipes)
+    private void AddLeatherRecipes(array<ref SkillRecipeData> recipes, string skillBookType)
     {
         // Tanning Rack recipe
         ref SkillRecipeData tanningRackRecipe = new SkillRecipeData();
@@ -367,13 +464,29 @@ class RecipeScanner
         tanningRackRecipe.craftingTime = 20.0;
         tanningRackRecipe.xpReward = 100;
         recipes.Insert(tanningRackRecipe);
+        
+        // Leather Pouch recipe
+        ref SkillRecipeData leatherPouchRecipe = new SkillRecipeData();
+        leatherPouchRecipe.recipeName = "createLeatherPouch";
+        leatherPouchRecipe.displayName = "Leather Pouch";
+        leatherPouchRecipe.description = "Create a small leather pouch for storage.";
+        leatherPouchRecipe.skillType = SkillTypes.LEATHER;
+        leatherPouchRecipe.requiredLevel = 1;
+        leatherPouchRecipe.ingredients.Insert(new Param2<string, int>("Leather", 2));
+        leatherPouchRecipe.ingredients.Insert(new Param2<string, int>("Rope", 1));
+        leatherPouchRecipe.ingredients.Insert(new Param2<string, int>("SausageCo_LeatherWorkersTool", 1));
+        leatherPouchRecipe.results.Insert(new Param2<string, int>("SausageCo_LeatherPouch", 1));
+        leatherPouchRecipe.craftingTime = 10.0;
+        leatherPouchRecipe.xpReward = 50;
+        recipes.Insert(leatherPouchRecipe);
     }
     
     /**
-     * Add placeholder mechanic recipes for demonstration
+     * Add mechanic recipes for demonstration
      * @param recipes Array to add recipes to
+     * @param skillBookType The skill book type
      */
-    private void AddPlaceholderMechanicRecipes(array<ref SkillRecipeData> recipes)
+    private void AddMechanicRecipes(array<ref SkillRecipeData> recipes, string skillBookType)
     {
         // Vehicle Repair Kit recipe
         ref SkillRecipeData repairKitRecipe = new SkillRecipeData();
@@ -389,13 +502,28 @@ class RecipeScanner
         repairKitRecipe.craftingTime = 15.0;
         repairKitRecipe.xpReward = 80;
         recipes.Insert(repairKitRecipe);
+        
+        // Basic Vehicle Parts recipe
+        ref SkillRecipeData partsRecipe = new SkillRecipeData();
+        partsRecipe.recipeName = "createBasicVehicleParts";
+        partsRecipe.displayName = "Basic Vehicle Parts";
+        partsRecipe.description = "Create basic parts for vehicle repair.";
+        partsRecipe.skillType = SkillTypes.MECHANIC;
+        partsRecipe.requiredLevel = 1;
+        partsRecipe.ingredients.Insert(new Param2<string, int>("MetalSheet", 1));
+        partsRecipe.ingredients.Insert(new Param2<string, int>("SausageCo_MechanicsTool", 1));
+        partsRecipe.results.Insert(new Param2<string, int>("SausageCo_VehicleParts", 3));
+        partsRecipe.craftingTime = 10.0;
+        partsRecipe.xpReward = 40;
+        recipes.Insert(partsRecipe);
     }
     
     /**
-     * Add placeholder medic recipes for demonstration
+     * Add medic recipes for demonstration
      * @param recipes Array to add recipes to
+     * @param skillBookType The skill book type
      */
-    private void AddPlaceholderMedicRecipes(array<ref SkillRecipeData> recipes)
+    private void AddMedicRecipes(array<ref SkillRecipeData> recipes, string skillBookType)
     {
         // Medical Station recipe
         ref SkillRecipeData medicalStationRecipe = new SkillRecipeData();
@@ -410,6 +538,97 @@ class RecipeScanner
         medicalStationRecipe.craftingTime = 20.0;
         medicalStationRecipe.xpReward = 100;
         recipes.Insert(medicalStationRecipe);
+        
+        // Basic Bandage recipe
+        ref SkillRecipeData bandageRecipe = new SkillRecipeData();
+        bandageRecipe.recipeName = "createBasicBandage";
+        bandageRecipe.displayName = "Basic Bandage";
+        bandageRecipe.description = "Create a basic bandage for treating wounds.";
+        bandageRecipe.skillType = SkillTypes.MEDIC;
+        bandageRecipe.requiredLevel = 1;
+        bandageRecipe.ingredients.Insert(new Param2<string, int>("Rag", 4));
+        bandageRecipe.ingredients.Insert(new Param2<string, int>("Disinfectant", 1));
+        bandageRecipe.ingredients.Insert(new Param2<string, int>("SausageCo_MedicsTool", 1));
+        bandageRecipe.results.Insert(new Param2<string, int>("Bandage", 2));
+        bandageRecipe.craftingTime = 5.0;
+        bandageRecipe.xpReward = 30;
+        recipes.Insert(bandageRecipe);
+    }
+    
+    /**
+     * Add hunter recipes for demonstration
+     * @param recipes Array to add recipes to
+     * @param skillBookType The skill book type
+     */
+    private void AddHunterRecipes(array<ref SkillRecipeData> recipes, string skillBookType)
+    {
+        // Hunting Blind recipe
+        ref SkillRecipeData huntingBlindRecipe = new SkillRecipeData();
+        huntingBlindRecipe.recipeName = "createHuntingBlind";
+        huntingBlindRecipe.displayName = "Hunting Blind";
+        huntingBlindRecipe.description = "Create a hunting blind for concealment.";
+        huntingBlindRecipe.skillType = SkillTypes.HUNTER;
+        huntingBlindRecipe.requiredLevel = 2;
+        huntingBlindRecipe.ingredients.Insert(new Param2<string, int>("WoodenStick", 10));
+        huntingBlindRecipe.ingredients.Insert(new Param2<string, int>("Burlap", 4));
+        huntingBlindRecipe.ingredients.Insert(new Param2<string, int>("SausageCo_HuntersTool", 1));
+        huntingBlindRecipe.results.Insert(new Param2<string, int>("SausageCo_HuntingBlind", 1));
+        huntingBlindRecipe.craftingTime = 15.0;
+        huntingBlindRecipe.xpReward = 80;
+        recipes.Insert(huntingBlindRecipe);
+        
+        // Simple Snare recipe
+        ref SkillRecipeData snareRecipe = new SkillRecipeData();
+        snareRecipe.recipeName = "createSimpleSnare";
+        snareRecipe.displayName = "Simple Snare";
+        snareRecipe.description = "Create a simple snare trap for catching small animals.";
+        snareRecipe.skillType = SkillTypes.HUNTER;
+        snareRecipe.requiredLevel = 1;
+        snareRecipe.ingredients.Insert(new Param2<string, int>("Rope", 1));
+        snareRecipe.ingredients.Insert(new Param2<string, int>("Stick", 2));
+        snareRecipe.ingredients.Insert(new Param2<string, int>("SausageCo_HuntersTool", 1));
+        snareRecipe.results.Insert(new Param2<string, int>("SausageCo_SimpleSnare", 1));
+        snareRecipe.craftingTime = 5.0;
+        snareRecipe.xpReward = 30;
+        recipes.Insert(snareRecipe);
+    }
+    
+    /**
+     * Add cook recipes for demonstration
+     * @param recipes Array to add recipes to
+     * @param skillBookType The skill book type
+     */
+    private void AddCookRecipes(array<ref SkillRecipeData> recipes, string skillBookType)
+    {
+        // Cooking Station recipe
+        ref SkillRecipeData cookingStationRecipe = new SkillRecipeData();
+        cookingStationRecipe.recipeName = "createCookingStation";
+        cookingStationRecipe.displayName = "Cooking Station";
+        cookingStationRecipe.description = "Create a station for preparing meals.";
+        cookingStationRecipe.skillType = SkillTypes.COOK;
+        cookingStationRecipe.requiredLevel = 2;
+        cookingStationRecipe.ingredients.Insert(new Param2<string, int>("WoodenPlank", 8));
+        cookingStationRecipe.ingredients.Insert(new Param2<string, int>("MetalSheet", 2));
+        cookingStationRecipe.ingredients.Insert(new Param2<string, int>("SausageCo_CooksTool", 1));
+        cookingStationRecipe.results.Insert(new Param2<string, int>("SausageCo_CookingStation", 1));
+        cookingStationRecipe.craftingTime = 15.0;
+        cookingStationRecipe.xpReward = 80;
+        recipes.Insert(cookingStationRecipe);
+        
+        // Basic Cooking recipe
+        ref SkillRecipeData cookingRecipe = new SkillRecipeData();
+        cookingRecipe.recipeName = "createBasicCooking";
+        cookingRecipe.displayName = "Basic Cooking";
+        cookingRecipe.description = "Cook raw meat into a nutritious meal.";
+        cookingRecipe.skillType = SkillTypes.COOK;
+        cookingRecipe.requiredLevel = 1;
+        cookingRecipe.ingredients.Insert(new Param2<string, int>("Meat", 1));
+        cookingRecipe.ingredients.Insert(new Param2<string, int>("Water", 1));
+        cookingRecipe.ingredients.Insert(new Param2<string, int>("SausageCo_CooksTool", 1));
+        cookingRecipe.results.Insert(new Param2<string, int>("CookedMeat", 1));
+        cookingRecipe.craftingTime = 5.0;
+        cookingRecipe.xpReward = 20;
+        recipes.Insert(cookingRecipe);
     }
     
     /**
