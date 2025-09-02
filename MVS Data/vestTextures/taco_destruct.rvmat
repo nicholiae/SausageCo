@@ -8,7 +8,7 @@ PixelShaderID = "Super";
 VertexShaderID = "Super";
 class Stage1
 {
-	texture = "ModularVestSystem\data\vestTextures\taco_nohq.paa";
+	texture = "SausageCo\MVS Data\vestTextures\taco_nohq.paa";
 	uvSource = "tex";
 	class uvTransform
 	{
@@ -56,7 +56,7 @@ class Stage4
 };
 class Stage5
 {
-	texture = "ModularVestSystem\data\vestTextures\MVS_Vest_smdi.paa";
+	texture = "SausageCo\MVS Data\vestTextures\MVS_Vest_smdi.paa";
 	uvSource = "tex";
 	class uvTransform
 	{

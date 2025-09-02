@@ -1404,7 +1404,7 @@ class CfgVehicles
 		isMeleeWeapon=1;
 		weight=5;
 		absorbency=0;
-		itemSize[]={1,1};
+		// itemSize[]={2,2};
 		rotationFlags=17;
 		stackedUnit="percentage";
 		varQuantityDestroyOnMin=0;

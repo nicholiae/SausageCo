@@ -11,7 +11,7 @@ PixelShaderID = "Super";
 VertexShaderID = "Super";
 class Stage1
 {
-	texture = "SausageCo\MVS data\MVS_C4_Charge_nohq.paa";
+	texture = "SausageCo\MVS Data\MVS_C4_Charge_nohq.paa";
 	uvSource = "tex";
 	class uvTransform
 	{
@@ -64,7 +64,7 @@ class Stage5
 };
 class Stage6
 {
-	texture = "SausageCo\MVS data\MVS_C4_Charge_co.paa";
+	texture = "SausageCo\MVS Data\MVS_C4_Charge_co.paa";
 	uvSource = "tex";
 	class uvTransform
 	{

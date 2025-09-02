@@ -11,7 +11,7 @@ PixelShaderID = "Super";
 VertexShaderID = "Super";
 class Stage1
 {
-	texture = "ModularVestSystem\data\Helmets\Mandalorian_Helmet_nohq.paa";
+	texture = "SausageCo\MVS Data\Helmets\Mandalorian_Helmet_nohq.paa";
 	uvSource = "tex";
 	class uvTransform
 	{
@@ -64,7 +64,7 @@ class Stage5
 };
 class Stage6
 {
-	texture = "ModularVestSystem\data\Helmets\Mandalorian_Visor_co.paa";
+	texture = "SausageCo\MVS Data\Helmets\Mandalorian_Visor_co.paa";
 	uvSource = "tex";
 	class uvTransform
 	{

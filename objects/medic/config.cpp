@@ -159,7 +159,7 @@ class CfgVehicles
 		isMeleeWeapon=1;
 		weight=5;
 		absorbency=0;
-		itemSize[]={1,1};
+		// itemSize[]={1,1};
 		rotationFlags=17;
 		repairKitType=5;
 		inventorySlot[]=

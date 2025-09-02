@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////
-//DeRap: D:\DayZ Modding\@ModularVestSystem\Addons\ModularVestSystem\data\vestTextures\vest.rvmat
+//DeRap: D:\DayZ Modding\@ModularVestSystem\Addons\SausageCo\MVS Data\vestTextures\vest.rvmat
 //Produced from mikero's Dos Tools Dll version 7.16
 //https://armaservices.maverick-applications.com/Products/MikerosDosTools/default
 //'now' is Fri Jan 03 16:30:03 2020 : 'file' last modified on Mon Sep 23 07:38:28 2019
@@ -17,7 +17,7 @@ PixelShaderID = "Super";
 VertexShaderID = "Super";
 class Stage1
 {
-	texture = "ModularVestSystem\data\ArmorRack\ArmorRack_nohq.paa";
+	texture = "SausageCo\MVS Data\ArmorRack\ArmorRack_nohq.paa";
 	uvSource = "tex";
 	class uvTransform
 	{
@@ -70,7 +70,7 @@ class Stage5
 };
 class Stage6
 {
-	texture = "ModularVestSystem\data\ArmorRack\ArmorRack_co.paa";
+	texture = "SausageCo\MVS Data\ArmorRack\ArmorRack_co.paa";
 	uvSource = "tex";
 	class uvTransform
 	{

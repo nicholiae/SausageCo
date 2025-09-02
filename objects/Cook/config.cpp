@@ -253,7 +253,7 @@ class CfgVehicles
 		rotationFlags=2;
 		openable=0;
 		weight=150;
-		itemSize[]={2,1};
+		// itemSize[]={2,1};
 		itemsCargoSize[]={0,0};
 		fragility=0.000000001;
 		allowOwnedCargoManipulation=1;
